@@ -7,6 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SUPPORT_FILEFORMAT_SVG ON)
 
+# ///////////////////////////////
+if (UNIX)
+
+set(PLATFORM SDL)
+set(OPENGL_VERSION "ES 2.0")
+
+endif (UNIX)
+# ///////////////////////////////
+
 add_executable(${PROJECT_NAME}
                 src/main.cpp
                 src/gui/CenterWindow.cpp
@@ -18,22 +27,7 @@ add_executable(${PROJECT_NAME}
 add_subdirectory(vendor/raylib_multi_window_experimental)
 
 # ///////////////////////////////
-if (WIN32)
-
-add_compile_definitions(PC_BUILD)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC 
-                        raylib
-                        )
-
-endif (WIN32)
-# ///////////////////////////////
-
-# ///////////////////////////////
 if (UNIX)
-
-set(PLATFORM SDL)
-set(OPENGL_VERSION "ES 2.0")
 
 target_include_directories(${PROJECT_NAME} PUBLIC "/usr/include/opencv4")
 
@@ -53,4 +47,16 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
                         )
 
 endif (UNIX)
+# ///////////////////////////////
+
+# ///////////////////////////////
+if (WIN32)
+
+add_compile_definitions(PC_BUILD)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+                        raylib
+                        )
+
+endif (WIN32)
 # ///////////////////////////////

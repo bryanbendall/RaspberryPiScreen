@@ -3,7 +3,7 @@
 CenterWindow::CenterWindow()
 {
     unsigned int flags = 0;
-    flags |= FLAG_MSAA_4X_HINT;
+    // flags |= FLAG_MSAA_4X_HINT;
 #ifndef PC_BUILD
     flags |= FLAG_FULLSCREEN_MODE;
 #endif

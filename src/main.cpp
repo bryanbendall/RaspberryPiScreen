@@ -9,7 +9,8 @@ int main(void)
     GaugeWindow gaugeWindow;
     CenterWindow centerWindow;
 
-    SetTargetFPS(60); // Set our game to run at 60 frames-per-second
+    SetTargetFPS(30);
+    HideCursor();
 
     while (!WindowShouldClose()) {
         centerWindow.draw();
