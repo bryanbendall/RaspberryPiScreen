@@ -44,9 +44,9 @@ void main()
     vec2 delta = st - vec2(0.5, 0.5);
     float angle = atan(delta.y, delta.x) + M_PI;
 
-    float deg = angle * (180 / M_PI);
+    float deg = angle * (180. / M_PI);
 
-    if(deg > 90 && deg < 180)
+    if(deg > 90. && deg < 180.)
     // gl_FragColor = vec4( 1.,1.,0., 1. );
         discard;
     else{
@@ -61,7 +61,7 @@ void main()
 	float outerCirclePaint = mix(0.0, 1.0, outerCircle);
 	float innerCirclePaint = mix(outerCirclePaint, 0.0, InnerCircle);
 
-    if(deg < 90 || deg > 350)
+    if(deg < 90. || deg > 350.)
         gl_FragColor = vec4( 0.,1.,0., innerCirclePaint );
     else
         gl_FragColor = vec4( 1.,1.,0., innerCirclePaint );

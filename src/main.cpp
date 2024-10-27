@@ -6,6 +6,8 @@
 
 int main(void)
 {
+    SetTraceLogLevel(LOG_WARNING);
+
     GaugeWindow gaugeWindow;
     CenterWindow centerWindow;
 
