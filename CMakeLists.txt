@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(RaspberryPiScreen)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SUPPORT_FILEFORMAT_SVG ON)
@@ -18,13 +18,17 @@ endif (UNIX)
 
 add_executable(${PROJECT_NAME}
                 src/main.cpp
-                src/gui/CenterWindow.cpp
-                src/gui/CenterWindow.h
-                src/gui/GaugeWindow.cpp
-                src/gui/GaugeWindow.h
+                src/gui/windows/CenterWindow.cpp
+                src/gui/windows/CenterWindow.h
+                src/gui/windows/GaugeWindow.cpp
+                src/gui/windows/GaugeWindow.h
+                src/gui/components/SmallGauge.cpp
+                src/gui/components/SmallGauge.h
                 )
 
 add_subdirectory(vendor/raylib_multi_window_experimental)
+
+target_include_directories(${PROJECT_NAME} PUBLIC "src")
 
 # ///////////////////////////////
 if (UNIX)

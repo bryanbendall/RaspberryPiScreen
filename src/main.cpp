@@ -1,6 +1,6 @@
 
-#include "gui/CenterWindow.h"
-#include "gui/GaugeWindow.h"
+#include "gui/windows/CenterWindow.h"
+#include "gui/windows/GaugeWindow.h"
 #include "raylib.h"
 #include "raymath.h"
 
