@@ -5,7 +5,8 @@ project(RaspberryPiScreen)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SUPPORT_FILEFORMAT_SVG ON)
+# set(CUSTOMIZE_BUILD ON)
+# set(SUPPORT_FILEFORMAT_SVG ON)
 
 # ///////////////////////////////
 if (UNIX)

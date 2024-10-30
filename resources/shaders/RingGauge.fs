@@ -8,8 +8,7 @@ varying vec2 fragTexCoord;
 varying vec4 fragColor;
 
 // Input uniform values
-uniform vec2 u_windowSize;
-uniform vec2 u_position;
+uniform vec2 u_glPosition;
 uniform float u_size;
 uniform float u_value;
 
@@ -29,9 +28,7 @@ float rotateAngle(float value, float angle) {
 
 void main()
 {
-    // Flip y because opengl is bottom up
-    float offsetY = u_windowSize.y - u_size - u_position.y;
-    vec2 st = (gl_FragCoord.xy - vec2(u_position.x, offsetY) )/ vec2(u_size, u_size);
+    vec2 st = (gl_FragCoord.xy - u_glPosition )/ vec2(u_size, u_size);
 
     // Calculate angle in degrees
     vec2 delta = st - vec2(0.5, 0.5);
