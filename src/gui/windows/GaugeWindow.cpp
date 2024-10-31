@@ -1,5 +1,6 @@
 #include "GaugeWindow.h"
 
+#include "gui/components/BarGauge.h"
 #include "gui/components/SmallGauge.h"
 #include "raylib.h"
 
@@ -10,6 +11,9 @@ SmallGauge batteryGauge({ 1000.0f, 100.0f }, 140.0f, 6.0f, 18.0f, "V", SmallGaug
 SmallGauge transGauge({ 1170.0f, 100.0f }, 140.0f, 50.0f, 280.0f, "°F", SmallGauge::Icon::TransTemp);
 SmallGauge gasGauge({ 1000.0f, 270.0f }, 140.0f, 0.0f, 100.0f, "Gas", SmallGauge::Icon::Fuel);
 SmallGauge methGauge({ 1170.0f, 270.0f }, 140.0f, 0.0f, 100.0f, "Meth", SmallGauge::Icon::Fuel);
+
+BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f });
+BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f });
 
 GaugeWindow::GaugeWindow()
 {
@@ -26,7 +30,8 @@ GaugeWindow::GaugeWindow()
     SetWindowPosition(200, 40);
 #endif
 
-    SmallGauge::initShader();
+    SmallGauge::initResources();
+    BarGauge::initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -57,6 +62,9 @@ void GaugeWindow::draw()
     transGauge.draw();
     gasGauge.draw();
     methGauge.draw();
+
+    gasLevel.draw();
+    methLevel.draw();
 
     DrawFPS(0, 0);
     EndDrawing();

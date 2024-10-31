@@ -5,19 +5,19 @@
 #include <iostream>
 #include <string>
 
-int refs = 0;
-Shader shader;
-int glPositionLoc;
-int sizeLoc;
-int valueLoc;
+static int refs = 0;
+static Shader shader;
+static int glPositionLoc;
+static int sizeLoc;
+static int valueLoc;
 
-float windowSize[2];
+static float windowSize[2];
 
-Font smallFont;
-Font largeFont;
+static Font smallFont;
+static Font largeFont;
 
-Texture2D iconTextures[SmallGauge::Icon::Count];
-const char* iconPaths[] = {
+static Texture2D iconTextures[SmallGauge::Icon::Count];
+static const char* iconPaths[] = {
     "../resources/images/water-temp.svg",
     "../resources/images/transmission-temp.svg",
     "../resources/images/fuel.svg",
@@ -40,8 +40,14 @@ SmallGauge::~SmallGauge()
 {
     refs--;
 
-    if (refs <= 0)
+    if (refs <= 0) {
         UnloadShader(shader);
+        UnloadFont(smallFont);
+        UnloadFont(largeFont);
+
+        for (int i = 0; i < Icon::Count; i++)
+            UnloadTexture(iconTextures[i]);
+    }
 }
 
 void SmallGauge::draw()
@@ -111,7 +117,7 @@ float SmallGauge::calculateValueAngle()
     return std::clamp(angle, 0.0f, 270.0f);
 }
 
-void SmallGauge::initShader()
+void SmallGauge::initResources()
 {
     shader = LoadShader(0, "../resources/shaders/RingGauge.fs");
     glPositionLoc = GetShaderLocation(shader, "u_glPosition");

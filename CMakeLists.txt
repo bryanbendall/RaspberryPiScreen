@@ -23,6 +23,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp
                 src/gui/windows/GaugeWindow.h
+                src/gui/components/BarGauge.cpp
+                src/gui/components/BarGauge.h
                 src/gui/components/SmallGauge.cpp
                 src/gui/components/SmallGauge.h
                 )

@@ -27,7 +27,7 @@ private:
     float calculateValueAngle();
 
 public:
-    static void initShader();
+    static void initResources();
 
 private:
     Vector2 m_center;
