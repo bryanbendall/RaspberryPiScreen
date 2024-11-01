@@ -10,6 +10,7 @@ static Shader shader;
 static int glPositionLoc;
 static int sizeLoc;
 static int valueLoc;
+static int textureLoc;
 
 static float windowSize[2];
 
@@ -24,6 +25,12 @@ static const char* iconPaths[] = {
     "../resources/images/engine-oil.svg",
     "../resources/images/battery.svg",
 };
+
+static Texture2D circleTexture;
+static Texture2D circleTextureSmall;
+
+#define GL_ALPHA_TEST 0x0BC0
+#define GL_GREATER 0x0204
 
 SmallGauge::SmallGauge(Vector2 center, float size, float minValue, float maxValue, std::string label, Icon icon)
     : m_size(size)
@@ -57,6 +64,7 @@ void SmallGauge::draw()
         return;
     }
 
+#if 1
     // Ring
     {
         float angle = calculateValueAngle();
@@ -68,9 +76,13 @@ void SmallGauge::draw()
         SetShaderValue(shader, sizeLoc, &m_size, SHADER_UNIFORM_FLOAT);
         SetShaderValue(shader, valueLoc, &angle, SHADER_UNIFORM_FLOAT);
 
+        SetShaderValueTexture(shader, textureLoc, circleTexture);
+
         DrawRectangle(m_center.x - (m_size / 2), m_center.y - (m_size / 2), m_size, m_size, RED);
 
         EndShaderMode();
+
+        DrawTexture(circleTextureSmall, m_center.x - (m_size / 2) + 15, m_center.y - (m_size / 2) + 15, BLACK);
     }
 
     // Center value text
@@ -102,6 +114,24 @@ void SmallGauge::draw()
     {
         DrawTexture(iconTextures[m_icon], m_center.x - 15.0f, m_center.y + 20.0f, GRAY);
     }
+#endif
+
+#if 0
+    beginStencil();
+
+    beginStencilMask();
+
+    // Draw mask
+    DrawRectangleV(m_center, { 100.0f, 100.0f }, WHITE);
+
+    endStencilMask();
+
+    // Draw what you want to be masked
+
+    DrawCircle(m_center.x, m_center.y, 30.0f, RED);
+
+    endStencil();
+#endif
 }
 
 float SmallGauge::calculateValueAngle()
@@ -119,10 +149,11 @@ float SmallGauge::calculateValueAngle()
 
 void SmallGauge::initResources()
 {
-    shader = LoadShader(0, "../resources/shaders/RingGauge.fs");
+    shader = LoadShader(0, "../resources/shaders/RadialColor.fs");
     glPositionLoc = GetShaderLocation(shader, "u_glPosition");
     sizeLoc = GetShaderLocation(shader, "u_size");
     valueLoc = GetShaderLocation(shader, "u_value");
+    textureLoc = GetShaderLocation(shader, "u_texture");
 
     windowSize[0] = GetScreenWidth();
     windowSize[1] = GetScreenHeight();
@@ -136,4 +167,12 @@ void SmallGauge::initResources()
         iconTextures[i] = LoadTextureFromImage(img);
         UnloadImage(img);
     }
+
+    Image img = LoadImageSvg("../resources/images/circle.svg", 150, 150);
+    circleTexture = LoadTextureFromImage(img);
+    UnloadImage(img);
+
+    img = LoadImageSvg("../resources/images/circle.svg", 120, 120);
+    circleTextureSmall = LoadTextureFromImage(img);
+    UnloadImage(img);
 }
