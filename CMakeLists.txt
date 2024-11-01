@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(RaspberryPiScreen)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-# set(CUSTOMIZE_BUILD ON)
-# set(SUPPORT_FILEFORMAT_SVG ON)
 
 # ///////////////////////////////
 if (UNIX)
@@ -32,8 +29,15 @@ add_executable(${PROJECT_NAME}
                 )
 
 add_subdirectory(vendor/raylib_multi_window_experimental)
+add_subdirectory(vendor/fmt)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "src")
+
+# Common linked libraries
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+                        raylib
+                        fmt::fmt
+                        )
 
 # ///////////////////////////////
 if (UNIX)
@@ -42,7 +46,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "/usr/include/opencv4")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
                         SDL2
-                        raylib
                         GLESv2
                         EGL
                         pthread
@@ -62,10 +65,6 @@ endif (UNIX)
 if (WIN32)
 
 add_compile_definitions(PC_BUILD)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC 
-                        raylib
-                        )
 
 endif (WIN32)
 # ///////////////////////////////

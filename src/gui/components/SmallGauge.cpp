@@ -1,7 +1,7 @@
 #include "SmallGauge.h"
 
 #include <algorithm>
-#include <format>
+#include <fmt/format.h>
 #include <iostream>
 #include <string>
 
@@ -88,7 +88,7 @@ void SmallGauge::draw()
     // Center value text
     {
         int fontSize = 40;
-        std::string lable = std::format("{:.0f}", m_value);
+        std::string lable = fmt::format("{:.0f}", m_value);
         float textSize = MeasureText(lable.c_str(), fontSize);
         DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (fontSize / 2) }, fontSize, 0, LIGHTGRAY);
     }
@@ -96,10 +96,10 @@ void SmallGauge::draw()
     // Gauge min and max text
     {
         int fontSize = 16;
-        std::string lable = std::format("{:.0f}", m_minValue);
+        std::string lable = fmt::format("{:.0f}", m_minValue);
         DrawTextEx(smallFont, lable.c_str(), { m_center.x + 8.0f, m_center.y + (m_size / 2) - fontSize }, fontSize, 0, LIGHTGRAY);
 
-        lable = std::format("{:.0f}", m_maxValue);
+        lable = fmt::format("{:.0f}", m_maxValue);
         DrawTextEx(smallFont, lable.c_str(), { m_center.x + (m_size / 2) - 14.0f, m_center.y + 6.0f }, fontSize, 0, LIGHTGRAY);
     }
 
