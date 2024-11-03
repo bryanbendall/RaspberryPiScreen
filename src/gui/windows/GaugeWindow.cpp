@@ -67,5 +67,10 @@ void GaugeWindow::draw()
     methLevel.draw();
 
     DrawFPS(0, 0);
+
+#ifndef PC_BUILD
+    DrawRectangleLines(0, 0, 1280, 480, WHITE);
+#endif
+
     EndDrawing();
 }
