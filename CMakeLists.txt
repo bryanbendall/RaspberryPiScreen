@@ -24,8 +24,6 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/BarGauge.h
                 src/gui/components/SmallGauge.cpp
                 src/gui/components/SmallGauge.h
-                src/utils/OpenGlStencil.cpp
-                src/utils/OpenGlStencil.h
                 )
 
 add_subdirectory(vendor/raylib_multi_window_experimental)
