@@ -1,11 +1,13 @@
 
+#include "data/DataThread.h"
 #include "gui/windows/CenterWindow.h"
 #include "gui/windows/GaugeWindow.h"
 #include "raylib.h"
-#include "raymath.h"
 
 int main(void)
 {
+    DataThread dataThread;
+
     SetTraceLogLevel(LOG_WARNING);
 
     GaugeWindow gaugeWindow;

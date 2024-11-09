@@ -4,3 +4,9 @@
 [submodule "vendor/fmt"]
 	path = vendor/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "vendor/asio"]
+	path = vendor/asio
+	url = https://github.com/bryanbendall/asio.git
+[submodule "src/BrytecConfigEmbedded"]
+	path = src/BrytecConfigEmbedded
+	url = https://github.com/bryanbendall/BrytecConfigEmbedded.git
