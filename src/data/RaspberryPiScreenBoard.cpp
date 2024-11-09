@@ -1980,7 +1980,7 @@ namespace Brytec {
 uint32_t configRequestedSize = 0;
 std::vector<uint8_t> tempConfig;
 
-std::filesystem::path configPath("BrytecConfig2.btcfg");
+std::filesystem::path configPath("BrytecConfig.btcfg");
 BinaryPathDeserializer pathDeserializer(configPath);
 Brytec::BinaryArrayDeserializer des(progmem_data, sizeof(progmem_data));
 
