@@ -52,6 +52,9 @@ bool Server::isConnected()
 
 void Server::send(const Brytec::UsbPacket& packet)
 {
+    if (m_isWaitingForConnection)
+        return;
+
     if (auto connection = m_connection.lock())
         connection->send(packet);
 }

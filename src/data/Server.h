@@ -20,11 +20,11 @@ private:
 private:
     asio::io_service& m_io_service;
     tcp::acceptor m_acceptor;
-    bool m_isWaitingForConnection = false;
 
 public:
     static void send(const Brytec::UsbPacket& packet);
 
 private:
+    static inline bool m_isWaitingForConnection = false;
     static inline std::weak_ptr<ConnectionHandler> m_connection;
 };
