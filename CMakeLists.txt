@@ -107,15 +107,15 @@ add_executable(${PROJECT_NAME}
                 src/BrytecConfigEmbedded/ENode.h
                 src/BrytecConfigEmbedded/IOTypes.cpp
                 src/BrytecConfigEmbedded/IOTypes.h
-                src/data/ConnectionHandler.cpp
-                src/data/ConnectionHandler.h
+                src/data/communication/ConnectionHandler.cpp
+                src/data/communication/ConnectionHandler.h
+                src/data/communication/Server.cpp
+                src/data/communication/Server.h
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/DataThread.cpp
                 src/data/DataThread.h
                 src/data/screenboarddefs.h
                 src/data/screeninternaldefs.h
-                src/data/Server.cpp
-                src/data/Server.h
                 src/gui/windows/CenterWindow.cpp
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp

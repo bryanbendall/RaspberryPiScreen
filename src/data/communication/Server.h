@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BrytecConfigEmbedded/Usb/UsbDefs.h"
-#include "data/ConnectionHandler.h"
+#include "data/communication/ConnectionHandler.h"
 #include <asio.hpp>
 
 using asio::ip::tcp;
