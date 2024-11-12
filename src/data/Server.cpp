@@ -1,5 +1,6 @@
 #include "Server.h"
 
+#include "BrytecConfigEmbedded/EBrytecConfig.h"
 #include <iostream>
 
 void Server::startAccept()
@@ -18,7 +19,7 @@ void Server::startAccept()
 
 Server::Server(asio::io_service& io_service)
     : m_io_service(io_service)
-    , m_acceptor(io_service, tcp::endpoint(tcp::v4(), 6969))
+    , m_acceptor(io_service, tcp::endpoint(tcp::v4(), BRYTEC_NETWORK_PORT))
 {
     startAccept();
 }
