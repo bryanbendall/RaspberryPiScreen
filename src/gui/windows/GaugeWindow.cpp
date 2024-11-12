@@ -1,5 +1,7 @@
 #include "GaugeWindow.h"
 
+#include "data/GlobalVariables.h"
+#include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
 #include "gui/components/SmallGauge.h"
 #include "raylib.h"
@@ -50,10 +52,13 @@ void GaugeWindow::draw()
     waterGauge.setValue(value);
     oilGauge.setValue(value);
 
+    transGauge.setValue(GlobalVariables::lineTemp);
+    batteryGauge.setValue(GlobalVariables::battery);
+
     SetActiveWindowContext(m_windowID);
     BeginDrawing();
 
-    ClearBackground(BLACK);
+    ClearBackground(GetColor(GlobalVariables::black));
 
     waterGauge.draw();
     oilGauge.draw();

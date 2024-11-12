@@ -1,5 +1,7 @@
 #include "SmallGauge.h"
 
+#include "data/GlobalVariables.h"
+#include "gui/Utils.h"
 #include <algorithm>
 #include <fmt/format.h>
 #include <iostream>
@@ -55,11 +57,11 @@ void SmallGauge::draw()
     {
         float angle = calculateValueAngle();
 
-        DrawCircleSector(m_center, m_size / 2.0f, 90.0f, 360.0f, 20, GRAY);
-        DrawCircleSector(m_center, m_size / 2.0f, 90.0f, angle, 20, ORANGE);
+        DrawCircleSector(m_center, m_size / 2.0f, 90.0f, 360.0f, 20, GetColor(GlobalVariables::gray));
+        DrawCircleSector(m_center, m_size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalVariables::guageColor));
 
-        DrawTexture(outerCircleTexture, m_center.x - (m_size / 2), m_center.y - (m_size / 2), BLACK);
-        DrawTexture(innerCircleTexture, m_center.x - (m_size / 2) + 15, m_center.y - (m_size / 2) + 15, BLACK);
+        DrawTexture(outerCircleTexture, m_center.x - (m_size / 2), m_center.y - (m_size / 2), GetColor(GlobalVariables::black));
+        DrawTexture(innerCircleTexture, m_center.x - (m_size / 2) + 15, m_center.y - (m_size / 2) + 15, GetColor(GlobalVariables::black));
     }
 
     // Center value text
@@ -67,29 +69,29 @@ void SmallGauge::draw()
         int fontSize = 40;
         std::string lable = fmt::format("{:.0f}", m_value);
         float textSize = MeasureText(lable.c_str(), fontSize);
-        DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (fontSize / 2) }, fontSize, 0, LIGHTGRAY);
+        DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (fontSize / 2) }, fontSize, 0, GetColor(GlobalVariables::white));
     }
 
     // Gauge min and max text
     {
         int fontSize = 16;
         std::string lable = fmt::format("{:.0f}", m_minValue);
-        DrawTextEx(smallFont, lable.c_str(), { m_center.x + 8.0f, m_center.y + (m_size / 2) - fontSize }, fontSize, 0, LIGHTGRAY);
+        DrawTextEx(smallFont, lable.c_str(), { m_center.x + 8.0f, m_center.y + (m_size / 2) - fontSize }, fontSize, 0, GetColor(GlobalVariables::white));
 
         lable = fmt::format("{:.0f}", m_maxValue);
-        DrawTextEx(smallFont, lable.c_str(), { m_center.x + (m_size / 2) - 14.0f, m_center.y + 6.0f }, fontSize, 0, LIGHTGRAY);
+        DrawTextEx(smallFont, lable.c_str(), { m_center.x + (m_size / 2) - 14.0f, m_center.y + 6.0f }, fontSize, 0, GetColor(GlobalVariables::white));
     }
 
     // Gauge label
     {
         int fontSize = 24;
         float textSize = MeasureText(m_label.c_str(), fontSize);
-        DrawTextEx(smallFont, m_label.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - 50.0f }, fontSize, 0, GRAY);
+        DrawTextEx(smallFont, m_label.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - 50.0f }, fontSize, 0, GetColor(GlobalVariables::gray));
     }
 
     // Icon
     {
-        DrawTexture(iconTextures[m_icon], m_center.x - 15.0f, m_center.y + 20.0f, GRAY);
+        DrawTexture(iconTextures[m_icon], m_center.x - 15.0f, m_center.y + 20.0f, GetColor(GlobalVariables::gray));
     }
 }
 
