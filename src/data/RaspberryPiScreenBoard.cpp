@@ -22,9 +22,39 @@ std::filesystem::path configPath("BrytecConfig.btcfg");
 BinaryPathDeserializer pathDeserializer(configPath);
 
 static const std::map<std::string, float*> nameToValueMap = {
-    { "ramp", &GlobalVariables::lineTemp },
+
+    { "rpm", &GlobalVariables::rpm },
+    { "afr", &GlobalVariables::afr },
+    { "afr2", &GlobalVariables::afr2 },
+    { "showSecondAfr", &GlobalVariables::showSecondAfr },
+    { "boost", &GlobalVariables::boost },
+    { "gasLevel", &GlobalVariables::gasLevel },
+    { "methLevel", &GlobalVariables::methLevel },
+    { "gear", &GlobalVariables::gear },
+    { "cts", &GlobalVariables::cts },
+    { "oilPressure", &GlobalVariables::oilPressure },
     { "battery", &GlobalVariables::battery },
+    { "lineTemp", &GlobalVariables::lineTemp },
+    { "fuelPressure", &GlobalVariables::fuelPressure },
+    { "methPressure", &GlobalVariables::methPressure },
+    { "speed", &GlobalVariables::speed },
+    { "useKph", &GlobalVariables::useKph },
+    { "closedLoopComp", &GlobalVariables::closedLoopComp },
+    { "showOdometer", &GlobalVariables::showOdometer },
+    { "overDrive", &GlobalVariables::overDrive },
+    { "parkNeutral", &GlobalVariables::parkNeutral },
+    { "fanState", &GlobalVariables::fanState },
+    { "leftTurn", &GlobalVariables::leftTurn },
+    { "rightTurn", &GlobalVariables::rightTurn },
+    { "parkingLights", &GlobalVariables::parkingLights },
+    { "lowBeam", &GlobalVariables::lowBeam },
+    { "highBeam", &GlobalVariables::highBeam },
+    { "reverse", &GlobalVariables::reverse },
+    { "showGear", &GlobalVariables::showGear },
+    { "parkingBrake", &GlobalVariables::parkingBrake },
+
     { "guageColor", &GlobalVariables::guageColor },
+
 };
 
 static std::map<uint16_t, float*> indexToValueMap;
@@ -32,7 +62,6 @@ static std::map<uint16_t, float*> indexToValueMap;
 BinaryDeserializer* BrytecBoard::getDeserializer()
 {
     indexToValueMap.clear();
-    GlobalVariables::setToDefaults();
 
     if (std::filesystem::exists(configPath)) {
         // Get newest from file
@@ -92,7 +121,7 @@ void BrytecBoard::setupPin(uint16_t index, IOTypes::Types type)
 
 void BrytecBoard::shutdownAllPins()
 {
-    // Not used
+    GlobalVariables::setToDefaults();
 }
 
 float BrytecBoard::getPinValue(uint16_t index, IOTypes::Types type)
