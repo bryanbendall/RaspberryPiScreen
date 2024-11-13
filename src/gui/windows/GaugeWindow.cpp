@@ -14,8 +14,8 @@ SmallGauge transGauge({ 1170.0f, 100.0f }, 150.0f, 50.0f, 280.0f, "°F", SmallGa
 SmallGauge gasGauge({ 1000.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Gas", SmallGauge::Icon::Fuel);
 SmallGauge methGauge({ 1170.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Meth", SmallGauge::Icon::Fuel);
 
-BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f });
-BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f });
+BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
+BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
 
 GaugeWindow::GaugeWindow()
 {
@@ -44,16 +44,16 @@ GaugeWindow::~GaugeWindow()
 
 void GaugeWindow::draw()
 {
-    static float value = 0.0f;
-    value += 2.0f;
-    if (value > 200.0f)
-        value = -50.0f;
+    waterGauge.setValue(GlobalVariables::cts);
+    oilGauge.setValue(GlobalVariables::oilPressure);
 
-    waterGauge.setValue(value);
-    oilGauge.setValue(value);
-
-    transGauge.setValue(GlobalVariables::lineTemp);
     batteryGauge.setValue(GlobalVariables::battery);
+    transGauge.setValue(GlobalVariables::lineTemp);
+    gasGauge.setValue(GlobalVariables::fuelPressure);
+    methGauge.setValue(GlobalVariables::methPressure);
+
+    gasLevel.setValue(GlobalVariables::gasLevel);
+    methLevel.setValue(GlobalVariables::methLevel);
 
     SetActiveWindowContext(m_windowID);
     BeginDrawing();

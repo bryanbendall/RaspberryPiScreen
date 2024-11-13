@@ -97,15 +97,7 @@ void SmallGauge::draw()
 
 float SmallGauge::calculateValueAngle()
 {
-    float x = m_minValue;
-    float y = 90.0f;
-    float x1 = m_maxValue;
-    float y1 = 360.0f;
-    float sloap = (y - y1) / (x - x1);
-
-    float angle = (sloap * (m_value - x1)) + y1;
-
-    return std::clamp(angle, y, y1);
+    return Utils::mapValue(m_minValue, m_maxValue, 90.0f, 360.0f, m_value);
 }
 
 void SmallGauge::initResources()

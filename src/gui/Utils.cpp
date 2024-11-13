@@ -1,5 +1,6 @@
 #include "Utils.h"
 
+#include <algorithm>
 #include <stdint.h>
 
 namespace Utils {
@@ -17,4 +18,16 @@ Color getColorFromBrytec(const float& value)
     return color;
 }
 
+float mapValue(float fromMin, float fromMax, float toMin, float toMax, float value, bool clamp)
+{
+    float x = fromMin;
+    float y = toMin;
+    float x1 = fromMax;
+    float y1 = toMax;
+    float sloap = (y - y1) / (x - x1);
+
+    float angle = (sloap * (value - x1)) + y1;
+
+    return std::clamp(angle, y, y1);
+}
 }
