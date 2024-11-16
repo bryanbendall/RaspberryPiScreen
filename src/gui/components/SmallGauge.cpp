@@ -2,7 +2,6 @@
 
 #include "data/GlobalVariables.h"
 #include "gui/Utils.h"
-#include <algorithm>
 #include <fmt/format.h>
 #include <iostream>
 #include <string>

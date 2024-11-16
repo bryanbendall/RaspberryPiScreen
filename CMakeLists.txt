@@ -118,8 +118,12 @@ add_executable(${PROJECT_NAME}
                 src/data/screeninternaldefs.h
                 src/gui/components/BarGauge.cpp
                 src/gui/components/BarGauge.h
+                src/gui/components/RemoteCamera.cpp
+                src/gui/components/RemoteCamera.h
                 src/gui/components/SmallGauge.cpp
                 src/gui/components/SmallGauge.h
+                src/gui/components/TachGauge.cpp
+                src/gui/components/TachGauge.h
                 src/gui/windows/CenterWindow.cpp
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp
@@ -169,6 +173,15 @@ endif (UNIX)
 if (WIN32)
 
 add_compile_definitions(PC_BUILD)
+
+set(openCvPath "C:/opencv")
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${openCvPath}/build/include)
+
+target_link_directories(${PROJECT_NAME} PUBLIC ${openCvPath}/build/x64/vc16/lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+opencv_world4100d.lib
+)
 
 endif (WIN32)
 # ///////////////////////////////

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gui/components/RemoteCamera.h"
+
 class GaugeWindow {
 
 public:
@@ -8,5 +10,9 @@ public:
     void draw();
 
 private:
+    void updateValues();
+
+private:
     int m_windowID;
+    RemoteCamera m_camera;
 };
