@@ -10,54 +10,56 @@ RemoteCamera::RemoteCamera()
 
 RemoteCamera::~RemoteCamera()
 {
-    m_run = false;
-    if (m_thread.joinable())
-        m_thread.join();
-
     close();
 }
 
-void RemoteCamera::open()
+void RemoteCamera::open(const std::string& address)
 {
-    m_capture = new cv::VideoCapture("http://192.168.1.26:8080/stream.mjpeg");
+    cv::utils::logging::setLogLevel(cv::utils::logging::LogLevel::LOG_LEVEL_SILENT);
 
-    if (m_capture->isOpened()) {
-        // std::cout << "Capture is opened" << std::endl;
-        cv::Mat& frame = m_frame[m_writeFrameIndex];
-        m_capture->read(frame);
-
-        m_size = { (float)frame.size().width, (float)frame.size().height };
-
-        // std::cout << "frame size - " << frame.size().width << " x " << frame.size().height << std::endl;
-        // std::cout << "frame channels - " << frame.channels() << " depth - " << frame.depth() << std::endl;
-
-        Image img = GenImageColor(frame.size().width, frame.size().height, WHITE);
-        ImageFormat(&img, PIXELFORMAT_UNCOMPRESSED_R8G8B8);
-        m_texture = LoadTextureFromImage(img);
-        UpdateTexture(m_texture, frame.data);
-        UnloadImage(img);
-
-        m_writeFrameIndex += 1;
-
-        m_run = true;
-        m_thread = std::thread([this]() {
-            readCamera();
-        });
-
-    } else {
-        std::cout << "Could not open camera!" << std::endl;
-    }
+    m_run = true;
+    m_thread = std::thread([this, address]() {
+        readCamera(address);
+    });
 }
 
 void RemoteCamera::close()
 {
-    m_capture->release();
-    delete m_capture;
+    m_run = false;
+    if (m_thread.joinable())
+        m_thread.join();
+
+    if (m_capture) {
+        m_capture->release();
+        delete m_capture;
+        m_capture = nullptr;
+    }
+
+    if (IsTextureReady(m_texture))
+        UnloadTexture(m_texture);
+
+    m_cameraFound = false;
+    m_initalFrameRead = false;
+    m_textureInitialized = false;
+    m_size = { 0.0f, 0.0f };
+}
+
+bool RemoteCamera::isOpen()
+{
+    if (m_capture)
+        return m_run && m_capture->isOpened();
+
+    return false;
 }
 
 void RemoteCamera::updateTexture()
 {
-    if (!m_capture->isOpened())
+    if (m_cameraFound && m_capture && !m_capture->isOpened())
+        return;
+
+    setupTexture();
+
+    if (!m_textureInitialized)
         return;
 
     m_frameMutex.lock();
@@ -68,9 +70,43 @@ void RemoteCamera::updateTexture()
     m_frameMutex.unlock();
 }
 
-void RemoteCamera::readCamera()
+void RemoteCamera::setupTexture()
 {
+    if (m_textureInitialized || !m_initalFrameRead)
+        return;
+
+    m_frameMutex.lock();
+
+    if (IsTextureReady(m_texture))
+        UnloadTexture(m_texture);
+
+    uint8_t readIndex = (m_writeFrameIndex + 1) % 2;
+    m_size = { (float)m_frame[readIndex].size().width, (float)m_frame[readIndex].size().height };
+
+    Image img = GenImageColor(m_frame[readIndex].size().width, m_frame[readIndex].size().height, WHITE);
+    ImageFormat(&img, PIXELFORMAT_UNCOMPRESSED_R8G8B8);
+    m_texture = LoadTextureFromImage(img);
+    UpdateTexture(m_texture, m_frame[readIndex].data);
+    UnloadImage(img);
+
+    m_frameMutex.unlock();
+
+    m_textureInitialized = true;
+}
+
+void RemoteCamera::readCamera(const std::string& address)
+{
+    m_capture = new cv::VideoCapture(address);
+    if (!m_capture->isOpened()) {
+        std::cout << "Could not find camera" << std::endl;
+        return;
+    }
+
+    std::cout << "Starting camera" << std::endl;
+    m_cameraFound = true;
+
     while (m_run) {
+
         if (m_capture->isOpened()) {
 
             cv::Mat tempFrame;
@@ -78,8 +114,15 @@ void RemoteCamera::readCamera()
             cv::cvtColor(tempFrame, m_frame[m_writeFrameIndex], cv::COLOR_BGR2RGB);
 
             m_frameMutex.lock();
+
+            if (tempFrame.size().width != m_size.x || tempFrame.size().height != m_size.y)
+                m_textureInitialized = false;
+
             m_writeFrameIndex = (m_writeFrameIndex + 1) % 2;
+
             m_frameMutex.unlock();
+
+            m_initalFrameRead = true;
         }
         std::this_thread::sleep_for(1ms);
     }

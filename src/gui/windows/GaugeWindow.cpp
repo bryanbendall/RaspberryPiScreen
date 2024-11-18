@@ -38,7 +38,6 @@ GaugeWindow::GaugeWindow()
     SmallGauge::initResources();
     BarGauge::initResources();
     tach.initResources();
-    m_camera.open();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -50,6 +49,11 @@ GaugeWindow::~GaugeWindow()
 void GaugeWindow::draw()
 {
     updateValues();
+
+    if (IsKeyPressed(KEY_C))
+        m_camera.open("http://192.168.1.190:8080/stream.mjpeg");
+    if (IsKeyPressed(KEY_D))
+        m_camera.close();
 
     SetActiveWindowContext(m_windowID);
 
@@ -72,7 +76,8 @@ void GaugeWindow::draw()
     gasLevel.draw();
     methLevel.draw();
 
-    DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
+    if (m_camera.isOpen())
+        DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
 
     DrawFPS(0, 0);
 
