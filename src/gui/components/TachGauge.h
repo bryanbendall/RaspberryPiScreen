@@ -8,7 +8,7 @@ public:
     TachGauge(Vector2 center, float size, float maxValue);
     ~TachGauge();
     void initResources();
-    void Draw();
+    void draw();
     void setValue(float value) { m_value = value; }
 
 private:

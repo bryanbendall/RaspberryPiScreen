@@ -33,6 +33,7 @@ struct GlobalVariables {
     static inline float reverse;
     static inline float showGear;
     static inline float parkingBrake;
+    static inline float revLimit;
 
     // Variable colors
     static inline float guageColor;
@@ -77,6 +78,7 @@ struct GlobalVariables {
         reverse = 0.0f;
         showGear = 1.0f;
         parkingBrake = 0.0f;
+        revLimit = 8000.0f;
 
         guageColor = 1216765.0f; // orange
     }

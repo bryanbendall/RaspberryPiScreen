@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="475.98792"
+   height="457.0358"
+   viewBox="0 0 125.93847 120.92405"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="Tach Gauge.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="183.14066"
+     inkscape:cy="240.76986"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3"
+     inkscape:export-bgcolor="#ffffff00" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect16"
+       is_visible="true"
+       lpeversion="1"
+       pattern="#Tick"
+       copytype="repeated"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="19.95"
+       normal_offset="0.2"
+       tang_offset="21.48"
+       prop_units="false"
+       vertical_pattern="true"
+       hide_knot="false"
+       fuse_tolerance="0" />
+    <linearGradient
+       id="linearGradient2"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0.67692858"
+         id="stop2" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2"
+       id="radialGradient3"
+       cx="63.5"
+       cy="63.5"
+       fx="63.5"
+       fy="63.5"
+       r="63.5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.91666666,0,0,0.91666666,5.2916679,5.2916679)" />
+  </defs>
+  <g
+     inkscape:label="Background"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(-0.47517043,-0.78427142)">
+    <circle
+       style="display:inline;fill:url(#radialGradient3);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:9.70136;stroke-dashoffset:125.82"
+       id="Inner_radial_gradient"
+       cx="63.5"
+       cy="63.5"
+       r="58.208332"
+       sodipodi:insensitive="true" />
+    <path
+       d="M 32.230607,117.81739 C 12.882406,106.68031 0.9338662,86.078026 0.87561592,63.75351 0.87576041,29.197779 28.888679,1.1848614 63.444411,1.1847169 98.000139,1.1848591 126.01306,29.197778 126.0132,63.75351"
+       style="display:inline;fill:none;fill-opacity:0.597015;stroke:#ffffff;stroke-width:0.800891;stroke-dasharray:none;stroke-opacity:1"
+       id="White_Ring"
+       sodipodi:nodetypes="cccc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="Big_Ticks"
+     inkscape:label="Big Ticks"
+     style="display:inline"
+     transform="translate(-0.47517043,-0.78427142)">
+    <path
+       d="m 13.345189,97.809672 c 0.708201,1.037208 1.447419,2.053345 2.216571,3.046538 2.659173,-2.372969 5.345848,-4.71331 8.059342,-7.020604 -0.376749,-0.499928 -0.744717,-1.006778 -1.10367,-1.520146 -3.034188,1.866876 -6.091835,3.698408 -9.172243,5.494212 z M 3.5715053,74.471886 c 0.2394963,1.236666 0.5173329,2.464887 0.8324262,3.682796 3.3757493,-1.131759 6.7637235,-2.221351 10.1632405,-3.26836 -0.149266,-0.604635 -0.287115,-1.211645 -0.413314,-1.820628 -3.520087,0.512727 -7.0477712,0.981586 -10.5823527,1.406192 z M 4.2533366,49.084201 C 3.9522087,50.306745 3.6883774,51.538872 3.4626768,52.778567 7.0075844,53.16491 10.54621,53.594965 14.077803,54.068439 14.197444,53.456097 14.328518,52.8457 14.470842,52.237681 11.053717,51.228735 7.6476358,50.177467 4.2533366,49.084201 Z M 15.210467,26.233528 c -0.767115,1.00106 -1.502571,2.025312 -2.205533,3.070743 3.093044,1.774504 6.162797,3.586314 9.208509,5.435135 0.354297,-0.513371 0.717997,-1.019898 1.090919,-1.519148 -2.725813,-2.294192 -5.424024,-4.62321 -8.093895,-6.98673 z M 34.583974,9.8247211 c -1.109052,0.5946149 -2.200214,1.2230859 -3.271473,1.8845779 2.082778,2.895491 4.129317,5.815321 6.139291,8.75875 0.53576,-0.321387 1.077614,-0.633062 1.625127,-0.934844 -1.536233,-3.21648 -3.033979,-6.452892 -4.492945,-9.7084839 z M 58.897518,2.6656459 c -1.258868,0.098942 -2.513455,0.2373774 -3.761749,0.4144713 0.749348,3.4865741 1.454962,6.9809298 2.116514,10.4823278 0.617859,-0.07974 1.236914,-0.147745 1.856728,-0.203825 C 58.993521,9.7969684 58.922926,6.232393 58.897518,2.6656459 Z m 25.14819,3.4370029 C 82.861624,5.6774438 81.664544,5.2881209 80.45648,4.9355142 79.700219,8.4217746 78.901927,11.897486 78.061896,15.361896 c 0.597995,0.182813 1.192817,0.376548 1.784031,0.581026 1.359667,-3.295535 2.759702,-6.5758724 4.199781,-9.8402732 z M 105.64883,19.381456 c -0.91645,-0.872076 -1.8595,-1.713906 -2.82715,-2.524658 -2.09225,2.888292 -4.220115,5.749026 -6.383316,8.581451 0.471334,0.405998 0.934596,0.82089 1.38935,1.244495 2.574276,-2.465764 5.181426,-4.899773 7.821116,-7.301288 z m 14.25497,20.988293 c -0.47741,-1.163926 -0.99009,-2.313378 -1.53721,-3.44634 -3.09565,1.773752 -6.21149,3.509385 -9.34677,5.206572 0.26506,0.56673 0.51989,1.138326 0.76432,1.714351 3.35781,-1.198387 6.73128,-2.356678 10.11966,-3.474583 z m 4.6148,24.796546 0,-1.666306 c -9.2e-4,-0.657317 -0.0128,-1.31414 -0.0354,-1.970187 -3.54828,0.372163 -7.10018,0.698709 -10.65498,0.979315 0.006,0.33033 0.009,0.66065 0.009,0.990895 l 0,0.973326 c 3.56058,0.230986 7.12116,0.461971 10.68174,0.692957 z"
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.529167;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:125.82"
+       id="Multi_ticks_missing_first"
+       sodipodi:nodetypes="cccc"
+       inkscape:path-effect="#path-effect16"
+       inkscape:original-d="M 35.624182,111.78232 C 18.345065,101.83623 7.6742949,83.437146 7.6222738,63.5 7.6224029,32.639637 32.639637,7.6224029 63.5,7.6222738 94.360364,7.6224008 119.3776,32.639636 119.37773,63.5 v 14.166976" />
+  </g>
+</svg>

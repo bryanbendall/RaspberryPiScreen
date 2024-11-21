@@ -30,8 +30,8 @@ GaugeWindow::GaugeWindow()
 
     m_windowID = InitWindowPro(1280.0f, 480.0f, "Gauge Window", flags);
 
-#ifdef PC_BUILD
     SetActiveWindowContext(m_windowID);
+#ifdef PC_BUILD
     SetWindowPosition(200, 40);
 #endif
 
@@ -63,7 +63,7 @@ void GaugeWindow::draw()
 
     ClearBackground(GetColor(GlobalVariables::black));
 
-    tach.Draw();
+    tach.draw();
 
     waterGauge.draw();
     oilGauge.draw();

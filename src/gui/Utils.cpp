@@ -26,8 +26,11 @@ float mapValue(float fromMin, float fromMax, float toMin, float toMax, float val
     float y1 = toMax;
     float sloap = (y - y1) / (x - x1);
 
-    float angle = (sloap * (value - x1)) + y1;
+    float finalValue = (sloap * (value - x1)) + y1;
 
-    return std::clamp(angle, y, y1);
+    if (clamp)
+        return std::clamp(finalValue, y, y1);
+    else
+        return finalValue;
 }
 }

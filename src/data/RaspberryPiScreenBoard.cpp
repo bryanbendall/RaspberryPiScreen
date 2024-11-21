@@ -52,6 +52,7 @@ static const std::map<std::string, float*> nameToValueMap = {
     { "reverse", &GlobalVariables::reverse },
     { "showGear", &GlobalVariables::showGear },
     { "parkingBrake", &GlobalVariables::parkingBrake },
+    { "revLimit", &GlobalVariables::revLimit },
 
     { "guageColor", &GlobalVariables::guageColor },
 
@@ -61,6 +62,7 @@ static std::map<uint16_t, float*> indexToValueMap;
 
 BinaryDeserializer* BrytecBoard::getDeserializer()
 {
+    GlobalVariables::setToDefaults();
     indexToValueMap.clear();
 
     if (std::filesystem::exists(configPath)) {
