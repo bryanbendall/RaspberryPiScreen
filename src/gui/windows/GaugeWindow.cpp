@@ -4,7 +4,7 @@
 #include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
 #include "gui/components/SmallGauge.h"
-#include "gui/components\TachGauge.h"
+#include "gui/components/TachGauge.h"
 #include <raylib.h>
 
 TachGauge tach({ 640.0f, 240.0f }, 450.0f, 10000.0f);

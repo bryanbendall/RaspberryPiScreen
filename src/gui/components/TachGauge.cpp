@@ -81,8 +81,8 @@ void TachGauge::draw()
     for (int i = 90; i < 330; i += 24) {
         float angle = (float)i * DEG2RAD;
         float r = m_size / 2.0f - 60.0f;
-        float x = r * std::sinf(angle);
-        float y = r * std::cosf(angle);
+        float x = r * std::sin(angle);
+        float y = r * std::cos(angle);
 
         Color numberColor = lableNumber * 1000 + 1 > GlobalVariables::revLimit ? GetColor(GlobalVariables::red) : GetColor(GlobalVariables::white);
 
@@ -97,8 +97,8 @@ void TachGauge::draw()
         float mappedAngle = Utils::mapValue(0.0f, 10000.0f, 330.0f, 90.0f, m_value, false);
         float angle = mappedAngle * DEG2RAD;
         float r = m_size / 2.0f - 30.0f;
-        float x = r * std::sinf(angle);
-        float y = r * std::cosf(angle);
+        float x = r * std::sin(angle);
+        float y = r * std::cos(angle);
 
         rlPushMatrix();
 
