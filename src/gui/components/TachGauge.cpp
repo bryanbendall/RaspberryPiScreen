@@ -8,14 +8,14 @@
 #include <rlgl.h>
 #include <string>
 
-static Texture2D tickTexture;
 static Texture2D colorTicks;
 static Texture2D bottomPanel;
 static Texture2D gaugeTexture;
 static Texture2D smallTicksTexture;
 static Texture2D needleTexture;
 
-static Font font;
+static Font smallFont;
+static Font largeFont;
 
 TachGauge::TachGauge(Vector2 center, float size, float maxValue)
     : m_center(center)
@@ -26,23 +26,19 @@ TachGauge::TachGauge(Vector2 center, float size, float maxValue)
 
 TachGauge::~TachGauge()
 {
-    UnloadTexture(tickTexture);
     UnloadTexture(colorTicks);
     UnloadTexture(bottomPanel);
     UnloadTexture(gaugeTexture);
     UnloadTexture(smallTicksTexture);
     UnloadTexture(needleTexture);
 
-    UnloadFont(font);
+    UnloadFont(smallFont);
+    UnloadFont(largeFont);
 }
 
 void TachGauge::initResources()
 {
-    Image img = LoadImageSvg("../resources/images/Tick.svg", 70, 22);
-    tickTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImageSvg("../resources/images/tach/ColorTicks.svg", 458, 426);
+    Image img = LoadImageSvg("../resources/images/tach/ColorTicks.svg", 458, 426);
     colorTicks = LoadTextureFromImage(img);
     UnloadImage(img);
 
@@ -62,7 +58,8 @@ void TachGauge::initResources()
     needleTexture = LoadTextureFromImage(img);
     UnloadImage(img);
 
-    font = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 40, 0, 250);
+    smallFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 16, 0, 250);
+    largeFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 40, 0, 250);
 }
 
 void TachGauge::draw()
@@ -90,8 +87,8 @@ void TachGauge::draw()
         Color numberColor = lableNumber * 1000 + 1 > GlobalVariables::revLimit ? GetColor(GlobalVariables::red) : GetColor(GlobalVariables::white);
 
         std::string lable = fmt::format("{:d}", lableNumber);
-        Vector2 fontSize = MeasureTextEx(font, lable.c_str(), 40, 0);
-        DrawTextEx(font, lable.c_str(), { m_center.x + x - (fontSize.x / 2.0f), m_center.y + y - (fontSize.y / 2.0f) }, 40, 0, numberColor);
+        Vector2 fontSize = MeasureTextEx(largeFont, lable.c_str(), 40, 0);
+        DrawTextEx(largeFont, lable.c_str(), { m_center.x + x - (fontSize.x / 2.0f), m_center.y + y - (fontSize.y / 2.0f) }, 40, 0, numberColor);
         lableNumber--;
     }
 
@@ -116,4 +113,9 @@ void TachGauge::draw()
 
     // Bottom panel
     DrawTexture(bottomPanel, m_center.x - (244.0f / 2.0f), 350.0f, GetColor(GlobalVariables::white));
+
+    // Label
+    std::string rpmLable = fmt::format("{:.0f}", m_value);
+    DrawTextEx(smallFont, rpmLable.c_str(), Vector2Add(m_center, { m_size / 2.0f - 20.0f, 20.0f }), 16.0f, 0.0f, GetColor(GlobalVariables::white));
+    DrawTextEx(smallFont, "RPM", Vector2Add(m_center, { m_size / 2.0f - 20.0f, 36.0f }), 16.0f, 0.0f, GetColor(GlobalVariables::gray));
 }
