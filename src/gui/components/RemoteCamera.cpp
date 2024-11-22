@@ -1,6 +1,7 @@
 #include "RemoteCamera.h"
 
 #include <chrono>
+#include <opencv2/core/utils/logger.hpp>
 
 using namespace std::chrono_literals;
 
