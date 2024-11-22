@@ -4,10 +4,13 @@
 #include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
 #include "gui/components/SmallGauge.h"
+#include "gui/components/Speedometer.h"
 #include "gui/components/TachGauge.h"
 #include <raylib.h>
 
 TachGauge tach({ 640.0f, 240.0f }, 450.0f, 10000.0f);
+
+Speedometer speedometer({ 640.0f, 240.0f });
 
 SmallGauge waterGauge({ 200.0f, 125.0f }, 150.0f, 30.0f, 250.0f, "°F", SmallGauge::Icon::WaterTemp);
 SmallGauge oilGauge({ 200.0f, 325.0f }, 150.0f, 0.0f, 100.0f, "Psi", SmallGauge::Icon::Oil);
@@ -38,6 +41,7 @@ GaugeWindow::GaugeWindow()
     SmallGauge::initResources();
     BarGauge::initResources();
     tach.initResources();
+    speedometer.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -65,6 +69,8 @@ void GaugeWindow::draw()
 
     tach.draw();
 
+    speedometer.draw();
+
     waterGauge.draw();
     oilGauge.draw();
 
@@ -91,6 +97,9 @@ void GaugeWindow::draw()
 void GaugeWindow::updateValues()
 {
     tach.setValue(GlobalVariables::rpm);
+
+    speedometer.setValue(GlobalVariables::speed);
+    speedometer.setKph(GlobalVariables::useKph > 0.0001f);
 
     waterGauge.setValue(GlobalVariables::cts);
     oilGauge.setValue(GlobalVariables::oilPressure);

@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/RemoteCamera.h
                 src/gui/components/SmallGauge.cpp
                 src/gui/components/SmallGauge.h
+                src/gui/components/Speedometer.cpp
+                src/gui/components/Speedometer.h
                 src/gui/components/TachGauge.cpp
                 src/gui/components/TachGauge.h
                 src/gui/windows/CenterWindow.cpp
