@@ -66,6 +66,7 @@ if (UNIX)
                             dl
                             opencv_core
                             opencv_videoio
+                            opencv_imgproc
                             )
 endif (UNIX)
 
