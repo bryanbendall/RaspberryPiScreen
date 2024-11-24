@@ -4,12 +4,15 @@
 #include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
 #include "gui/components/BoostGauge.h"
+#include "gui/components/ClosedLoopGauge.h"
 #include "gui/components/SmallGauge.h"
 #include "gui/components/Speedometer.h"
 #include "gui/components/TachGauge.h"
 #include <raylib.h>
 
 BoostGauge boost({ 310.0f, 0.0f });
+
+ClosedLoopGauge closedLoop({ 820.0f, 0.0f });
 
 TachGauge tach({ 640.0f, 240.0f }, 450.0f, 10000.0f);
 
@@ -18,10 +21,10 @@ Speedometer speedometer({ 640.0f, 240.0f });
 SmallGauge waterGauge({ 200.0f, 125.0f }, 150.0f, 30.0f, 250.0f, "°F", SmallGauge::Icon::WaterTemp);
 SmallGauge oilGauge({ 200.0f, 325.0f }, 150.0f, 0.0f, 100.0f, "Psi", SmallGauge::Icon::Oil);
 
-SmallGauge batteryGauge({ 1000.0f, 100.0f }, 150.0f, 6.0f, 18.0f, "V", SmallGauge::Icon::Battery);
-SmallGauge transGauge({ 1170.0f, 100.0f }, 150.0f, 50.0f, 280.0f, "°F", SmallGauge::Icon::TransTemp);
-SmallGauge gasGauge({ 1000.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Gas", SmallGauge::Icon::Fuel);
-SmallGauge methGauge({ 1170.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Meth", SmallGauge::Icon::Fuel);
+SmallGauge batteryGauge({ 1020.0f, 100.0f }, 150.0f, 6.0f, 18.0f, "V", SmallGauge::Icon::Battery);
+SmallGauge transGauge({ 1190.0f, 100.0f }, 150.0f, 50.0f, 280.0f, "°F", SmallGauge::Icon::TransTemp);
+SmallGauge gasGauge({ 1020.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Gas", SmallGauge::Icon::Fuel);
+SmallGauge methGauge({ 1190.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Meth", SmallGauge::Icon::Fuel);
 
 BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
 BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
@@ -46,6 +49,7 @@ GaugeWindow::GaugeWindow()
     tach.initResources();
     speedometer.initResources();
     boost.initResources();
+    closedLoop.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -72,6 +76,8 @@ void GaugeWindow::draw()
     ClearBackground(GetColor(GlobalVariables::black));
 
     boost.draw();
+
+    closedLoop.draw();
 
     tach.draw();
 
@@ -103,6 +109,8 @@ void GaugeWindow::draw()
 void GaugeWindow::updateValues()
 {
     boost.setValue(GlobalVariables::boost);
+
+    closedLoop.setValue(GlobalVariables::closedLoopComp);
 
     tach.setValue(GlobalVariables::rpm);
 
