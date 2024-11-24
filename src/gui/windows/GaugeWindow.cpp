@@ -3,10 +3,13 @@
 #include "data/GlobalVariables.h"
 #include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
+#include "gui/components/BoostGauge.h"
 #include "gui/components/SmallGauge.h"
 #include "gui/components/Speedometer.h"
 #include "gui/components/TachGauge.h"
 #include <raylib.h>
+
+BoostGauge boost({ 310.0f, 0.0f });
 
 TachGauge tach({ 640.0f, 240.0f }, 450.0f, 10000.0f);
 
@@ -42,6 +45,7 @@ GaugeWindow::GaugeWindow()
     BarGauge::initResources();
     tach.initResources();
     speedometer.initResources();
+    boost.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -66,6 +70,8 @@ void GaugeWindow::draw()
     BeginDrawing();
 
     ClearBackground(GetColor(GlobalVariables::black));
+
+    boost.draw();
 
     tach.draw();
 
@@ -96,6 +102,8 @@ void GaugeWindow::draw()
 
 void GaugeWindow::updateValues()
 {
+    boost.setValue(GlobalVariables::boost);
+
     tach.setValue(GlobalVariables::rpm);
 
     speedometer.setValue(GlobalVariables::speed);
