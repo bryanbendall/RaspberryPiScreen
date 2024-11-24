@@ -29,7 +29,7 @@ float mapValue(float fromMin, float fromMax, float toMin, float toMax, float val
     float finalValue = (sloap * (value - x1)) + y1;
 
     if (clamp)
-        return std::clamp(finalValue, y, y1);
+        return std::clamp(finalValue, std::min(y, y1), std::max(y, y1));
     else
         return finalValue;
 }
