@@ -6,7 +6,7 @@
 #include <fmt/format.h>
 #include <iostream>
 
-static Texture2D colorTicks;
+static Texture2D maskTexture;
 static Font font;
 
 BoostGauge::BoostGauge(Vector2 position)
@@ -16,14 +16,14 @@ BoostGauge::BoostGauge(Vector2 position)
 
 BoostGauge::~BoostGauge()
 {
-    UnloadTexture(colorTicks);
+    UnloadTexture(maskTexture);
     UnloadFont(font);
 }
 
 void BoostGauge::initResources()
 {
     Image img = LoadImageSvg("../resources/images/side gauge mask.svg", 150, 480);
-    colorTicks = LoadTextureFromImage(img);
+    maskTexture = LoadTextureFromImage(img);
     UnloadImage(img);
 
     font = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 24, 0, 250);
@@ -36,7 +36,7 @@ void BoostGauge::draw()
     DrawRectangle(m_position.x, barTopY, m_width, 480 - m_boarders, Utils::getColorFromBrytec(GlobalVariables::guageColor));
 
     // White curved line
-    DrawTextureV(colorTicks, { m_position.x + 3.0f, m_position.y }, GetColor(GlobalVariables::white));
+    DrawTextureV(maskTexture, { m_position.x + 3.0f, m_position.y }, GetColor(GlobalVariables::white));
 
     // Sector lines
     int tickHeight = (480 - (m_boarders * 2)) / m_sectors;
@@ -44,7 +44,7 @@ void BoostGauge::draw()
         DrawRectangle(m_position.x, tickHeight * i + m_boarders - 1, m_width, 2, GetColor(GlobalVariables::white));
 
     // Mask
-    DrawTextureV(colorTicks, m_position, GetColor(GlobalVariables::black));
+    DrawTextureV(maskTexture, m_position, GetColor(GlobalVariables::black));
     DrawRectangle(m_position.x, 0, m_width, m_boarders - 1, GetColor(GlobalVariables::black));
     DrawRectangle(m_position.x, 480 - m_boarders + 1, m_width, m_boarders, GetColor(GlobalVariables::black));
     DrawRectangle(m_position.x + m_width, 0, 10, 480, GetColor(GlobalVariables::black));
