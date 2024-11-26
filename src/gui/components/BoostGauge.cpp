@@ -33,7 +33,7 @@ void BoostGauge::draw()
 {
     // Value bar
     float barTopY = Utils::mapValue(0.0f, (float)m_sectors * 10.0f, 480 - m_boarders, m_boarders, m_value);
-    DrawRectangle(m_position.x, barTopY, m_width, 480 - m_boarders, Utils::getColorFromBrytec(GlobalVariables::guageColor));
+    DrawRectangle(m_position.x, barTopY, m_width, 480 - m_boarders - barTopY, Utils::getColorFromBrytec(GlobalVariables::guageColor));
 
     // White curved line
     DrawTextureV(maskTexture, { m_position.x + 3.0f, m_position.y }, GetColor(GlobalVariables::white));
