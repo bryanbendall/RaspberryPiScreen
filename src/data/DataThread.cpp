@@ -1,6 +1,7 @@
 #include "DataThread.h"
 
 #include "BrytecConfigEmbedded/EBrytecApp.h"
+#include "data/communication/can/CanSocket.h"
 #include "data/communication/wifi/Server.h"
 
 using namespace std::chrono_literals;
@@ -22,11 +23,13 @@ void DataThread::run()
 {
     Brytec::EBrytecApp::initalize();
     Server server(m_io_context);
+    CanSocket canScoket(m_can_io_context, "vcan0");
 
     uint8_t count = 0;
 
     while (m_run) {
         m_io_context.poll();
+        m_can_io_context.poll();
         server.checkConnection();
 
         if (count >= 10) {

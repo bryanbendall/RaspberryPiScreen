@@ -11,6 +11,10 @@ if (UNIX)
 endif (UNIX)
 
 add_executable(${PROJECT_NAME}
+                src/data/communication/can/CanConnectionHandler.cpp
+                src/data/communication/can/CanConnectionHandler.h
+                src/data/communication/can/CanSocket.cpp
+                src/data/communication/can/CanSocket.h
                 src/data/communication/wifi/ConnectionHandler.cpp
                 src/data/communication/wifi/ConnectionHandler.h
                 src/data/communication/wifi/Server.cpp
