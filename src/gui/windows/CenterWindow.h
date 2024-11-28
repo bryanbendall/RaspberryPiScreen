@@ -11,6 +11,7 @@ public:
 
 private:
     void drawRotatedTextureToScreen();
+    Vector2 getTouchPositionScaled();
 
 private:
     int m_windowID;

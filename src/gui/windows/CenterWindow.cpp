@@ -1,5 +1,7 @@
 #include "CenterWindow.h"
 
+#include <iostream>
+
 CenterWindow::CenterWindow()
 {
     unsigned int flags = 0;
@@ -36,6 +38,21 @@ void CenterWindow::draw()
     ClearBackground(RED);
     DrawText("I am the other window", 190, 200, 20, RAYWHITE);
 
+    Rectangle rect;
+    rect.x = 100.0f;
+    rect.y = 100.0f;
+    rect.width = 300.0f;
+    rect.height = 100.0f;
+
+    Color col = BLUE;
+
+    Vector2 touchPosition = getTouchPositionScaled();
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(touchPosition, rect)) {
+        col = YELLOW;
+    }
+
+    DrawRectangleRec(rect, col);
+
     EndTextureMode();
 
     drawRotatedTextureToScreen();
@@ -51,4 +68,10 @@ void CenterWindow::drawRotatedTextureToScreen()
         m_rotation,
         WHITE);
     EndDrawing();
+}
+
+Vector2 CenterWindow::getTouchPositionScaled()
+{
+    Vector2 touchPosition = GetTouchPosition(0);
+    return { touchPosition.y * m_width, m_height - touchPosition.x * m_height };
 }
