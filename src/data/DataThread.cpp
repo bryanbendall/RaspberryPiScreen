@@ -1,7 +1,7 @@
 #include "DataThread.h"
 
 #include "BrytecConfigEmbedded/EBrytecApp.h"
-#include "data/communication/Server.h"
+#include "data/communication/wifi/Server.h"
 
 using namespace std::chrono_literals;
 

@@ -4,7 +4,7 @@
 #include "Deserializer/BinaryArrayDeserializer.h"
 #include "Deserializer/BinaryPathDeserializer.h"
 #include "data/GlobalVariables.h"
-#include "data/communication/Server.h"
+#include "data/communication/wifi/Server.h"
 #include "data/screenboarddefs.h"
 #include "data/screeninternaldefs.h"
 #include <filesystem>

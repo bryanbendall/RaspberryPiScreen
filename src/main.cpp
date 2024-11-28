@@ -14,7 +14,9 @@ int main(void)
     CenterWindow centerWindow;
 
     SetTargetFPS(30);
+#ifndef PC_BUILD
     HideCursor();
+#endif
 
     while (!WindowShouldClose()) {
         centerWindow.draw();

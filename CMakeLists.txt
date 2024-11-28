@@ -11,10 +11,10 @@ if (UNIX)
 endif (UNIX)
 
 add_executable(${PROJECT_NAME}
-                src/data/communication/ConnectionHandler.cpp
-                src/data/communication/ConnectionHandler.h
-                src/data/communication/Server.cpp
-                src/data/communication/Server.h
+                src/data/communication/wifi/ConnectionHandler.cpp
+                src/data/communication/wifi/ConnectionHandler.h
+                src/data/communication/wifi/Server.cpp
+                src/data/communication/wifi/Server.h
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/DataThread.cpp
                 src/data/DataThread.h
