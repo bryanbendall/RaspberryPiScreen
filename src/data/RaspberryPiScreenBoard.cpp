@@ -4,7 +4,7 @@
 #include "Deserializer/BinaryArrayDeserializer.h"
 #include "Deserializer/BinaryPathDeserializer.h"
 #include "data/GlobalVariables.h"
-#include "data/communication/can/CanSocket.h"
+#include "data/communication/can/CanManager.h"
 #include "data/communication/wifi/Server.h"
 #include "data/screenboarddefs.h"
 #include "data/screeninternaldefs.h"
@@ -114,7 +114,7 @@ void BrytecBoard::error(EBrytecErrors error)
 
 void BrytecBoard::setupCan(uint8_t index, CanSpeed::Types speed)
 {
-    // TODO
+    CanManager::setup(index, speed);
 }
 
 void BrytecBoard::setupPin(uint16_t index, IOTypes::Types type)
@@ -155,8 +155,7 @@ void BrytecBoard::setPinValue(uint16_t index, IOTypes::Types type, float value)
 
 void BrytecBoard::sendCan(uint8_t index, const CanFrame& frame)
 {
-    // TODO
-    CanSocket::send(frame);
+    CanManager::send(index, frame);
 }
 
 void BrytecBoard::sendBrytecCanUsb(const CanFrame& frame)

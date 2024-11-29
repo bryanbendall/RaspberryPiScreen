@@ -15,6 +15,8 @@ add_executable(${PROJECT_NAME}
                 src/data/communication/can/CanConnectionHandler.h
                 src/data/communication/can/CanSocket.cpp
                 src/data/communication/can/CanSocket.h
+                src/data/communication/can/CanManager.cpp
+                src/data/communication/can/CanManager.h
                 src/data/communication/wifi/ConnectionHandler.cpp
                 src/data/communication/wifi/ConnectionHandler.h
                 src/data/communication/wifi/Server.cpp

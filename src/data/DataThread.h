@@ -2,7 +2,6 @@
 
 #include "BrytecConfigEmbedded/Usb/UsbDefs.h"
 #include <asio.hpp>
-#include <deque>
 #include <iostream>
 #include <thread>
 
@@ -18,8 +17,6 @@ public:
 
 private:
     asio::io_context m_io_context;
-    asio::io_context m_can_io_context;
     std::thread m_thread;
     bool m_run;
-    std::deque<Brytec::UsbPacket> m_txPackets;
 };
