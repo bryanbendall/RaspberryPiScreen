@@ -1,13 +1,17 @@
 #include "CanConnectionHandler.h"
 
-CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context)
-    : m_stream(io_service)
+#include <BrytecConfigEmbedded/EBrytecApp.h>
+#include <iostream>
+
+CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context, int natsock)
+    : m_stream(io_context)
 {
+    m_stream.assign(natsock);
 }
 
-std::shared_ptr<CanConnectionHandler> CanConnectionHandler::create(asio::io_context& io_context)
+std::shared_ptr<CanConnectionHandler> CanConnectionHandler::create(asio::io_context& io_context, int natsock)
 {
-    return std::shared_ptr<CanConnectionHandler>(new CanConnectionHandler(io_service));
+    return std::shared_ptr<CanConnectionHandler>(new CanConnectionHandler(io_context, natsock));
 }
 
 void CanConnectionHandler::start()
@@ -19,10 +23,10 @@ void CanConnectionHandler::send(const Brytec::CanFrame& frame)
 {
     m_txMutex.lock();
 
-    m_txPackets.push_back(packet);
+    m_txFrames.push_back(frame);
 
-    if (m_txPackets.size() == 1)
-        sendBytes();
+    if (m_txFrames.size() == 1)
+        sendFrame();
 
     m_txMutex.unlock();
 }
@@ -32,8 +36,16 @@ void CanConnectionHandler::handle_read(const asio::error_code& err)
     if (!err) {
 
         Brytec::CanFrame frame;
-        frame.id = m_recieveFrame.can_id;
-        frame.dlc = m_recieveFrame.can_dlc;
+
+        if (m_recieveFrame.can_id & CAN_EFF_FLAG) {
+            frame.type = Brytec::CanFrameType::Ext;
+            frame.id = m_recieveFrame.can_id & CAN_EFF_MASK;
+        } else {
+            frame.type = Brytec::CanFrameType::Std;
+            frame.id = m_recieveFrame.can_id & CAN_SFF_MASK;
+        }
+
+        frame.dlc = m_recieveFrame.len;
         memcpy(frame.data, m_recieveFrame.data, 8);
 
         Brytec::EBrytecApp::canReceived(0, frame);
@@ -42,7 +54,7 @@ void CanConnectionHandler::handle_read(const asio::error_code& err)
 
     } else {
         std::cerr << "error: " << err.message() << std::endl;
-        m_socket.close();
+        m_stream.close();
     }
 }
 
@@ -59,15 +71,15 @@ void CanConnectionHandler::handle_write(const asio::error_code& err)
 
     } else {
         std::cerr << "error: " << err.message() << std::endl;
-        m_socket.close();
+        m_stream.close();
     }
 }
 
 void CanConnectionHandler::startRead()
 {
     m_stream.async_read_some(
-        asio::buffer(&rec_frame, sizeof(rec_frame)),
-        std::bind(&ConnectionHandler::handle_read,
+        asio::buffer(&m_recieveFrame, sizeof(m_recieveFrame)),
+        std::bind(&CanConnectionHandler::handle_read,
             shared_from_this(),
             asio::placeholders::error));
 }
@@ -75,24 +87,30 @@ void CanConnectionHandler::startRead()
 void CanConnectionHandler::startWrite()
 {
     m_stream.async_write_some(
-        asio::buffer(&frame, sizeof(frame)),
-        std::bind(&ConnectionHandler::handle_write,
+        asio::buffer(&m_sendFrame, sizeof(m_sendFrame)),
+        std::bind(&CanConnectionHandler::handle_write,
             shared_from_this(),
             asio::placeholders::error));
 }
 
 void CanConnectionHandler::sendFrame()
 {
-    if (m_txPackets.size() <= 0) {
+    if (m_txFrames.size() <= 0) {
         std::cout << "Trying to send a can frame from empty queue" << std::endl;
         return;
     }
 
-    m_sendFrame.can_id = m_txFrames[0].id;
-    m_sendFrame.can_dlc = m_txFrames[0].dlc;
+    if (m_txFrames[0].type == Brytec::CanFrameType::Ext) {
+        m_sendFrame.can_id = m_txFrames[0].id & CAN_EFF_MASK;
+        m_sendFrame.can_id |= CAN_EFF_FLAG;
+    } else {
+        m_sendFrame.can_id = m_txFrames[0].id & CAN_SFF_MASK;
+    }
+
+    m_sendFrame.len = m_txFrames[0].dlc;
     memcpy(m_sendFrame.data, m_txFrames[0].data, 8);
 
-    m_txPackets.pop_front();
+    m_txFrames.pop_front();
 
     startWrite();
 }
