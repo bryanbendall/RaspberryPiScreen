@@ -36,14 +36,14 @@ static Brytec::UsbPacket getPacket(std::vector<uint8_t>& data)
     return packet;
 }
 
-ConnectionHandler::ConnectionHandler(asio::io_service& io_service)
-    : m_socket(io_service)
+ConnectionHandler::ConnectionHandler(asio::io_context& io_context)
+    : m_socket(io_context)
 {
 }
 
-std::shared_ptr<ConnectionHandler> ConnectionHandler::create(asio::io_service& io_service)
+std::shared_ptr<ConnectionHandler> ConnectionHandler::create(asio::io_service& io_context)
 {
-    return std::shared_ptr<ConnectionHandler>(new ConnectionHandler(io_service));
+    return std::shared_ptr<ConnectionHandler>(new ConnectionHandler(io_context));
 }
 
 void ConnectionHandler::start()

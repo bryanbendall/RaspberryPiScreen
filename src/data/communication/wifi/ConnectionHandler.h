@@ -11,8 +11,8 @@ using asio::ip::tcp;
 class ConnectionHandler : public std::enable_shared_from_this<ConnectionHandler> {
 
 public:
-    ConnectionHandler(asio::io_service& io_service);
-    static std::shared_ptr<ConnectionHandler> create(asio::io_service& io_service);
+    ConnectionHandler(asio::io_context& io_context);
+    static std::shared_ptr<ConnectionHandler> create(asio::io_context& io_context);
     tcp::socket& socket() { return m_socket; }
     void start();
     void send(const Brytec::UsbPacket& packet);

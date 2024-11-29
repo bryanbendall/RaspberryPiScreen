@@ -10,7 +10,7 @@ public:
     CanSocket(asio::io_context& io_context, std::string socketName);
 
 private:
-    asio::io_service& m_io_service;
+    asio::io_context& m_io_context;
     bool m_isOpen = false;
 
 public:

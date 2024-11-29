@@ -9,7 +9,7 @@ void Server::startAccept()
 
     m_isWaitingForConnection = true;
 
-    std::shared_ptr<ConnectionHandler> connection = ConnectionHandler::create(m_io_service);
+    std::shared_ptr<ConnectionHandler> connection = ConnectionHandler::create(m_io_context);
     m_connection = connection;
 
     m_acceptor.async_accept(connection->socket(),
@@ -17,9 +17,9 @@ void Server::startAccept()
             asio::placeholders::error));
 }
 
-Server::Server(asio::io_service& io_service)
-    : m_io_service(io_service)
-    , m_acceptor(io_service, tcp::endpoint(tcp::v4(), BRYTEC_NETWORK_PORT))
+Server::Server(asio::io_context& io_context)
+    : m_io_context(io_context)
+    , m_acceptor(io_context, tcp::endpoint(tcp::v4(), BRYTEC_NETWORK_PORT))
 {
     startAccept();
 }

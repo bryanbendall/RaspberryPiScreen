@@ -23,7 +23,7 @@ void DataThread::run()
 {
     Brytec::EBrytecApp::initalize();
     Server server(m_io_context);
-    CanSocket canScoket(m_can_io_context, "vcan0");
+    CanSocket canSocket(m_can_io_context, "vcan0");
 
     uint8_t count = 0;
 

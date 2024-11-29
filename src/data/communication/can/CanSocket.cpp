@@ -3,7 +3,7 @@
 #include <iostream>
 
 CanSocket::CanSocket(asio::io_context& io_context, std::string socketName)
-    : m_io_service(io_context)
+    : m_io_context(io_context)
 {
     ifreq ifr;
     int natsock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
@@ -21,7 +21,7 @@ CanSocket::CanSocket(asio::io_context& io_context, std::string socketName)
 
     m_isOpen = true;
 
-    std::shared_ptr<CanConnectionHandler> connection = CanConnectionHandler::create(m_io_service, natsock);
+    std::shared_ptr<CanConnectionHandler> connection = CanConnectionHandler::create(m_io_context, natsock);
     m_connection = connection;
     connection->start();
 }

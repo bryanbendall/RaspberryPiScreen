@@ -9,7 +9,7 @@ using asio::ip::tcp;
 class Server {
 
 public:
-    Server(asio::io_service& io_service);
+    Server(asio::io_context& io_context);
     void handleAccept(std::shared_ptr<ConnectionHandler> connection, const asio::error_code& err);
     void checkConnection();
     bool isConnected();
@@ -18,7 +18,7 @@ private:
     void startAccept();
 
 private:
-    asio::io_service& m_io_service;
+    asio::io_context& m_io_context;
     tcp::acceptor m_acceptor;
 
 public:
