@@ -13,8 +13,6 @@ endif (UNIX)
 add_executable(${PROJECT_NAME}
                 src/data/communication/can/CanConnectionHandler.cpp
                 src/data/communication/can/CanConnectionHandler.h
-                src/data/communication/can/CanSocket.cpp
-                src/data/communication/can/CanSocket.h
                 src/data/communication/can/CanManager.cpp
                 src/data/communication/can/CanManager.h
                 src/data/communication/wifi/ConnectionHandler.cpp
@@ -24,8 +22,7 @@ add_executable(${PROJECT_NAME}
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/DataThread.cpp
                 src/data/DataThread.h
-                src/data/screenboarddefs.h
-                src/data/screeninternaldefs.h
+                src/data/screenboardrev2defs.h
                 src/gui/components/BarGauge.cpp
                 src/gui/components/BarGauge.h
                 src/gui/components/BoostGauge.cpp
@@ -49,6 +46,8 @@ add_executable(${PROJECT_NAME}
                 src/main.cpp
                 )
 
+set(BrytecCustomConfigDir ${CMAKE_CURRENT_SOURCE_DIR}/src/data)
+message(${CMAKE_CURRENT_SOURCE_DIR}/src/data)
 add_subdirectory(src/BrytecConfigEmbedded)
 add_subdirectory(vendor/raylib_multi_window_experimental)
 add_subdirectory(vendor/fmt)

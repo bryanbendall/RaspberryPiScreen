@@ -6,8 +6,7 @@
 #include "data/GlobalVariables.h"
 #include "data/communication/can/CanManager.h"
 #include "data/communication/wifi/Server.h"
-#include "data/screenboarddefs.h"
-#include "data/screeninternaldefs.h"
+#include "data/screenboardrev2defs.h"
 #include <filesystem>
 #include <fstream>
 #include <iostream>

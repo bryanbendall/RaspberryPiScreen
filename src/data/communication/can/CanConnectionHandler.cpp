@@ -4,9 +4,13 @@
 #include <iostream>
 
 CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context, int natsock)
+#ifndef PC_BUILD
     : m_stream(io_context)
+#endif
 {
+#ifndef PC_BUILD
     m_stream.assign(natsock);
+#endif
 }
 
 std::shared_ptr<CanConnectionHandler> CanConnectionHandler::create(asio::io_context& io_context, int natsock)
@@ -21,6 +25,7 @@ void CanConnectionHandler::start()
 
 void CanConnectionHandler::send(const Brytec::CanFrame& frame)
 {
+#ifndef PC_BUILD
     m_txMutex.lock();
 
     m_txFrames.push_back(frame);
@@ -29,10 +34,12 @@ void CanConnectionHandler::send(const Brytec::CanFrame& frame)
         sendFrame();
 
     m_txMutex.unlock();
+#endif
 }
 
 void CanConnectionHandler::handle_read(const asio::error_code& err)
 {
+#ifndef PC_BUILD
     if (!err) {
 
         Brytec::CanFrame frame;
@@ -56,10 +63,12 @@ void CanConnectionHandler::handle_read(const asio::error_code& err)
         std::cerr << "error: " << err.message() << std::endl;
         m_stream.close();
     }
+#endif
 }
 
 void CanConnectionHandler::handle_write(const asio::error_code& err)
 {
+#ifndef PC_BUILD
     if (!err) {
 
         m_txMutex.lock();
@@ -73,28 +82,34 @@ void CanConnectionHandler::handle_write(const asio::error_code& err)
         std::cerr << "error: " << err.message() << std::endl;
         m_stream.close();
     }
+#endif
 }
 
 void CanConnectionHandler::startRead()
 {
+#ifndef PC_BUILD
     m_stream.async_read_some(
         asio::buffer(&m_recieveFrame, sizeof(m_recieveFrame)),
         std::bind(&CanConnectionHandler::handle_read,
             shared_from_this(),
             asio::placeholders::error));
+#endif
 }
 
 void CanConnectionHandler::startWrite()
 {
+#ifndef PC_BUILD
     m_stream.async_write_some(
         asio::buffer(&m_sendFrame, sizeof(m_sendFrame)),
         std::bind(&CanConnectionHandler::handle_write,
             shared_from_this(),
             asio::placeholders::error));
+#endif
 }
 
 void CanConnectionHandler::sendFrame()
 {
+#ifndef PC_BUILD
     if (m_txFrames.size() <= 0) {
         std::cout << "Trying to send a can frame from empty queue" << std::endl;
         return;
@@ -113,4 +128,5 @@ void CanConnectionHandler::sendFrame()
     m_txFrames.pop_front();
 
     startWrite();
+#endif
 }

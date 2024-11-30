@@ -10,6 +10,8 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
         return;
     }
 
+#ifndef PC_BUILD
+
     if (m_isOpen[index])
         close(index);
 
@@ -68,6 +70,8 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 
     m_handlers[index] = CanConnectionHandler::create(m_io_context, natsock);
     m_handlers[index]->start();
+
+#endif
 }
 
 void CanManager::close(uint8_t index)
