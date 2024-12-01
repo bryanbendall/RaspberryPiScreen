@@ -54,9 +54,16 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 
     ifreq ifr;
     int natsock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
+    if (natsock < 0) {
+        std::cout << "Socket creation failed" << std::endl;
+        return;
+    }
 
     strcpy(ifr.ifr_name, socketName.c_str());
-    ioctl(natsock, SIOCGIFINDEX, &ifr);
+    if (ioctl(natsock, SIOCGIFINDEX, &ifr) < 0) {
+        std::cout << "Error in ioctl" << std::endl;
+        return;
+    }
 
     sockaddr_can addr;
     addr.can_family = AF_CAN;
@@ -77,6 +84,9 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 void CanManager::close(uint8_t index)
 {
     m_handlers[index].reset();
+
+    std::string socketName = getSocketName(index);
+    std::string systemCommand = fmt::format("sudo ip link set {:s} down", socketName);
 }
 
 void CanManager::send(uint8_t index, const Brytec::CanFrame& frame)
