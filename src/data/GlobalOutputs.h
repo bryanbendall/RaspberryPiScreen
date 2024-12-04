@@ -1,8 +1,10 @@
 #pragma once
 
+#include <map>
 #include <stdint.h>
+#include <string>
 
-struct GlobalVariables {
+struct GlobalOutputs {
 
     static inline float rpm;
     static inline float afr;
@@ -47,6 +49,41 @@ struct GlobalVariables {
     static inline uint32_t blue = 0x146AA1FF;
     static inline uint32_t black = 0x000000FF;
 
+    static inline const std::map<std::string, float*> nameToValueMap = {
+        { "rpm", &rpm },
+        { "afr", &afr },
+        { "afr2", &afr2 },
+        { "showSecondAfr", &showSecondAfr },
+        { "boost", &boost },
+        { "gasLevel", &gasLevel },
+        { "methLevel", &methLevel },
+        { "gear", &gear },
+        { "cts", &cts },
+        { "oilPressure", &oilPressure },
+        { "battery", &battery },
+        { "lineTemp", &lineTemp },
+        { "fuelPressure", &fuelPressure },
+        { "methPressure", &methPressure },
+        { "speed", &speed },
+        { "useKph", &useKph },
+        { "closedLoopComp", &closedLoopComp },
+        { "showOdometer", &showOdometer },
+        { "overDrive", &overDrive },
+        { "parkNeutral", &parkNeutral },
+        { "fanState", &fanState },
+        { "leftTurn", &leftTurn },
+        { "rightTurn", &rightTurn },
+        { "parkingLights", &parkingLights },
+        { "lowBeam", &lowBeam },
+        { "highBeam", &highBeam },
+        { "reverse", &reverse },
+        { "showGear", &showGear },
+        { "parkingBrake", &parkingBrake },
+        { "revLimit", &revLimit },
+        { "guageColor", &guageColor },
+
+    };
+
     static void setToDefaults()
     {
         rpm = 0.0f;
@@ -79,7 +116,6 @@ struct GlobalVariables {
         showGear = 1.0f;
         parkingBrake = 0.0f;
         revLimit = 8000.0f;
-
         guageColor = 1216765.0f; // orange
     }
 };

@@ -3,7 +3,8 @@
 #include "BrytecConfigEmbedded/EBrytecApp.h"
 #include "Deserializer/BinaryArrayDeserializer.h"
 #include "Deserializer/BinaryPathDeserializer.h"
-#include "data/GlobalVariables.h"
+#include "data/GlobalInputs.h"
+#include "data/GlobalOutputs.h"
 #include "data/communication/can/CanManager.h"
 #include "data/communication/wifi/Server.h"
 #include "data/screenboardrev2defs.h"
@@ -21,49 +22,14 @@ std::vector<uint8_t> tempConfig;
 std::filesystem::path configPath("BrytecConfig.btcfg");
 BinaryPathDeserializer pathDeserializer(configPath);
 
-static const std::map<std::string, float*> nameToValueMap = {
-
-    { "rpm", &GlobalVariables::rpm },
-    { "afr", &GlobalVariables::afr },
-    { "afr2", &GlobalVariables::afr2 },
-    { "showSecondAfr", &GlobalVariables::showSecondAfr },
-    { "boost", &GlobalVariables::boost },
-    { "gasLevel", &GlobalVariables::gasLevel },
-    { "methLevel", &GlobalVariables::methLevel },
-    { "gear", &GlobalVariables::gear },
-    { "cts", &GlobalVariables::cts },
-    { "oilPressure", &GlobalVariables::oilPressure },
-    { "battery", &GlobalVariables::battery },
-    { "lineTemp", &GlobalVariables::lineTemp },
-    { "fuelPressure", &GlobalVariables::fuelPressure },
-    { "methPressure", &GlobalVariables::methPressure },
-    { "speed", &GlobalVariables::speed },
-    { "useKph", &GlobalVariables::useKph },
-    { "closedLoopComp", &GlobalVariables::closedLoopComp },
-    { "showOdometer", &GlobalVariables::showOdometer },
-    { "overDrive", &GlobalVariables::overDrive },
-    { "parkNeutral", &GlobalVariables::parkNeutral },
-    { "fanState", &GlobalVariables::fanState },
-    { "leftTurn", &GlobalVariables::leftTurn },
-    { "rightTurn", &GlobalVariables::rightTurn },
-    { "parkingLights", &GlobalVariables::parkingLights },
-    { "lowBeam", &GlobalVariables::lowBeam },
-    { "highBeam", &GlobalVariables::highBeam },
-    { "reverse", &GlobalVariables::reverse },
-    { "showGear", &GlobalVariables::showGear },
-    { "parkingBrake", &GlobalVariables::parkingBrake },
-    { "revLimit", &GlobalVariables::revLimit },
-
-    { "guageColor", &GlobalVariables::guageColor },
-
-};
-
-static std::map<uint16_t, float*> indexToValueMap;
+static std::map<uint16_t, float*> outputIndexToValueMap;
+static std::map<uint16_t, float*> inputIndexToValueMap;
 
 BinaryDeserializer* BrytecBoard::getDeserializer()
 {
-    GlobalVariables::setToDefaults();
-    indexToValueMap.clear();
+    GlobalOutputs::setToDefaults();
+    outputIndexToValueMap.clear();
+    inputIndexToValueMap.clear();
 
     if (std::filesystem::exists(configPath)) {
         // Get newest from file
@@ -123,11 +89,15 @@ void BrytecBoard::setupPin(uint16_t index, IOTypes::Types type)
 
 void BrytecBoard::shutdownAllPins()
 {
-    GlobalVariables::setToDefaults();
+    GlobalOutputs::setToDefaults();
 }
 
 float BrytecBoard::getPinValue(uint16_t index, IOTypes::Types type)
 {
+    if (inputIndexToValueMap.find(index) != inputIndexToValueMap.end())
+        return *inputIndexToValueMap[index];
+
+    // Pin is not a named value
     return 0.0f;
 }
 
@@ -145,8 +115,8 @@ float BrytecBoard::getPinCurrent(uint16_t index)
 
 void BrytecBoard::setPinValue(uint16_t index, IOTypes::Types type, float value)
 {
-    if (indexToValueMap.find(index) != indexToValueMap.end()) {
-        *indexToValueMap[index] = value;
+    if (outputIndexToValueMap.find(index) != outputIndexToValueMap.end()) {
+        *outputIndexToValueMap[index] = value;
     } else {
         // Pin is not a named value
     }
@@ -208,8 +178,16 @@ void BrytecBoard::getConfigData(uint8_t* dest, uint32_t offset, uint32_t length)
 
 void BrytecBoard::AddedNamesNodeGroup(uint16_t index, std::string ngName)
 {
-    auto it = nameToValueMap.find(ngName);
-    if (it != nameToValueMap.end())
-        indexToValueMap[index] = it->second;
+    {
+        auto it = GlobalOutputs::nameToValueMap.find(ngName);
+        if (it != GlobalOutputs::nameToValueMap.end())
+            outputIndexToValueMap[index] = it->second;
+    }
+
+    {
+        auto it = GlobalInputs::nameToValueMap.find(ngName);
+        if (it != GlobalInputs::nameToValueMap.end())
+            inputIndexToValueMap[index] = it->second;
+    }
 }
 }

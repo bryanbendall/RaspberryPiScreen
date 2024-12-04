@@ -1,6 +1,6 @@
 #include "ClosedLoopGauge.h"
 
-#include "data/GlobalVariables.h"
+#include "data/GlobalOutputs.h"
 #include "gui/Utils.h"
 #include <cmath>
 #include <fmt/format.h>
@@ -34,7 +34,7 @@ void ClosedLoopGauge::draw()
 {
 
     // Value bar
-    Color gaugeColor = m_value > 25.0f || m_value < -25.0f ? GetColor(GlobalVariables::red) : Utils::getColorFromBrytec(GlobalVariables::guageColor);
+    Color gaugeColor = m_value > 25.0f || m_value < -25.0f ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::guageColor);
     if (m_value > 0.0f) {
         float barTopY = Utils::mapValue(0.0f, 50.0f, 240, m_boarders, m_value);
         DrawRectangle(m_position.x, barTopY, m_width, 240 - barTopY, gaugeColor);
@@ -44,18 +44,18 @@ void ClosedLoopGauge::draw()
     }
 
     // White curved line
-    DrawTextureV(maskTexture, { m_position.x - 3.0f, m_position.y }, GetColor(GlobalVariables::white));
+    DrawTextureV(maskTexture, { m_position.x - 3.0f, m_position.y }, GetColor(GlobalOutputs::white));
 
     // Sector lines
     int tickHeight = (480 - (m_boarders * 2)) / m_sectors;
     for (int i = 0; i <= m_sectors; i++)
-        DrawRectangle(m_position.x, tickHeight * i + m_boarders - 1, m_width, 2, GetColor(GlobalVariables::white));
+        DrawRectangle(m_position.x, tickHeight * i + m_boarders - 1, m_width, 2, GetColor(GlobalOutputs::white));
 
     // Mask
-    DrawTextureV(maskTexture, m_position, GetColor(GlobalVariables::black));
-    DrawRectangle(m_position.x, 0, m_width, m_boarders - 1, GetColor(GlobalVariables::black));
-    DrawRectangle(m_position.x, 480 - m_boarders + 1, m_width, m_boarders, GetColor(GlobalVariables::black));
-    DrawRectangle(m_position.x - 10, 0, 10, 480, GetColor(GlobalVariables::black));
+    DrawTextureV(maskTexture, m_position, GetColor(GlobalOutputs::black));
+    DrawRectangle(m_position.x, 0, m_width, m_boarders - 1, GetColor(GlobalOutputs::black));
+    DrawRectangle(m_position.x, 480 - m_boarders + 1, m_width, m_boarders, GetColor(GlobalOutputs::black));
+    DrawRectangle(m_position.x - 10, 0, 10, 480, GetColor(GlobalOutputs::black));
 
     // Scale numbers
     for (int i = 0; i <= m_sectors; i++) {
@@ -68,10 +68,10 @@ void ClosedLoopGauge::draw()
 
         std::string lable = fmt::format("{:d}", (2 - i) * 25);
         Vector2 textSize = MeasureTextEx(font, lable.c_str(), 24.0f, 0.0f);
-        DrawTextEx(font, lable.c_str(), { 640 + x + 215 + (textSize.x / 2.0f), y - (textSize.y / 2.0f) }, 24.0f, 0.0f, GetColor(GlobalVariables::white));
+        DrawTextEx(font, lable.c_str(), { 640 + x + 215 + (textSize.x / 2.0f), y - (textSize.y / 2.0f) }, 24.0f, 0.0f, GetColor(GlobalOutputs::white));
     }
 
     // Label
     Vector2 textSize = MeasureTextEx(font, "CL%", 24.0f, 0.0f);
-    DrawTextEx(font, "CL%", { m_position.x, 480.0f - m_boarders + 15.0f }, 24.0f, 0.0f, GetColor(GlobalVariables::gray));
+    DrawTextEx(font, "CL%", { m_position.x, 480.0f - m_boarders + 15.0f }, 24.0f, 0.0f, GetColor(GlobalOutputs::gray));
 }

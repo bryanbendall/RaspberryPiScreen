@@ -1,6 +1,6 @@
 #include "Speedometer.h"
 
-#include "data/GlobalVariables.h"
+#include "data/GlobalOutputs.h"
 #include <fmt/format.h>
 
 static constexpr int largeFontSize = 100;
@@ -30,10 +30,10 @@ void Speedometer::draw()
     // Value
     std::string lable = fmt::format("{:.0f}", m_value);
     Vector2 valueMeasure = MeasureTextEx(largeFont, lable.c_str(), largeFontSize, 0);
-    DrawTextEx(largeFont, lable.c_str(), { m_center.x - (valueMeasure.x / 2.0f), m_center.y - (valueMeasure.y / 2.0f) }, largeFontSize, 0, GetColor(GlobalVariables::white));
+    DrawTextEx(largeFont, lable.c_str(), { m_center.x - (valueMeasure.x / 2.0f), m_center.y - (valueMeasure.y / 2.0f) }, largeFontSize, 0, GetColor(GlobalOutputs::white));
 
     // Unit
     std::string unit = m_useKph ? "KPH" : "MPH";
     Vector2 unitMeasure = MeasureTextEx(smallFont, unit.c_str(), smallFontSize, 0);
-    DrawTextEx(smallFont, unit.c_str(), { m_center.x - (unitMeasure.x / 2.0f), m_center.y + (valueMeasure.y / 2.0f) - 10.0f }, smallFontSize, 0, GetColor(GlobalVariables::gray));
+    DrawTextEx(smallFont, unit.c_str(), { m_center.x - (unitMeasure.x / 2.0f), m_center.y + (valueMeasure.y / 2.0f) - 10.0f }, smallFontSize, 0, GetColor(GlobalOutputs::gray));
 }

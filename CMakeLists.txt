@@ -19,9 +19,11 @@ add_executable(${PROJECT_NAME}
                 src/data/communication/wifi/ConnectionHandler.h
                 src/data/communication/wifi/Server.cpp
                 src/data/communication/wifi/Server.h
-                src/data/RaspberryPiScreenBoard.cpp
                 src/data/DataThread.cpp
                 src/data/DataThread.h
+                src/data/GlobalInputs.h
+                src/data/GlobalOutputs.h
+                src/data/RaspberryPiScreenBoard.cpp
                 src/data/screenboardrev2defs.h
                 src/gui/components/BarGauge.cpp
                 src/gui/components/BarGauge.h

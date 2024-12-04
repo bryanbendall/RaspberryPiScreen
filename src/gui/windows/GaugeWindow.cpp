@@ -1,6 +1,7 @@
 #include "GaugeWindow.h"
 
-#include "data/GlobalVariables.h"
+#include "data/GlobalInputs.h"
+#include "data/GlobalOutputs.h"
 #include "gui/Utils.h"
 #include "gui/components/BarGauge.h"
 #include "gui/components/BoostGauge.h"
@@ -67,13 +68,18 @@ void GaugeWindow::draw()
     if (IsKeyPressed(KEY_D))
         m_camera.close();
 
+    if (IsKeyDown(KEY_L))
+        GlobalInputs::button0 = 1.0f;
+    else
+        GlobalInputs::button0 = 0.0f;
+
     SetActiveWindowContext(m_windowID);
 
     m_camera.updateTexture();
 
     BeginDrawing();
 
-    ClearBackground(GetColor(GlobalVariables::black));
+    ClearBackground(GetColor(GlobalOutputs::black));
 
     boost.draw();
 
@@ -108,23 +114,23 @@ void GaugeWindow::draw()
 
 void GaugeWindow::updateValues()
 {
-    boost.setValue(GlobalVariables::boost);
+    boost.setValue(GlobalOutputs::boost);
 
-    closedLoop.setValue(GlobalVariables::closedLoopComp);
+    closedLoop.setValue(GlobalOutputs::closedLoopComp);
 
-    tach.setValue(GlobalVariables::rpm);
+    tach.setValue(GlobalOutputs::rpm);
 
-    speedometer.setValue(GlobalVariables::speed);
-    speedometer.setKph(GlobalVariables::useKph > 0.0001f);
+    speedometer.setValue(GlobalOutputs::speed);
+    speedometer.setKph(GlobalOutputs::useKph > 0.0001f);
 
-    waterGauge.setValue(GlobalVariables::cts);
-    oilGauge.setValue(GlobalVariables::oilPressure);
+    waterGauge.setValue(GlobalOutputs::cts);
+    oilGauge.setValue(GlobalOutputs::oilPressure);
 
-    batteryGauge.setValue(GlobalVariables::battery);
-    transGauge.setValue(GlobalVariables::lineTemp);
-    gasGauge.setValue(GlobalVariables::fuelPressure);
-    methGauge.setValue(GlobalVariables::methPressure);
+    batteryGauge.setValue(GlobalOutputs::battery);
+    transGauge.setValue(GlobalOutputs::lineTemp);
+    gasGauge.setValue(GlobalOutputs::fuelPressure);
+    methGauge.setValue(GlobalOutputs::methPressure);
 
-    gasLevel.setValue(GlobalVariables::gasLevel);
-    methLevel.setValue(GlobalVariables::methLevel);
+    gasLevel.setValue(GlobalOutputs::gasLevel);
+    methLevel.setValue(GlobalOutputs::methLevel);
 }

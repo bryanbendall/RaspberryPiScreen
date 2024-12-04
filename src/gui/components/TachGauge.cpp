@@ -1,6 +1,6 @@
 #include "TachGauge.h"
 
-#include "data/GlobalVariables.h"
+#include "data/GlobalOutputs.h"
 #include "gui/Utils.h"
 #include <cmath>
 #include <fmt/format.h>
@@ -65,16 +65,16 @@ void TachGauge::initResources()
 void TachGauge::draw()
 {
     // Background small ticks
-    DrawTextureV(smallTicksTexture, { m_center.x - (453.0f / 2.0f), 13.663f }, GetColor(GlobalVariables::white));
+    DrawTextureV(smallTicksTexture, { m_center.x - (453.0f / 2.0f), 13.663f }, GetColor(GlobalOutputs::white));
 
     // Colored gauge amount
     float valueAngle = Utils::mapValue(0.0f, 10000.0f, 120.0f, 360.0f, m_value);
-    Color gaugeColor = m_value > GlobalVariables::revLimit ? GetColor(GlobalVariables::red) : Utils::getColorFromBrytec(GlobalVariables::guageColor);
+    Color gaugeColor = m_value > GlobalOutputs::revLimit ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::guageColor);
     DrawCircleSector(m_center, m_size / 2.0f + 3.0f, 120.0f, valueAngle, 20, gaugeColor);
 
     // Rest of the gauge
-    DrawTexture(colorTicks, m_center.x - (458.0f / 2.0f), m_center.y - (426.0f / 2.0f) - 15.0f, Utils::getColorFromBrytec(GlobalVariables::guageColor));
-    DrawTextureV(gaugeTexture, { m_center.x - (476.0f / 2.0f), 2.964f }, GetColor(GlobalVariables::white));
+    DrawTexture(colorTicks, m_center.x - (458.0f / 2.0f), m_center.y - (426.0f / 2.0f) - 15.0f, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawTextureV(gaugeTexture, { m_center.x - (476.0f / 2.0f), 2.964f }, GetColor(GlobalOutputs::white));
 
     // Numbers
     int lableNumber = 10;
@@ -84,7 +84,7 @@ void TachGauge::draw()
         float x = r * std::sin(angle);
         float y = r * std::cos(angle);
 
-        Color numberColor = lableNumber * 1000 + 1 > GlobalVariables::revLimit ? GetColor(GlobalVariables::red) : GetColor(GlobalVariables::white);
+        Color numberColor = lableNumber * 1000 + 1 > GlobalOutputs::revLimit ? GetColor(GlobalOutputs::red) : GetColor(GlobalOutputs::white);
 
         std::string lable = fmt::format("{:d}", lableNumber);
         Vector2 fontSize = MeasureTextEx(largeFont, lable.c_str(), 40, 0);
@@ -112,10 +112,10 @@ void TachGauge::draw()
     }
 
     // Bottom panel
-    DrawTexture(bottomPanel, m_center.x - (244.0f / 2.0f), 350.0f, GetColor(GlobalVariables::white));
+    DrawTexture(bottomPanel, m_center.x - (244.0f / 2.0f), 350.0f, GetColor(GlobalOutputs::white));
 
     // Label
     std::string rpmLable = fmt::format("{:.0f}", m_value);
-    DrawTextEx(smallFont, rpmLable.c_str(), Vector2Add(m_center, { m_size / 2.0f - 20.0f, 20.0f }), 16.0f, 0.0f, GetColor(GlobalVariables::white));
-    DrawTextEx(smallFont, "RPM", Vector2Add(m_center, { m_size / 2.0f - 20.0f, 36.0f }), 16.0f, 0.0f, GetColor(GlobalVariables::gray));
+    DrawTextEx(smallFont, rpmLable.c_str(), Vector2Add(m_center, { m_size / 2.0f - 20.0f, 20.0f }), 16.0f, 0.0f, GetColor(GlobalOutputs::white));
+    DrawTextEx(smallFont, "RPM", Vector2Add(m_center, { m_size / 2.0f - 20.0f, 36.0f }), 16.0f, 0.0f, GetColor(GlobalOutputs::gray));
 }
