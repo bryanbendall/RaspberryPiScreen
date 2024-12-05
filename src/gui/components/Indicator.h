@@ -17,7 +17,7 @@ private:
     int m_size;
     float m_minValue;
     float m_maxValue;
-    float m_value = 0.0f;
+    float m_value = 1.0f;
     std::string m_iconPath;
     Texture2D m_texture;
     Color m_activeColor;

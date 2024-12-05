@@ -33,9 +33,14 @@ BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
 
 Indicator leftTurn({ 640.0f - 200.0f, 5.0f }, 50, "../resources/images/left-turn-signal.svg", GetColor(GlobalOutputs::green));
 Indicator rightTurn({ 640.0f + 150.0f, 5.0f }, 50, "../resources/images/right-turn-signal.svg", GetColor(GlobalOutputs::green));
-Indicator parkingLight({ 300.0f, 5.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::orange));
-Indicator lowBeam({ 300.0f, 5.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::green));
-Indicator highBeam({ 300.0f, 5.0f }, 50, "../resources/images/high-beam.svg", GetColor(GlobalOutputs::blue));
+
+Indicator parkingLight({ 30.0f, 30.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::orange));
+Indicator lowBeam({ 30.0f, 30.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::green));
+Indicator highBeam({ 30.0f, 30.0f }, 50, "../resources/images/high-beam.svg", GetColor(GlobalOutputs::blue));
+Indicator fogLight({ 32.0f, 90.0f }, 45, "../resources/images/fog-lights.svg", GetColor(GlobalOutputs::green));
+Indicator parkingBrake({ 30.0f, 150.0f }, 50, "../resources/images/parking-brake.svg", GetColor(GlobalOutputs::red));
+Indicator fan({ 30.0f, 210.0f }, 50, "../resources/images/fan.svg", GetColor(GlobalOutputs::blue));
+Indicator engineLight({ 30.0f, 270.0f }, 50, "../resources/images/engine-light.svg", GetColor(GlobalOutputs::orange));
 
 GaugeWindow::GaugeWindow()
 {
@@ -63,6 +68,10 @@ GaugeWindow::GaugeWindow()
     parkingLight.initResources();
     lowBeam.initResources();
     highBeam.initResources();
+    fogLight.initResources();
+    parkingBrake.initResources();
+    fan.initResources();
+    engineLight.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -114,9 +123,14 @@ void GaugeWindow::draw()
 
     leftTurn.draw();
     rightTurn.draw();
+
     parkingLight.draw();
     lowBeam.draw();
     highBeam.draw();
+    fogLight.draw();
+    parkingBrake.draw();
+    fan.draw();
+    engineLight.draw();
 
     if (m_camera.isOpen())
         DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
@@ -154,7 +168,12 @@ void GaugeWindow::updateValues()
 
     leftTurn.setValue(GlobalOutputs::leftTurn);
     rightTurn.setValue(GlobalOutputs::rightTurn);
+
     parkingLight.setValue(GlobalOutputs::parkingLights);
     lowBeam.setValue(GlobalOutputs::lowBeam);
     highBeam.setValue(GlobalOutputs::highBeam);
+    fogLight.setValue(GlobalOutputs::fogLights);
+    parkingBrake.setValue(GlobalOutputs::parkingBrake);
+    fan.setValue(GlobalOutputs::fanState);
+    engineLight.setValue(GlobalOutputs::engineLight);
 }

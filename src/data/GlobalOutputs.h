@@ -32,10 +32,12 @@ struct GlobalOutputs {
     static inline float parkingLights;
     static inline float lowBeam;
     static inline float highBeam;
+    static inline float fogLights;
     static inline float reverse;
     static inline float showGear;
     static inline float parkingBrake;
     static inline float revLimit;
+    static inline float engineLight;
 
     // Variable colors
     static inline float guageColor;
@@ -76,10 +78,13 @@ struct GlobalOutputs {
         { "parkingLights", &parkingLights },
         { "lowBeam", &lowBeam },
         { "highBeam", &highBeam },
+        { "fogLights", &fogLights },
         { "reverse", &reverse },
         { "showGear", &showGear },
         { "parkingBrake", &parkingBrake },
         { "revLimit", &revLimit },
+        { "engineLight", &engineLight },
+
         { "guageColor", &guageColor },
 
     };
@@ -112,10 +117,13 @@ struct GlobalOutputs {
         parkingLights = 0.0f;
         lowBeam = 0.0f;
         highBeam = 0.0f;
+        fogLights = 0.0f;
         reverse = 0.0f;
         showGear = 1.0f;
         parkingBrake = 0.0f;
         revLimit = 8000.0f;
+        engineLight = 0.0f;
+
         guageColor = 1216765.0f; // orange
     }
 };
