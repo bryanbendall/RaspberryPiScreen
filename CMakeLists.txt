@@ -31,6 +31,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/BoostGauge.h
                 src/gui/components/ClosedLoopGauge.cpp
                 src/gui/components/ClosedLoopGauge.h
+                src/gui/components/Indicator.cpp
+                src/gui/components/Indicator.h
                 src/gui/components/RemoteCamera.cpp
                 src/gui/components/RemoteCamera.h
                 src/gui/components/SmallGauge.cpp

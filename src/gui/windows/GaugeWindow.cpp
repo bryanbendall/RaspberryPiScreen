@@ -6,6 +6,7 @@
 #include "gui/components/BarGauge.h"
 #include "gui/components/BoostGauge.h"
 #include "gui/components/ClosedLoopGauge.h"
+#include "gui/components/Indicator.h"
 #include "gui/components/SmallGauge.h"
 #include "gui/components/Speedometer.h"
 #include "gui/components/TachGauge.h"
@@ -30,6 +31,12 @@ SmallGauge methGauge({ 1190.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Meth", SmallGau
 BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
 BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
 
+Indicator leftTurn({ 640.0f - 200.0f, 5.0f }, 50, "../resources/images/left-turn-signal.svg", GetColor(GlobalOutputs::green));
+Indicator rightTurn({ 640.0f + 150.0f, 5.0f }, 50, "../resources/images/right-turn-signal.svg", GetColor(GlobalOutputs::green));
+Indicator parkingLight({ 300.0f, 5.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::orange));
+Indicator lowBeam({ 300.0f, 5.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::green));
+Indicator highBeam({ 300.0f, 5.0f }, 50, "../resources/images/high-beam.svg", GetColor(GlobalOutputs::blue));
+
 GaugeWindow::GaugeWindow()
 {
     unsigned int flags = 0;
@@ -51,6 +58,11 @@ GaugeWindow::GaugeWindow()
     speedometer.initResources();
     boost.initResources();
     closedLoop.initResources();
+    leftTurn.initResources();
+    rightTurn.initResources();
+    parkingLight.initResources();
+    lowBeam.initResources();
+    highBeam.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -100,6 +112,12 @@ void GaugeWindow::draw()
     gasLevel.draw();
     methLevel.draw();
 
+    leftTurn.draw();
+    rightTurn.draw();
+    parkingLight.draw();
+    lowBeam.draw();
+    highBeam.draw();
+
     if (m_camera.isOpen())
         DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
 
@@ -133,4 +151,10 @@ void GaugeWindow::updateValues()
 
     gasLevel.setValue(GlobalOutputs::gasLevel);
     methLevel.setValue(GlobalOutputs::methLevel);
+
+    leftTurn.setValue(GlobalOutputs::leftTurn);
+    rightTurn.setValue(GlobalOutputs::rightTurn);
+    parkingLight.setValue(GlobalOutputs::parkingLights);
+    lowBeam.setValue(GlobalOutputs::lowBeam);
+    highBeam.setValue(GlobalOutputs::highBeam);
 }
