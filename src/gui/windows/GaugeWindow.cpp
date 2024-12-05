@@ -6,6 +6,7 @@
 #include "gui/components/BarGauge.h"
 #include "gui/components/BoostGauge.h"
 #include "gui/components/ClosedLoopGauge.h"
+#include "gui/components/GearIndicator.h"
 #include "gui/components/Indicator.h"
 #include "gui/components/SmallGauge.h"
 #include "gui/components/Speedometer.h"
@@ -42,6 +43,8 @@ Indicator parkingBrake({ 30.0f, 150.0f }, 50, "../resources/images/parking-brake
 Indicator fan({ 30.0f, 210.0f }, 50, "../resources/images/fan.svg", GetColor(GlobalOutputs::blue));
 Indicator engineLight({ 30.0f, 270.0f }, 50, "../resources/images/engine-light.svg", GetColor(GlobalOutputs::orange));
 
+GearIndicator gearIndicator({ 760.0f, 300.0f }, 120);
+
 GaugeWindow::GaugeWindow()
 {
     unsigned int flags = 0;
@@ -72,6 +75,7 @@ GaugeWindow::GaugeWindow()
     parkingBrake.initResources();
     fan.initResources();
     engineLight.initResources();
+    gearIndicator.initResources();
 }
 
 GaugeWindow::~GaugeWindow()
@@ -132,6 +136,8 @@ void GaugeWindow::draw()
     fan.draw();
     engineLight.draw();
 
+    gearIndicator.draw();
+
     if (m_camera.isOpen())
         DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
 
@@ -176,4 +182,6 @@ void GaugeWindow::updateValues()
     parkingBrake.setValue(GlobalOutputs::parkingBrake);
     fan.setValue(GlobalOutputs::fanState);
     engineLight.setValue(GlobalOutputs::engineLight);
+
+    gearIndicator.setValue(GlobalOutputs::gear);
 }
