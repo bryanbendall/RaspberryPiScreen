@@ -69,9 +69,6 @@ struct GlobalOutputs {
         { "speed", &speed },
         { "useKph", &useKph },
         { "closedLoopComp", &closedLoopComp },
-        { "showOdometer", &showOdometer },
-        { "overDrive", &overDrive },
-        { "parkNeutral", &parkNeutral },
         { "fanState", &fanState },
         { "leftTurn", &leftTurn },
         { "rightTurn", &rightTurn },
@@ -79,8 +76,6 @@ struct GlobalOutputs {
         { "lowBeam", &lowBeam },
         { "highBeam", &highBeam },
         { "fogLights", &fogLights },
-        { "reverse", &reverse },
-        { "showGear", &showGear },
         { "parkingBrake", &parkingBrake },
         { "revLimit", &revLimit },
         { "engineLight", &engineLight },
@@ -108,9 +103,6 @@ struct GlobalOutputs {
         speed = 0.0f;
         useKph = 0.0f;
         closedLoopComp = 0.0f;
-        showOdometer = 1.0f;
-        overDrive = 0.0f;
-        parkNeutral = 0.0f;
         fanState = 0.0f;
         leftTurn = 0.0f;
         rightTurn = 0.0f;
@@ -118,8 +110,6 @@ struct GlobalOutputs {
         lowBeam = 0.0f;
         highBeam = 0.0f;
         fogLights = 0.0f;
-        reverse = 0.0f;
-        showGear = 1.0f;
         parkingBrake = 0.0f;
         revLimit = 8000.0f;
         engineLight = 0.0f;

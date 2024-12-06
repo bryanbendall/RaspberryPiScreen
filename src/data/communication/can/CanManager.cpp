@@ -45,7 +45,7 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 
     std::string socketName = getSocketName(index);
 
-#if 0
+#if 1
     std::string systemCommand = fmt::format("sudo ip link set {:s} up type can bitrate {:d}", socketName, bitrate);
 #else
     std::string systemCommand = fmt::format("sudo ip link set {:s} up", socketName);
