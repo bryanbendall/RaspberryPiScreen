@@ -94,7 +94,7 @@ struct GlobalOutputs {
         rpm = 0.0f;
         afr = 0.0f;
         afr2 = 0.0f;
-        showSecondAfr = 0.0f;
+        showSecondAfr = 1.0f;
         boost = 0.0f;
         gasLevel = 0.0f;
         methLevel = 0.0f;
