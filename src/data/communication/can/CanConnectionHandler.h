@@ -18,8 +18,8 @@
 class CanConnectionHandler : public std::enable_shared_from_this<CanConnectionHandler> {
 
 public:
-    CanConnectionHandler(asio::io_context& io_context, int natsock);
-    static std::shared_ptr<CanConnectionHandler> create(asio::io_context& io_context, int natsock);
+    CanConnectionHandler(asio::io_context& io_context, int natsock, uint8_t canIndex);
+    static std::shared_ptr<CanConnectionHandler> create(asio::io_context& io_context, int natsock, uint8_t canIndex);
     void start();
     void send(const Brytec::CanFrame& frame);
 
@@ -31,6 +31,7 @@ private:
     void sendFrame();
 
 private:
+    uint8_t m_canIndex;
 #ifndef PC_BUILD
     asio::posix::basic_stream_descriptor<> m_stream;
     can_frame m_sendFrame;

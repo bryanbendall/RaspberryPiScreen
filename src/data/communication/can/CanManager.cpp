@@ -12,8 +12,7 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 
 #ifndef PC_BUILD
 
-    if (m_isOpen[index])
-        close(index);
+    close(index);
 
     int bitrate;
     switch (speed) {
@@ -44,12 +43,7 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
     }
 
     std::string socketName = getSocketName(index);
-
-#if 1
     std::string systemCommand = fmt::format("sudo ip link set {:s} up type can bitrate {:d}", socketName, bitrate);
-#else
-    std::string systemCommand = fmt::format("sudo ip link set {:s} up", socketName);
-#endif
     system(systemCommand.c_str());
 
     ifreq ifr;
@@ -75,7 +69,7 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
 
     m_isOpen[index] = true;
 
-    m_handlers[index] = CanConnectionHandler::create(m_io_context, natsock);
+    m_handlers[index] = CanConnectionHandler::create(m_io_context, natsock, index);
     m_handlers[index]->start();
 
 #endif
@@ -104,7 +98,7 @@ void CanManager::send(uint8_t index, const Brytec::CanFrame& frame)
 
 std::string CanManager::getSocketName(uint8_t index)
 {
-    return fmt::format("vcan{:d}", index);
+    return fmt::format("can{:d}", index);
 }
 
 void CanManager::poll()

@@ -3,9 +3,10 @@
 #include <BrytecConfigEmbedded/EBrytecApp.h>
 #include <iostream>
 
-CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context, int natsock)
+CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context, int natsock, uint8_t canIndex)
+    : m_canIndex(canIndex)
 #ifndef PC_BUILD
-    : m_stream(io_context)
+    , m_stream(io_context)
 #endif
 {
 #ifndef PC_BUILD
@@ -13,9 +14,9 @@ CanConnectionHandler::CanConnectionHandler(asio::io_context& io_context, int nat
 #endif
 }
 
-std::shared_ptr<CanConnectionHandler> CanConnectionHandler::create(asio::io_context& io_context, int natsock)
+std::shared_ptr<CanConnectionHandler> CanConnectionHandler::create(asio::io_context& io_context, int natsock, uint8_t canIndex)
 {
-    return std::shared_ptr<CanConnectionHandler>(new CanConnectionHandler(io_context, natsock));
+    return std::shared_ptr<CanConnectionHandler>(new CanConnectionHandler(io_context, natsock, canIndex));
 }
 
 void CanConnectionHandler::start()
@@ -55,7 +56,7 @@ void CanConnectionHandler::handle_read(const asio::error_code& err)
         frame.dlc = m_recieveFrame.len;
         memcpy(frame.data, m_recieveFrame.data, 8);
 
-        Brytec::EBrytecApp::canReceived(0, frame);
+        Brytec::EBrytecApp::canReceived(m_canIndex, frame);
 
         startRead();
 
