@@ -15,6 +15,10 @@ add_executable(${PROJECT_NAME}
                 src/data/communication/can/CanConnectionHandler.h
                 src/data/communication/can/CanManager.cpp
                 src/data/communication/can/CanManager.h
+                src/data/communication/http/HttpConnectionHandler.cpp
+                src/data/communication/http/HttpConnectionHandler.h
+                src/data/communication/http/HttpServer.cpp
+                src/data/communication/http/HttpServer.h
                 src/data/communication/wifi/ConnectionHandler.cpp
                 src/data/communication/wifi/ConnectionHandler.h
                 src/data/communication/wifi/Server.cpp

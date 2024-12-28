@@ -82,6 +82,7 @@ void ConnectionHandler::handle_read(const asio::error_code& err, size_t bytes_tr
         m_socket.close();
     }
 }
+
 void ConnectionHandler::handle_write(const asio::error_code& err, size_t bytes_transferred)
 {
     if (!err) {

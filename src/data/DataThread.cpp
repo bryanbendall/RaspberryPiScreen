@@ -2,6 +2,7 @@
 
 #include "BrytecConfigEmbedded/EBrytecApp.h"
 #include "data/communication/can/CanManager.h"
+#include "data/communication/http/HttpServer.h"
 #include "data/communication/wifi/Server.h"
 #include <chrono>
 
@@ -24,6 +25,7 @@ void DataThread::run()
 {
     Brytec::EBrytecApp::initalize();
     Server server(m_io_context);
+    HttpServer httpServer(m_io_context);
 
     std::chrono::steady_clock::time_point lastUpdate;
 
@@ -31,6 +33,7 @@ void DataThread::run()
         m_io_context.poll();
         CanManager::poll();
         server.checkConnection();
+        httpServer.checkConnection();
 
         auto now = std::chrono::steady_clock::now();
         float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastUpdate).count();
