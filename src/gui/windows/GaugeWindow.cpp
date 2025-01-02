@@ -18,22 +18,22 @@ BoostGauge boost({ 310.0f, 0.0f });
 
 ClosedLoopGauge closedLoop({ 820.0f, 0.0f });
 
-TachGauge tach({ 640.0f, 240.0f }, 450.0f, 10000.0f);
+TachGauge tach({ 640.0f, 240.0f }, 450.0f);
 
 Speedometer speedometer({ 640.0f, 240.0f });
 
 AfrGauge afrGauge({ 640.0f, 120.0f });
 
-SmallGauge waterGauge({ 200.0f, 125.0f }, 150.0f, 30.0f, 250.0f, "°F", SmallGauge::Icon::WaterTemp);
-SmallGauge oilGauge({ 200.0f, 325.0f }, 150.0f, 0.0f, 100.0f, "Psi", SmallGauge::Icon::Oil);
+SmallGauge waterGauge({ 200.0f, 125.0f }, 150.0f, "°F", SmallGauge::Icon::WaterTemp);
+SmallGauge oilGauge({ 200.0f, 325.0f }, 150.0f, "Psi", SmallGauge::Icon::Oil);
 
-SmallGauge batteryGauge({ 1020.0f, 100.0f }, 150.0f, 6.0f, 18.0f, "V", SmallGauge::Icon::Battery);
-SmallGauge transGauge({ 1190.0f, 100.0f }, 150.0f, 50.0f, 280.0f, "°F", SmallGauge::Icon::TransTemp);
-SmallGauge gasGauge({ 1020.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Gas", SmallGauge::Icon::Fuel);
-SmallGauge methGauge({ 1190.0f, 270.0f }, 150.0f, 0.0f, 100.0f, "Meth", SmallGauge::Icon::Fuel);
+SmallGauge batteryGauge({ 1020.0f, 100.0f }, 150.0f, "V", SmallGauge::Icon::Battery);
+SmallGauge transGauge({ 1190.0f, 100.0f }, 150.0f, "°F", SmallGauge::Icon::TransTemp);
+SmallGauge gasGauge({ 1020.0f, 270.0f }, 150.0f, "Gas", SmallGauge::Icon::Fuel);
+SmallGauge methGauge({ 1190.0f, 270.0f }, 150.0f, "Meth", SmallGauge::Icon::Fuel);
 
-BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
-BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f }, 0.0f, 100.0f);
+BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f });
+BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f });
 
 Indicator leftTurn({ 640.0f - 200.0f, 5.0f }, 50, "../resources/images/left-turn-signal.svg", GetColor(GlobalOutputs::green));
 Indicator rightTurn({ 640.0f + 150.0f, 5.0f }, 50, "../resources/images/right-turn-signal.svg", GetColor(GlobalOutputs::green));
@@ -80,6 +80,16 @@ GaugeWindow::GaugeWindow()
     fan.initResources();
     engineLight.initResources();
     gearIndicator.initResources();
+
+    waterGauge.setMin(30.0f);
+    waterGauge.setMax(250.0f);
+
+    batteryGauge.setDecimals(1);
+    batteryGauge.setMin(6.0f);
+    batteryGauge.setMax(18.0f);
+
+    transGauge.setMin(50.0f);
+    transGauge.setMax(280.0f);
 }
 
 GaugeWindow::~GaugeWindow()

@@ -23,10 +23,8 @@ static const char* iconPaths[] = {
 static Texture2D outerCircleTexture;
 static Texture2D innerCircleTexture;
 
-SmallGauge::SmallGauge(Vector2 center, float size, float minValue, float maxValue, std::string label, Icon icon)
+SmallGauge::SmallGauge(Vector2 center, float size, std::string label, Icon icon)
     : m_size(size)
-    , m_minValue(minValue)
-    , m_maxValue(maxValue)
     , m_label(label)
     , m_icon(icon)
 {
@@ -66,7 +64,7 @@ void SmallGauge::draw()
     // Center value text
     {
         int fontSize = 40;
-        std::string lable = fmt::format("{:.0f}", m_value);
+        std::string lable = fmt::format("{:.{}f}", m_value, m_decimals);
         float textSize = MeasureText(lable.c_str(), fontSize);
         DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (fontSize / 2) }, fontSize, 0, GetColor(GlobalOutputs::white));
     }

@@ -17,10 +17,9 @@ static Texture2D needleTexture;
 static Font smallFont;
 static Font largeFont;
 
-TachGauge::TachGauge(Vector2 center, float size, float maxValue)
+TachGauge::TachGauge(Vector2 center, float size)
     : m_center(center)
     , m_size(size)
-    , m_maxValue(maxValue)
 {
 }
 

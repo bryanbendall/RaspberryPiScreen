@@ -6,10 +6,8 @@
 static int refs = 0;
 static Texture2D fuelIcon;
 
-BarGauge::BarGauge(Vector2 position, Vector2 size, float minValue, float maxValue)
+BarGauge::BarGauge(Vector2 position, Vector2 size)
     : m_position(position)
-    , m_minValue(minValue)
-    , m_maxValue(maxValue)
     , m_size(size)
 {
     refs++;
