@@ -12,8 +12,11 @@ CenterWindow::CenterWindow()
 
     m_windowID = InitWindowPro(m_height, m_width, "Center Window", flags);
 
+    int windowStatus = SetActiveWindowContext(m_windowID);
+    if (windowStatus < 0)
+        return;
+
 #ifdef PC_BUILD
-    SetActiveWindowContext(m_windowID);
     SetWindowPosition(200, 560);
 #endif
 
@@ -30,7 +33,9 @@ CenterWindow::~CenterWindow()
 
 void CenterWindow::draw()
 {
-    SetActiveWindowContext(m_windowID);
+    int windowStatus = SetActiveWindowContext(m_windowID);
+    if (windowStatus < 0)
+        return;
 
     // Render to texture first to be rotated for screen
     BeginTextureMode(m_renderTexture);

@@ -58,7 +58,10 @@ GaugeWindow::GaugeWindow()
 
     m_windowID = InitWindowPro(1280.0f, 480.0f, "Gauge Window", flags);
 
-    SetActiveWindowContext(m_windowID);
+    int windowStatus = SetActiveWindowContext(m_windowID);
+    if (windowStatus < 0)
+        return;
+
 #ifdef PC_BUILD
     SetWindowPosition(200, 40);
 #endif
@@ -122,7 +125,9 @@ void GaugeWindow::draw()
     else
         GlobalInputs::button0 = 0.0f;
 
-    SetActiveWindowContext(m_windowID);
+    int windowStatus = SetActiveWindowContext(m_windowID);
+    if (windowStatus < 0)
+        return;
 
     m_camera.updateTexture();
 

@@ -13,6 +13,6 @@ private:
     void updateValues();
 
 private:
-    int m_windowID;
+    int m_windowID = -1;
     RemoteCamera m_camera;
 };
