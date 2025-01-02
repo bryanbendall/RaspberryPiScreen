@@ -1,71 +1,102 @@
-<!-- <html>
-
-<body>
-    <h1>Hello World</h1>
-    <p>This is a web server in c++</p>
-    <p>another paragraph</p>
-    <button onclick="functionname()">Click me!</button>
-</body>
-
-<form enctype="multipart/form-data" id="formID">
-    <input type="file" id="inputID" style="display:none" onchange="changefunction()">
-</form>
-<div id="divID"></div>
-
-<script>
-    function functionname() {
-        var ajax = new XMLHttpRequest();
-        var data = document.getElementById("formID");
-        var formdata = new FormData(data);
-        ajax.open("POST", "/actionname", true);
-        ajax.send(formdata);
-    }
-</script>
-
-</html> -->
-
-<!-- <form action="" method="get" class="form-example">
-    <div class="form-example">
-        <label for="name">Enter your name: </label>
-        <input type="text" name="name" id="name" required />
-    </div>
-    <div class="form-example">
-        <label for="email">Enter your email: </label>
-        <input type="email" name="email" id="email" required />
-    </div>
-    <div class="form-example">
-        <input type="submit" value="Subscribe!" />
-    </div>
-</form> -->
-
+<!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova</title>
+    <style>
+        body {
+            background-color: Canvas;
+            color: CanvasText;
+            color-scheme: light dark;
+            font-family: sans-serif;
+        }
+
+        button {
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 1.5em;
+            padding: 0.3em;
+            padding-right: 1em;
+            padding-left: 1em;
+            font-size: large;
+            margin-top: 0.5em;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        button:active {
+            background: steelblue;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+        }
+
+        input {
+            font-size: large;
+            border-width: 1px;
+            border-style: solid;
+            padding: 0.4em;
+            padding-right: 1em;
+            padding-left: 1em;
+            border-radius: 1.5em;
+            margin-top: 0.5em;
+        }
+
+        h2 {
+            margin-bottom: 0em;
+        }
+    </style>
+</head>
 
 <body>
-    <form id="form1">
-        <div>form2 moved outside of form1</div>
-    </form>
 
-    <form enctype="multipart/form-data" id="form2">
-        <input id="nameBox" type="text" placeholder="name" /><br />
-        <input type="text" placeholder="title" />
-    </form>
+    <div>
+        <h1>Nova commands</h1>
+    </div>
 
-    <button onclick="functionname()">Click me!</button>
+
+    <div>
+        <h2>Camera</h2>
+    </div>
+    <div>
+        <input id="cameraAddressBox" type="text" placeholder="Camera Address" />
+    </div>
+    <div>
+        <button onclick="sendCameraAddress()">Connect</button>
+        <button onclick="stopCamera()">Stop</button>
+    </div>
+
+    <br>
+
+    <div>
+        <h2>Change Screen</h2>
+    </div>
+    <div>
+        <button onclick="functionname('/left')">Left</button>
+        <button onclick="functionname('/right')">Right</button>
+    </div>
 </body>
 
-
-
 <script>
-    function functionname() {
+    function functionname(url) {
         var ajax = new XMLHttpRequest();
-        var data = document.getElementById("form2");
-        var formdata = new FormData(data);
-        ajax.open("POST", "/actionname", true);
-        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        // var params = 'orem=ipsum&name=binny';
-        ajax.send(document.getElementById("nameBox").value);
+        ajax.open("POST", url, true);
+        ajax.send();
+    }
+
+    function sendCameraAddress() {
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", "/camera", true);
+        ajax.send(document.getElementById("cameraAddressBox").value);
+    }
+
+    function stopCamera() {
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", "/stopcamera", true);
+        ajax.send();
     }
 </script>
 

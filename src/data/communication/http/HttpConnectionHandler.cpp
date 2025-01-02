@@ -1,5 +1,7 @@
 #include "HttpConnectionHandler.h"
 
+#include "data/GlobalInputs.h"
+#include "data/GlobalOutputs.h"
 #include <fstream>
 #include <iostream>
 #include <streambuf>
@@ -99,7 +101,6 @@ int HttpConnectionHandler::getContentLength()
         return content_length;
     }
 
-    std::cout << "cannot find content length" << std::endl;
     return 0;
 }
 
@@ -110,14 +111,20 @@ void HttpConnectionHandler::handleAndRespond()
     std::cout << "Response for: " << m_url << " " << m_method << std::endl;
 
     if (m_method == "POST") {
-        if (m_url == "/actionname") {
-
-            ssOut << "HTTP/1.1 200 OK" << std::endl;
-            ssOut << "content-type: text/html" << std::endl;
-            ssOut << std::endl;
-
-            std::cout << "Content: (" << getContentLength() << " size):" << m_content << std::endl;
+        if (m_url == "/left") {
+            GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
+        } else if (m_url == "/right") {
+            GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
+        } else if (m_url == "/camera") {
+            GlobalInputs::cameraAddress = m_content;
+            GlobalInputs::openCamera = true;
+        } else if (m_url == "/stopcamera") {
+            GlobalInputs::openCamera = false;
         }
+
+        ssOut << "HTTP/1.1 200 OK" << std::endl;
+        ssOut << "content-type: text/html" << std::endl;
+        ssOut << std::endl;
     }
 
     if (m_method == "GET") {

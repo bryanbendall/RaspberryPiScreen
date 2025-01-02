@@ -4,8 +4,6 @@
 
 void HttpServer::startAccept()
 {
-    std::cout << "Waiting for http connection" << std::endl;
-
     m_isWaitingForConnection = true;
 
     std::shared_ptr<HttpConnectionHandler> connection = HttpConnectionHandler::create(m_io_context);
@@ -28,7 +26,6 @@ void HttpServer::handleAccept(std::shared_ptr<HttpConnectionHandler> connection,
     m_isWaitingForConnection = false;
 
     if (!err) {
-        std::cout << "Http Connected" << std::endl;
         connection->start();
     } else {
         std::cout << err.message() << std::endl;

@@ -97,6 +97,16 @@ void GaugeWindow::draw()
     if (IsKeyPressed(KEY_D))
         m_camera.close();
 
+    static bool openCamera = false;
+    if (GlobalInputs::openCamera && !openCamera) {
+        std::cout << "trying to connect to: " << GlobalInputs::cameraAddress << std::endl;
+        m_camera.open(GlobalInputs::cameraAddress);
+        openCamera = true;
+    } else if (!GlobalInputs::openCamera && openCamera) {
+        m_camera.close();
+        openCamera = false;
+    }
+
     if (IsKeyDown(KEY_L))
         GlobalInputs::button0 = 1.0f;
     else
