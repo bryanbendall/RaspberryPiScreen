@@ -12,13 +12,11 @@ public:
     void setMax(float max) { m_maxValue = max; }
     void setValue(float value) { m_value = value; }
 
-public:
-    static void initResources();
-
 private:
     Vector2 m_position;
     Vector2 m_size;
     float m_minValue = 0.0f;
     float m_maxValue = 100.0f;
     float m_value = 0.0f;
+    int m_iconSize = 30;
 };

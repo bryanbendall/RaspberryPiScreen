@@ -1,55 +1,39 @@
 #include "SmallGauge.h"
 
 #include "data/GlobalOutputs.h"
+#include "gui/Assets/AssetManager.h"
 #include "gui/Utils.h"
 #include <fmt/format.h>
 #include <iostream>
 #include <string>
 
-static int refs = 0;
-
-static Font smallFont;
-static Font largeFont;
-
-static Texture2D iconTextures[SmallGauge::Icon::Count];
-static const char* iconPaths[] = {
-    "../resources/images/water-temp.svg",
-    "../resources/images/transmission-temp.svg",
-    "../resources/images/fuel.svg",
-    "../resources/images/engine-oil.svg",
-    "../resources/images/battery.svg",
-};
-
-static Texture2D outerCircleTexture;
-static Texture2D innerCircleTexture;
-
-SmallGauge::SmallGauge(Vector2 center, float size, std::string label, Icon icon)
-    : m_size(size)
+SmallGauge::SmallGauge(Vector2 center, float size, std::string label, std::filesystem::path iconFilename)
+    : m_center(center)
+    , m_size(size)
     , m_label(label)
-    , m_icon(icon)
+    , m_iconFilename(iconFilename)
 {
-    refs++;
-    setPosition(center);
+    m_innerCircleSize = m_size * 0.8f;
+    m_centerLableSize = m_size * 0.27f;
+    m_unitLableSize = m_size * 0.16f;
+    m_minMaxLableSize = m_size * 0.11f;
+    m_iconSize = m_size * 0.2f;
 }
 
 SmallGauge::~SmallGauge()
 {
-    refs--;
-
-    if (refs <= 0) {
-        UnloadFont(smallFont);
-        UnloadFont(largeFont);
-
-        for (int i = 0; i < Icon::Count; i++)
-            UnloadTexture(iconTextures[i]);
-
-        UnloadTexture(outerCircleTexture);
-        UnloadTexture(innerCircleTexture);
-    }
 }
 
 void SmallGauge::draw()
 {
+    Font largeFont = AssetManager::get().getFont("RussoOne-Regular.ttf", m_centerLableSize);
+    Font smallFont = AssetManager::get().getFont("RussoOne-Regular.ttf", m_unitLableSize);
+    Font minMaxFont = AssetManager::get().getFont("RussoOne-Regular.ttf", m_unitLableSize);
+
+    Texture2D outerCircleTexture = AssetManager::get().getSvg("outerCircle.svg", m_size, m_size);
+    Texture2D innerCircleTexture = AssetManager::get().getSvg("circle.svg", m_innerCircleSize, m_innerCircleSize);
+    Texture2D iconTexture = AssetManager::get().getSvg(m_iconFilename, m_iconSize, m_iconSize);
+
     // Ring
     {
         float angle = calculateValueAngle();
@@ -57,63 +41,39 @@ void SmallGauge::draw()
         DrawCircleSector(m_center, m_size / 2.0f, 90.0f, 360.0f, 20, GetColor(GlobalOutputs::gray));
         DrawCircleSector(m_center, m_size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
 
-        DrawTexture(outerCircleTexture, m_center.x - (m_size / 2), m_center.y - (m_size / 2), GetColor(GlobalOutputs::black));
-        DrawTexture(innerCircleTexture, m_center.x - (m_size / 2) + 15, m_center.y - (m_size / 2) + 15, GetColor(GlobalOutputs::black));
+        DrawTexture(outerCircleTexture, m_center.x - (m_size / 2.0f), m_center.y - (m_size / 2.0f), GetColor(GlobalOutputs::black));
+        DrawTexture(innerCircleTexture, m_center.x - (m_innerCircleSize / 2.0f), m_center.y - (m_innerCircleSize / 2.0f), GetColor(GlobalOutputs::black));
     }
 
     // Center value text
     {
-        int fontSize = 40;
         std::string lable = fmt::format("{:.{}f}", m_value, m_decimals);
-        float textSize = MeasureText(lable.c_str(), fontSize);
-        DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (fontSize / 2) }, fontSize, 0, GetColor(GlobalOutputs::white));
+        float textSize = MeasureText(lable.c_str(), m_centerLableSize);
+        DrawTextEx(largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (m_centerLableSize / 2.0f) }, m_centerLableSize, 0, GetColor(GlobalOutputs::white));
     }
 
     // Gauge min and max text
     {
-        int fontSize = 16;
         std::string lable = fmt::format("{:.0f}", m_minValue);
-        DrawTextEx(smallFont, lable.c_str(), { m_center.x + 8.0f, m_center.y + (m_size / 2) - fontSize }, fontSize, 0, GetColor(GlobalOutputs::white));
+        DrawTextEx(minMaxFont, lable.c_str(), { m_center.x + 8.0f, m_center.y + (m_size / 2.0f) - m_minMaxLableSize }, m_minMaxLableSize, 0, GetColor(GlobalOutputs::white));
 
         lable = fmt::format("{:.0f}", m_maxValue);
-        DrawTextEx(smallFont, lable.c_str(), { m_center.x + (m_size / 2) - 14.0f, m_center.y + 6.0f }, fontSize, 0, GetColor(GlobalOutputs::white));
+        DrawTextEx(minMaxFont, lable.c_str(), { m_center.x + (m_innerCircleSize / 2.0f), m_center.y + (m_minMaxLableSize / 4.0f) }, m_minMaxLableSize, 0, GetColor(GlobalOutputs::white));
     }
 
     // Gauge label
     {
-        int fontSize = 24;
-        float textSize = MeasureText(m_label.c_str(), fontSize);
-        DrawTextEx(smallFont, m_label.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - 50.0f }, fontSize, 0, GetColor(GlobalOutputs::gray));
+        float textSize = MeasureText(m_label.c_str(), m_unitLableSize);
+        DrawTextEx(smallFont, m_label.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (m_size * 0.3f) }, m_unitLableSize, 0, GetColor(GlobalOutputs::gray));
     }
 
     // Icon
     {
-        DrawTexture(iconTextures[m_icon], m_center.x - 15.0f, m_center.y + 20.0f, GetColor(GlobalOutputs::gray));
+        DrawTexture(iconTexture, m_center.x - (m_iconSize / 2.0f), m_center.y + (m_size * 0.14f), GetColor(GlobalOutputs::gray));
     }
 }
 
 float SmallGauge::calculateValueAngle()
 {
     return Utils::mapValue(m_minValue, m_maxValue, 90.0f, 360.0f, m_value);
-}
-
-void SmallGauge::initResources()
-{
-    smallFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 24, 0, 250);
-    largeFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 40, 0, 250);
-
-    int iconSize = 30;
-    for (int i = 0; i < Icon::Count; i++) {
-        Image img = LoadImageSvg(iconPaths[i], iconSize, iconSize);
-        iconTextures[i] = LoadTextureFromImage(img);
-        UnloadImage(img);
-    }
-
-    Image img = LoadImageSvg("../resources/images/outerCircle.svg", 150, 150);
-    outerCircleTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImageSvg("../resources/images/circle.svg", 120, 120);
-    innerCircleTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
 }

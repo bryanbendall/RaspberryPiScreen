@@ -1,27 +1,23 @@
 #include "Indicator.h"
 
-Indicator::Indicator(Vector2 position, int size, std::string iconPath, Color activeColor)
+#include "gui/Assets/AssetManager.h"
+
+Indicator::Indicator(Vector2 position, int size, std::filesystem::path iconFilename, Color activeColor)
     : m_position(position)
     , m_size(size)
-    , m_iconPath(iconPath)
+    , m_iconFilename(iconFilename)
     , m_activeColor(activeColor)
 {
 }
 
 Indicator::~Indicator()
 {
-    UnloadTexture(m_texture);
-}
-
-void Indicator::initResources()
-{
-    Image img = LoadImageSvg(m_iconPath.c_str(), m_size, m_size);
-    m_texture = LoadTextureFromImage(img);
-    UnloadImage(img);
 }
 
 void Indicator::draw()
 {
+    Texture2D icon = AssetManager::get().getSvg(m_iconFilename, m_size, m_size);
+
     if (m_value > 0.0001f)
-        DrawTexture(m_texture, m_position.x, m_position.y, m_activeColor);
+        DrawTexture(icon, m_position.x, m_position.y, m_activeColor);
 }

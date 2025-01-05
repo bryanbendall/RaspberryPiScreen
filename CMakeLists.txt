@@ -29,6 +29,9 @@ add_executable(${PROJECT_NAME}
                 src/data/GlobalOutputs.h
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/screenboardrev2defs.h
+                src/gui/Assets/AssetManager.cpp
+                src/gui/Assets/AssetManager.h
+                src/gui/Assets/Asset.h
                 src/gui/components/AfrGauge.cpp
                 src/gui/components/AfrGauge.h
                 src/gui/components/BarGauge.cpp

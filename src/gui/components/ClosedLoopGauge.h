@@ -7,7 +7,6 @@ class ClosedLoopGauge {
 public:
     ClosedLoopGauge(Vector2 position);
     ~ClosedLoopGauge();
-    void initResources();
     void draw();
     void setValue(float value) { m_value = value; }
 

@@ -7,7 +7,6 @@ class BoostGauge {
 public:
     BoostGauge(Vector2 position);
     ~BoostGauge();
-    void initResources();
     void draw();
     void setValue(float value) { m_value = value; }
 

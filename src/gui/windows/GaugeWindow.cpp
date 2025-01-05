@@ -2,6 +2,7 @@
 
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
+#include "gui/Assets/AssetManager.h"
 #include "gui/Utils.h"
 #include "gui/components/AfrGauge.h"
 #include "gui/components/BarGauge.h"
@@ -24,27 +25,27 @@ Speedometer speedometer({ 640.0f, 240.0f });
 
 AfrGauge afrGauge({ 640.0f, 120.0f });
 
-SmallGauge waterGauge({ 200.0f, 125.0f }, 150.0f, "°F", SmallGauge::Icon::WaterTemp);
-SmallGauge oilGauge({ 200.0f, 325.0f }, 150.0f, "Psi", SmallGauge::Icon::Oil);
+SmallGauge waterGauge({ 200.0f, 125.0f }, 180.0f, "°F", "water-temp.svg");
+SmallGauge oilGauge({ 200.0f, 325.0f }, 180.0f, "Psi", "engine-oil.svg");
 
-SmallGauge batteryGauge({ 1020.0f, 100.0f }, 150.0f, "V", SmallGauge::Icon::Battery);
-SmallGauge transGauge({ 1190.0f, 100.0f }, 150.0f, "°F", SmallGauge::Icon::TransTemp);
-SmallGauge gasGauge({ 1020.0f, 270.0f }, 150.0f, "Gas", SmallGauge::Icon::Fuel);
-SmallGauge methGauge({ 1190.0f, 270.0f }, 150.0f, "Meth", SmallGauge::Icon::Fuel);
+SmallGauge batteryGauge({ 1020.0f, 100.0f }, 140.0f, "V", "battery.svg");
+SmallGauge transGauge({ 1190.0f, 100.0f }, 140.0f, "°F", "transmission-temp.svg");
+SmallGauge gasGauge({ 1020.0f, 270.0f }, 140.0f, "Gas", "fuel.svg");
+SmallGauge methGauge({ 1190.0f, 270.0f }, 140.0f, "Meth", "fuel.svg");
 
 BarGauge gasLevel({ 1000.0f, 390.0f }, { 240.0f, 10.0f });
 BarGauge methLevel({ 1000.0f, 430.0f }, { 240.0f, 10.0f });
 
-Indicator leftTurn({ 640.0f - 200.0f, 5.0f }, 50, "../resources/images/left-turn-signal.svg", GetColor(GlobalOutputs::green));
-Indicator rightTurn({ 640.0f + 150.0f, 5.0f }, 50, "../resources/images/right-turn-signal.svg", GetColor(GlobalOutputs::green));
+Indicator leftTurn({ 640.0f - 200.0f, 5.0f }, 50, "left-turn-signal.svg", GetColor(GlobalOutputs::green));
+Indicator rightTurn({ 640.0f + 150.0f, 5.0f }, 50, "right-turn-signal.svg", GetColor(GlobalOutputs::green));
 
-Indicator parkingLight({ 30.0f, 30.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::orange));
-Indicator lowBeam({ 30.0f, 30.0f }, 50, "../resources/images/low-beam.svg", GetColor(GlobalOutputs::green));
-Indicator highBeam({ 30.0f, 30.0f }, 50, "../resources/images/high-beam.svg", GetColor(GlobalOutputs::blue));
-Indicator fogLight({ 32.0f, 90.0f }, 45, "../resources/images/fog-lights.svg", GetColor(GlobalOutputs::green));
-Indicator parkingBrake({ 30.0f, 150.0f }, 50, "../resources/images/parking-brake.svg", GetColor(GlobalOutputs::red));
-Indicator fan({ 30.0f, 210.0f }, 50, "../resources/images/fan.svg", GetColor(GlobalOutputs::blue));
-Indicator engineLight({ 30.0f, 270.0f }, 50, "../resources/images/engine-light.svg", GetColor(GlobalOutputs::orange));
+Indicator parkingLight({ 30.0f, 30.0f }, 50, "low-beam.svg", GetColor(GlobalOutputs::orange));
+Indicator lowBeam({ 30.0f, 30.0f }, 50, "low-beam.svg", GetColor(GlobalOutputs::green));
+Indicator highBeam({ 30.0f, 30.0f }, 50, "high-beam.svg", GetColor(GlobalOutputs::blue));
+Indicator fogLight({ 32.0f, 90.0f }, 45, "fog-lights.svg", GetColor(GlobalOutputs::green));
+Indicator parkingBrake({ 30.0f, 150.0f }, 50, "parking-brake.svg", GetColor(GlobalOutputs::red));
+Indicator fan({ 30.0f, 210.0f }, 50, "fan.svg", GetColor(GlobalOutputs::blue));
+Indicator engineLight({ 30.0f, 270.0f }, 50, "engine-light.svg", GetColor(GlobalOutputs::orange));
 
 GearIndicator gearIndicator({ 760.0f, 300.0f }, 120);
 
@@ -58,31 +59,12 @@ GaugeWindow::GaugeWindow()
 
     m_windowID = InitWindowPro(1280.0f, 480.0f, "Gauge Window", flags);
 
-    int windowStatus = SetActiveWindowContext(m_windowID);
-    if (windowStatus < 0)
+    if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
 
 #ifdef PC_BUILD
     SetWindowPosition(200, 40);
 #endif
-
-    SmallGauge::initResources();
-    BarGauge::initResources();
-    tach.initResources();
-    speedometer.initResources();
-    afrGauge.initResources();
-    boost.initResources();
-    closedLoop.initResources();
-    leftTurn.initResources();
-    rightTurn.initResources();
-    parkingLight.initResources();
-    lowBeam.initResources();
-    highBeam.initResources();
-    fogLight.initResources();
-    parkingBrake.initResources();
-    fan.initResources();
-    engineLight.initResources();
-    gearIndicator.initResources();
 
     waterGauge.setMin(30.0f);
     waterGauge.setMax(250.0f);
@@ -125,8 +107,7 @@ void GaugeWindow::draw()
     else
         GlobalInputs::button0 = 0.0f;
 
-    int windowStatus = SetActiveWindowContext(m_windowID);
-    if (windowStatus < 0)
+    if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
 
     m_camera.updateTexture();

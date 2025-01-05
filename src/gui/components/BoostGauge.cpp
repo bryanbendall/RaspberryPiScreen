@@ -1,13 +1,11 @@
 #include "BoostGauge.h"
 
 #include "data/GlobalOutputs.h"
+#include "gui/Assets/AssetManager.h"
 #include "gui/Utils.h"
 #include <cmath>
 #include <fmt/format.h>
 #include <iostream>
-
-static Texture2D maskTexture;
-static Font font;
 
 BoostGauge::BoostGauge(Vector2 position)
     : m_position(position)
@@ -16,21 +14,13 @@ BoostGauge::BoostGauge(Vector2 position)
 
 BoostGauge::~BoostGauge()
 {
-    UnloadTexture(maskTexture);
-    UnloadFont(font);
-}
-
-void BoostGauge::initResources()
-{
-    Image img = LoadImageSvg("../resources/images/side gauge mask.svg", 150, 480);
-    maskTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    font = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 24, 0, 250);
 }
 
 void BoostGauge::draw()
 {
+    Font font = AssetManager::get().getFont("RussoOne-Regular.ttf", 24);
+    Texture2D maskTexture = AssetManager::get().getSvg("side gauge mask.svg", 150, 480);
+
     // Value bar
     float barTopY = Utils::mapValue(0.0f, (float)m_sectors * 10.0f, 480 - m_boarders, m_boarders, m_value);
     DrawRectangle(m_position.x, barTopY, m_width, 480 - m_boarders - barTopY, Utils::getColorFromBrytec(GlobalOutputs::guageColor));

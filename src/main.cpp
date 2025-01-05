@@ -1,5 +1,6 @@
 
 #include "data/DataThread.h"
+#include "gui/Assets/AssetManager.h"
 #include "gui/windows/CenterWindow.h"
 #include "gui/windows/GaugeWindow.h"
 #include "raylib.h"
@@ -10,6 +11,8 @@ int main(void)
 
     SetTraceLogLevel(LOG_WARNING);
 
+    AssetManager assetManager("../resources/");
+
     GaugeWindow gaugeWindow;
     CenterWindow centerWindow;
 
@@ -19,6 +22,7 @@ int main(void)
 #endif
 
     while (!WindowShouldClose()) {
+        assetManager.update();
         centerWindow.draw();
         gaugeWindow.draw();
     }

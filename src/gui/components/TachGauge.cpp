@@ -1,21 +1,13 @@
 #include "TachGauge.h"
 
 #include "data/GlobalOutputs.h"
+#include "gui/Assets/AssetManager.h"
 #include "gui/Utils.h"
 #include <cmath>
 #include <fmt/format.h>
 #include <raymath.h>
 #include <rlgl.h>
 #include <string>
-
-static Texture2D colorTicks;
-static Texture2D bottomPanel;
-static Texture2D gaugeTexture;
-static Texture2D smallTicksTexture;
-static Texture2D needleTexture;
-
-static Font smallFont;
-static Font largeFont;
 
 TachGauge::TachGauge(Vector2 center, float size)
     : m_center(center)
@@ -25,44 +17,20 @@ TachGauge::TachGauge(Vector2 center, float size)
 
 TachGauge::~TachGauge()
 {
-    UnloadTexture(colorTicks);
-    UnloadTexture(bottomPanel);
-    UnloadTexture(gaugeTexture);
-    UnloadTexture(smallTicksTexture);
-    UnloadTexture(needleTexture);
-
-    UnloadFont(smallFont);
-    UnloadFont(largeFont);
-}
-
-void TachGauge::initResources()
-{
-    Image img = LoadImageSvg("../resources/images/tach/ColorTicks.svg", 458, 426);
-    colorTicks = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImageSvg("../resources/images/tach/BottomPanel.svg", 244, 122);
-    bottomPanel = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImageSvg("../resources/images/tach/Gauge.svg", 476, 457);
-    gaugeTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImageSvg("../resources/images/tach/SmallTicks.svg", 453, 422);
-    smallTicksTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    img = LoadImage("../resources/images/tach/Needle.png");
-    needleTexture = LoadTextureFromImage(img);
-    UnloadImage(img);
-
-    smallFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 16, 0, 250);
-    largeFont = LoadFontEx("../resources/fonts/RussoOne-Regular.ttf", 40, 0, 250);
 }
 
 void TachGauge::draw()
 {
+    Font largeFont = AssetManager::get().getFont("RussoOne-Regular.ttf", 40);
+    Font smallFont = AssetManager::get().getFont("RussoOne-Regular.ttf", 16);
+
+    Texture2D colorTicks = AssetManager::get().getSvg("tach/ColorTicks.svg", 458, 426);
+    Texture2D bottomPanel = AssetManager::get().getSvg("tach/BottomPanel.svg", 244, 122);
+    Texture2D gaugeTexture = AssetManager::get().getSvg("tach/Gauge.svg", 476, 457);
+    Texture2D smallTicksTexture = AssetManager::get().getSvg("tach/SmallTicks.svg", 453, 422);
+
+    Texture2D needleTexture = AssetManager::get().getImage("tach/Needle.png");
+
     // Background small ticks
     DrawTextureV(smallTicksTexture, { m_center.x - (453.0f / 2.0f), 13.663f }, GetColor(GlobalOutputs::white));
 

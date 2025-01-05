@@ -1,6 +1,13 @@
 #include "CenterWindow.h"
 
+#include "gui/Assets/AssetManager.h"
+#include "gui/components/SmallGauge.h"
 #include <iostream>
+
+SmallGauge testGauge({ 200.0f, 200.0f }, 300.0f, "°F", "water-temp.svg");
+SmallGauge testGauge1({ 200.0f, 525.0f }, 200.0f, "°F", "water-temp.svg");
+SmallGauge testGauge2({ 200.0f, 750.0f }, 100.0f, "°F", "water-temp.svg");
+SmallGauge testGauge3({ 200.0f, 875.0f }, 50.0f, "°F", "water-temp.svg");
 
 CenterWindow::CenterWindow()
 {
@@ -33,8 +40,7 @@ CenterWindow::~CenterWindow()
 
 void CenterWindow::draw()
 {
-    int windowStatus = SetActiveWindowContext(m_windowID);
-    if (windowStatus < 0)
+    if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
 
     // Render to texture first to be rotated for screen
@@ -57,6 +63,11 @@ void CenterWindow::draw()
     }
 
     DrawRectangleRec(rect, col);
+
+    testGauge.draw();
+    testGauge1.draw();
+    testGauge2.draw();
+    testGauge3.draw();
 
     EndTextureMode();
 

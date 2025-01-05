@@ -1,14 +1,13 @@
 #pragma once
 
+#include <filesystem>
 #include <raylib.h>
-#include <string>
 
 class Indicator {
 
 public:
-    Indicator(Vector2 position, int size, std::string iconPath, Color activeColor);
+    Indicator(Vector2 position, int size, std::filesystem::path iconFilename, Color activeColor);
     ~Indicator();
-    void initResources();
     void draw();
     void setValue(float value) { m_value = value; }
 
@@ -18,7 +17,6 @@ private:
     float m_minValue;
     float m_maxValue;
     float m_value = 0.0f;
-    std::string m_iconPath;
-    Texture2D m_texture;
+    std::filesystem::path m_iconFilename;
     Color m_activeColor;
 };
