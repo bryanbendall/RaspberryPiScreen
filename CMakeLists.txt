@@ -52,6 +52,19 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/Speedometer.h
                 src/gui/components/TachGauge.cpp
                 src/gui/components/TachGauge.h
+                src/gui/panels/Panel.h
+                src/gui/panels/GaugeWindow/CenterMainPanel.cpp
+                src/gui/panels/GaugeWindow/CenterMainPanel.h
+                src/gui/panels/GaugeWindow/EgtPanel.cpp
+                src/gui/panels/GaugeWindow/EgtPanel.h
+                src/gui/panels/GaugeWindow/FuelLevelPanel.cpp
+                src/gui/panels/GaugeWindow/FuelLevelPanel.h
+                src/gui/panels/GaugeWindow/IndicatorsPanel.cpp
+                src/gui/panels/GaugeWindow/IndicatorsPanel.h
+                src/gui/panels/GaugeWindow/LeftMainPanel.cpp
+                src/gui/panels/GaugeWindow/LeftMainPanel.h
+                src/gui/panels/GaugeWindow/RightMainPanel.cpp
+                src/gui/panels/GaugeWindow/RightMainPanel.h
                 src/gui/windows/CenterWindow.cpp
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp
