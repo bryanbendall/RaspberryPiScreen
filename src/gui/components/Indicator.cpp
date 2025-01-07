@@ -16,8 +16,11 @@ Indicator::~Indicator()
 
 void Indicator::draw()
 {
-    Texture2D icon = AssetManager::get().getSvg(m_iconFilename, m_size, m_size);
+    Texture2D* icon = AssetManager::get().getSvg(m_iconFilename, m_size, m_size);
+
+    if (!icon)
+        return;
 
     if (m_value > 0.0001f)
-        DrawTexture(icon, m_position.x, m_position.y, m_activeColor);
+        DrawTexture(*icon, m_position.x, m_position.y, m_activeColor);
 }

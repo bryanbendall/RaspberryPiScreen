@@ -16,9 +16,9 @@ public:
     void update();
     bool setActiveWindow(int windowId);
 
-    Font getFont(std::filesystem::path filename, int size);
-    Texture2D getSvg(std::filesystem::path filename, int width, int height);
-    Texture2D getImage(std::filesystem::path filename);
+    Font* getFont(std::filesystem::path filename, int size);
+    Texture2D* getSvg(std::filesystem::path filename, int width, int height);
+    Texture2D* getImage(std::filesystem::path filename);
 
 private:
     void addWindowContainers();

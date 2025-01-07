@@ -63,14 +63,14 @@ bool AssetManager::setActiveWindow(int windowId)
     return true;
 }
 
-Font AssetManager::getFont(std::filesystem::path filename, int size)
+Font* AssetManager::getFont(std::filesystem::path filename, int size)
 {
     if (m_currentWindowId < 0)
-        return GetFontDefault();
+        return nullptr;
 
     for (auto& fontAsset : m_fontMap[m_currentWindowId]) {
         if (fontAsset.filepath == filename && fontAsset.size == size)
-            return IsFontReady(fontAsset.font) ? fontAsset.font : GetFontDefault();
+            return IsFontReady(fontAsset.font) ? &fontAsset.font : nullptr;
     }
 
     // We dont have this asset yet, create it
@@ -78,17 +78,17 @@ Font AssetManager::getFont(std::filesystem::path filename, int size)
     newFontAsset.filepath = filename;
     newFontAsset.size = size;
     m_fontMap[m_currentWindowId].push_back(newFontAsset);
-    return GetFontDefault();
+    return nullptr;
 }
 
-Texture2D AssetManager::getSvg(std::filesystem::path filename, int width, int height)
+Texture2D* AssetManager::getSvg(std::filesystem::path filename, int width, int height)
 {
     if (m_currentWindowId < 0)
-        return GetShapesTexture();
+        return nullptr;
 
     for (auto& svgAsset : m_svgMap[m_currentWindowId]) {
         if (svgAsset.filepath == filename && svgAsset.width == width && svgAsset.height == height)
-            return IsTextureReady(svgAsset.texture) ? svgAsset.texture : GetShapesTexture();
+            return IsTextureReady(svgAsset.texture) ? &svgAsset.texture : nullptr;
     }
 
     // We dont have this asset yet, create it
@@ -97,24 +97,24 @@ Texture2D AssetManager::getSvg(std::filesystem::path filename, int width, int he
     newsvgAsset.width = width;
     newsvgAsset.height = height;
     m_svgMap[m_currentWindowId].push_back(newsvgAsset);
-    return GetShapesTexture();
+    return nullptr;
 }
 
-Texture2D AssetManager::getImage(std::filesystem::path filename)
+Texture2D* AssetManager::getImage(std::filesystem::path filename)
 {
     if (m_currentWindowId < 0)
-        return GetShapesTexture();
+        return nullptr;
 
     for (auto& imageAsset : m_imageMap[m_currentWindowId]) {
         if (imageAsset.filepath == filename)
-            return IsTextureReady(imageAsset.texture) ? imageAsset.texture : GetShapesTexture();
+            return IsTextureReady(imageAsset.texture) ? &imageAsset.texture : nullptr;
     }
 
     // We dont have this asset yet, create it
     ImageAsset newImageAsset;
     newImageAsset.filepath = filename;
     m_imageMap[m_currentWindowId].push_back(newImageAsset);
-    return GetShapesTexture();
+    return nullptr;
 }
 
 void AssetManager::addWindowContainers()
@@ -124,4 +124,7 @@ void AssetManager::addWindowContainers()
 
     if (m_svgMap.find(m_currentWindowId) == m_svgMap.end())
         m_svgMap[m_currentWindowId];
+
+    if (m_imageMap.find(m_currentWindowId) == m_imageMap.end())
+        m_imageMap[m_currentWindowId];
 }

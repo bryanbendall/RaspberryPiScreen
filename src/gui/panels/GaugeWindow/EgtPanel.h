@@ -15,4 +15,5 @@ private:
     void updateValues();
 
 private:
+    int m_titleSize = 40;
 };

@@ -7,6 +7,8 @@ FuelLevelPanel::FuelLevelPanel()
     : m_gasLevel({ 100.0f, 450.0f }, { 240.0f, 10.0f })
     , m_methLevel({ 1000.0f, 450.0f }, { 240.0f, 10.0f })
 {
+    m_gasLevel.setIconFilename("fuel.svg");
+    m_methLevel.setIconFilename("fuel.svg");
 }
 
 FuelLevelPanel::~FuelLevelPanel()

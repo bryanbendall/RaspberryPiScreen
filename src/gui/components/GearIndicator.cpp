@@ -18,7 +18,10 @@ GearIndicator::~GearIndicator()
 
 void GearIndicator::draw()
 {
-    Font font = AssetManager::get().getFont("RussoOne-Regular.ttf", m_size);
+    Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", m_size);
+
+    if (!font)
+        return;
 
     std::string lable = "E";
     int value = m_value;
@@ -35,5 +38,5 @@ void GearIndicator::draw()
     if (value > 0)
         lable = fmt::format("{:d}", value);
 
-    DrawTextEx(font, lable.c_str(), m_position, m_size, 0, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawTextEx(*font, lable.c_str(), m_position, m_size, 0, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
 }
