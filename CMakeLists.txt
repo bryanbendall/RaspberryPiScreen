@@ -65,6 +65,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/panels/GaugeWindow/LeftMainPanel.h
                 src/gui/panels/GaugeWindow/RightMainPanel.cpp
                 src/gui/panels/GaugeWindow/RightMainPanel.h
+                src/gui/panels/GaugeWindow/RightMapPanel.cpp
+                src/gui/panels/GaugeWindow/RightMapPanel.h
                 src/gui/windows/CenterWindow.cpp
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp

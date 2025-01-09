@@ -5,14 +5,17 @@
 #include "gui/Assets/AssetManager.h"
 #include "gui/panels/GaugeWindow/EgtPanel.h"
 #include "gui/panels/GaugeWindow/RightMainPanel.h"
+#include "gui/panels/GaugeWindow/RightMapPanel.h"
 #include <raylib.h>
+#include <rlgl.h>
 
-int rightPanelIndex = 0;
+int rightPanelIndex = 1;
 
 GaugeWindow::GaugeWindow()
 {
     m_rightPanels.emplace_back(std::make_unique<RightMainPanel>());
     m_rightPanels.emplace_back(std::make_unique<EgtPanel>());
+    m_rightPanels.emplace_back(std::make_unique<RightMapPanel>());
 
     unsigned int flags = 0;
     // flags |= FLAG_MSAA_4X_HINT;
@@ -38,20 +41,10 @@ GaugeWindow::~GaugeWindow()
 
 void GaugeWindow::draw()
 {
-    if (IsKeyPressed(KEY_C))
-        m_camera.open("http://192.168.1.190:8080/stream.mjpeg");
-    if (IsKeyPressed(KEY_D))
-        m_camera.close();
-
-    static bool openCamera = false;
-    if (GlobalInputs::openCamera && !openCamera) {
-        std::cout << "trying to connect to: " << GlobalInputs::cameraAddress << std::endl;
-        m_camera.open(GlobalInputs::cameraAddress);
-        openCamera = true;
-    } else if (!GlobalInputs::openCamera && openCamera) {
-        m_camera.close();
-        openCamera = false;
-    }
+    // if (IsKeyPressed(KEY_C))
+    //     m_camera.open("http://192.168.1.108:8080/stream.mjpeg");
+    // if (IsKeyPressed(KEY_D))
+    //     m_camera.close();
 
     if (IsKeyDown(KEY_L))
         GlobalInputs::button0 = 1.0f;
@@ -64,8 +57,6 @@ void GaugeWindow::draw()
     if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
 
-    m_camera.updateTexture();
-
     BeginDrawing();
 
     ClearBackground(GetColor(GlobalOutputs::black));
@@ -75,13 +66,7 @@ void GaugeWindow::draw()
     m_centerMainPanel.draw();
     m_fuelLevelPanel.draw();
 
-    // Wrap around if more then max panels
-    rightPanelIndex = rightPanelIndex % m_rightPanels.size();
-    if (rightPanelIndex < m_rightPanels.size())
-        m_rightPanels[rightPanelIndex]->draw();
-
-    if (m_camera.isOpen())
-        DrawTexture(m_camera.getTexture(), 0, 0, WHITE);
+    drawRightPanel();
 
     DrawFPS(0, 0);
 
@@ -90,4 +75,20 @@ void GaugeWindow::draw()
 #endif
 
     EndDrawing();
+}
+
+void GaugeWindow::drawRightPanel()
+{
+    BeginScissorMode(950, 0, 1280 - 950, 430);
+    rlPushMatrix();
+    rlTranslatef(950.0f, 0.0f, 0.0f);
+
+    // Wrap around if more then max panels
+    rightPanelIndex = rightPanelIndex % m_rightPanels.size();
+    if (rightPanelIndex < m_rightPanels.size())
+        m_rightPanels[rightPanelIndex]->draw();
+
+    rlPopMatrix();
+    EndScissorMode();
+    return;
 }

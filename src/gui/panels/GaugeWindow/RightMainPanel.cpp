@@ -4,10 +4,10 @@
 #include <raylib.h>
 
 RightMainPanel::RightMainPanel()
-    : m_batteryGauge({ 1030.0f, 140.0f }, 140.0f, "V", "battery.svg")
-    , m_transGauge({ 1190.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg")
-    , m_gasGauge({ 1030.0f, 320.0f }, 140.0f, "Gas", "fuel.svg")
-    , m_methGauge({ 1190.0f, 320.0f }, 140.0f, "Meth", "fuel.svg")
+    : m_batteryGauge({ 80.0f, 140.0f }, 140.0f, "V", "battery.svg")
+    , m_transGauge({ 240.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg")
+    , m_gasGauge({ 80.0f, 320.0f }, 140.0f, "Gas", "fuel.svg")
+    , m_methGauge({ 240.0f, 320.0f }, 140.0f, "Meth", "fuel.svg")
 {
     m_batteryGauge.setDecimals(1);
     m_batteryGauge.setMin(6.0f);
