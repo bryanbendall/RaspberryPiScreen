@@ -8,19 +8,13 @@
 #include <iostream>
 #include <rlgl.h>
 
-struct touch {
-    bool lastTouch = false;
-    Vector2 downPos;
-    Vector2 upPos;
-    bool upThisFrame = false;
-} g_touch;
-
 SmallGauge testGauge({ 200.0f, 200.0f }, 300.0f, "°F", "water-temp.svg");
 SmallGauge testGauge1({ 200.0f, 525.0f }, 200.0f, "°F", "water-temp.svg");
 SmallGauge testGauge2({ 200.0f, 750.0f }, 100.0f, "°F", "water-temp.svg");
 SmallGauge testGauge3({ 200.0f, 875.0f }, 50.0f, "°F", "water-temp.svg");
 
 CenterWindow::CenterWindow()
+    : m_touchInput(m_width, m_height)
 {
     unsigned int flags = 0;
     // flags |= FLAG_MSAA_4X_HINT;
@@ -50,7 +44,7 @@ void CenterWindow::draw()
     if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
 
-    pollTouchEvents();
+    m_touchInput.pollTouchEvents();
 
     BeginDrawing();
     rlPushMatrix();
@@ -67,14 +61,11 @@ void CenterWindow::draw()
 
     Color col = BLUE;
 
-    Vector2 touchPosition = getTouchPositionScaled();
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(touchPosition, rect)) {
+    if (m_touchInput.isDown(rect))
         col = YELLOW;
-    }
 
-    if (CheckCollisionPointRec(g_touch.downPos, rect) && CheckCollisionPointRec(g_touch.upPos, rect) && g_touch.upThisFrame) {
+    if (m_touchInput.isClick(rect))
         std::cout << "Clicked the button" << std::endl;
-    }
 
     DrawRectangleRec(rect, col);
 
@@ -87,31 +78,4 @@ void CenterWindow::draw()
 
     rlPopMatrix();
     EndDrawing();
-}
-
-Vector2 CenterWindow::getTouchPositionScaled()
-{
-    Vector2 touchPosition = GetTouchPosition(0);
-    return { touchPosition.y * m_width, m_height - touchPosition.x * m_height };
-}
-
-bool CenterWindow::isTouchDown()
-{
-    return GetTouchPointCount() > 0;
-}
-
-void CenterWindow::pollTouchEvents()
-{
-    g_touch.upThisFrame = false;
-
-    if (isTouchDown() && !g_touch.lastTouch) {
-        g_touch.downPos = getTouchPositionScaled();
-    }
-
-    if (!isTouchDown() && g_touch.lastTouch) {
-        g_touch.upPos = getTouchPositionScaled();
-        g_touch.upThisFrame = true;
-    }
-
-    g_touch.lastTouch = isTouchDown();
 }

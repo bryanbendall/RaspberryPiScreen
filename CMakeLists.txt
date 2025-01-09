@@ -52,6 +52,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/Speedometer.h
                 src/gui/components/TachGauge.cpp
                 src/gui/components/TachGauge.h
+                src/gui/input/TouchInput.cpp
+                src/gui/input/TouchInput.h
                 src/gui/panels/Panel.h
                 src/gui/panels/GaugeWindow/CenterMainPanel.cpp
                 src/gui/panels/GaugeWindow/CenterMainPanel.h
