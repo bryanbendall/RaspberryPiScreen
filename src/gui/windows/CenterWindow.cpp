@@ -64,17 +64,10 @@ void CenterWindow::draw()
     if (m_touchInput.isDown(rect))
         col = YELLOW;
 
-    if (m_touchInput.isClick(rect))
+    if (m_touchInput.isClicked(rect))
         std::cout << "Clicked the button" << std::endl;
 
     DrawRectangleRec(rect, col);
-
-    Vector2 rawTouchPosition = GetTouchPosition(0);
-    std::string touchPointStr = fmt::format("x: {:.3f}, y: {:.3f}, touches: {:d}", rawTouchPosition.x, rawTouchPosition.y, GetTouchPointCount());
-
-    Font* smallFont = AssetManager::get().getFont("RussoOne-Regular.ttf", 30);
-    if (smallFont)
-        DrawTextEx(*smallFont, touchPointStr.c_str(), { 200, 50 }, 30, 0, GetColor(GlobalOutputs::gray));
 
     rlPopMatrix();
     EndDrawing();

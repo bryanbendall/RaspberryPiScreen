@@ -10,13 +10,13 @@ public:
     bool isDown();
     bool isDown(Rectangle rect);
     Vector2 getTouchPositionScaled();
-    bool isClick(Rectangle rect);
+    bool isClicked(Rectangle rect);
 
 private:
     float m_width;
     float m_height;
-    bool lastTouch = false;
-    bool upThisFrame = false;
-    Vector2 downPos;
-    Vector2 upPos;
+    bool m_lastTouchState = false;
+    bool m_upThisFrame = false;
+    Vector2 m_downPosition;
+    Vector2 m_upPosition;
 };

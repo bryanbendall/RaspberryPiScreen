@@ -10,18 +10,18 @@ TouchInput::TouchInput(float width, float height)
 
 void TouchInput::pollTouchEvents()
 {
-    upThisFrame = false;
+    m_upThisFrame = false;
 
-    if (isDown() && !lastTouch) {
-        downPos = getTouchPositionScaled();
+    if (isDown() && !m_lastTouchState) {
+        m_downPosition = getTouchPositionScaled();
     }
 
-    if (!isDown() && lastTouch) {
-        upPos = getTouchPositionScaled();
-        upThisFrame = true;
+    if (!isDown() && m_lastTouchState) {
+        m_upPosition = getTouchPositionScaled();
+        m_upThisFrame = true;
     }
 
-    lastTouch = isDown();
+    m_lastTouchState = isDown();
 }
 
 bool TouchInput::isDown()
@@ -49,7 +49,7 @@ Vector2 TouchInput::getTouchPositionScaled()
 #endif
 }
 
-bool TouchInput::isClick(Rectangle rect)
+bool TouchInput::isClicked(Rectangle rect)
 {
-    return CheckCollisionPointRec(downPos, rect) && CheckCollisionPointRec(upPos, rect) && upThisFrame;
+    return CheckCollisionPointRec(m_downPosition, rect) && CheckCollisionPointRec(m_upPosition, rect) && m_upThisFrame;
 }
