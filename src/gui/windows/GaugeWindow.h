@@ -6,6 +6,7 @@
 #include "gui/panels/GaugeWindow/LeftMainPanel.h"
 #include "gui/panels/Panel.h"
 #include <memory>
+#include <vector>
 
 class GaugeWindow {
 
