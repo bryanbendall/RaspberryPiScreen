@@ -3,6 +3,7 @@
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
+#include "gui/components/LabelButton.h"
 #include "gui/components/SmallGauge.h"
 #include <fmt/format.h>
 #include <iostream>
@@ -23,6 +24,8 @@ CenterWindow::CenterWindow()
 #endif
 
     m_windowID = InitWindowPro(m_height, m_width, "Center Window", flags);
+
+    TouchInput::setActiveContext(&m_touchInput);
 
     int windowStatus = SetActiveWindowContext(m_windowID);
     if (windowStatus < 0)
@@ -68,6 +71,15 @@ void CenterWindow::draw()
         std::cout << "Clicked the button" << std::endl;
 
     DrawRectangleRec(rect, col);
+
+    if (LabelButton("Test", { 50, 400, 200, 100 }, true)) {
+        std::cout << "Clicked the button" << std::endl;
+    }
+
+    LabelButton("Info", { 0, 1180, 150, 100 }, true);
+    LabelButton("Map", { 150, 1180, 150, 100 }, true);
+    LabelButton("Hvac", { 300, 1180, 150, 100 }, true);
+    LabelButton("Settings", { 450, 1180, 150, 100 }, true);
 
     rlPopMatrix();
     EndDrawing();

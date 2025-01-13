@@ -12,6 +12,13 @@ public:
     Vector2 getTouchPositionScaled();
     bool isClicked(Rectangle rect);
 
+public:
+    static void setActiveContext(TouchInput* touchInput) { s_instance = touchInput; }
+    static TouchInput* get() { return s_instance; }
+
+private:
+    static inline TouchInput* s_instance = nullptr;
+
 private:
     float m_width;
     float m_height;

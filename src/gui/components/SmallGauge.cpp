@@ -54,8 +54,8 @@ void SmallGauge::draw()
     // Center value text
     {
         std::string lable = fmt::format("{:.{}f}", m_value, m_decimals);
-        float textSize = MeasureText(lable.c_str(), m_centerLableSize);
-        DrawTextEx(*largeFont, lable.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (m_centerLableSize / 2.0f) }, m_centerLableSize, 0, GetColor(GlobalOutputs::white));
+        Vector2 textSize = MeasureTextEx(*largeFont, lable.c_str(), m_centerLableSize, 0);
+        DrawTextEx(*largeFont, lable.c_str(), { m_center.x - (textSize.x / 2.0f), m_center.y - (m_centerLableSize / 2.0f) }, m_centerLableSize, 0, GetColor(GlobalOutputs::white));
     }
 
     // Gauge min and max text
@@ -69,8 +69,8 @@ void SmallGauge::draw()
 
     // Gauge label
     {
-        float textSize = MeasureText(m_label.c_str(), m_unitLableSize);
-        DrawTextEx(*smallFont, m_label.c_str(), { m_center.x - (textSize / 2.0f), m_center.y - (m_size * 0.3f) }, m_unitLableSize, 0, GetColor(GlobalOutputs::gray));
+        Vector2 textSize = MeasureTextEx(*smallFont, m_label.c_str(), m_unitLableSize, 0);
+        DrawTextEx(*smallFont, m_label.c_str(), { m_center.x - (textSize.x / 2.0f), m_center.y - (m_size * 0.3f) }, m_unitLableSize, 0, GetColor(GlobalOutputs::gray));
     }
 
     // Icon

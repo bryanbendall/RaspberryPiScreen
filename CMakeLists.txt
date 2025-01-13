@@ -44,6 +44,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/GearIndicator.h
                 src/gui/components/Indicator.cpp
                 src/gui/components/Indicator.h
+                src/gui/components/LabelButton.cpp
+                src/gui/components/LabelButton.h
                 src/gui/components/RemoteCamera.cpp
                 src/gui/components/RemoteCamera.h
                 src/gui/components/SmallGauge.cpp

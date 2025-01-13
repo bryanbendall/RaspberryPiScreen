@@ -29,10 +29,11 @@ void BarGauge::draw()
     }
 
     if (!m_label.empty()) {
-        float textSize = MeasureText(m_label.c_str(), m_textSize);
-        Vector2 labelPos = Vector2Subtract(m_position, { textSize + 10.0f, (m_textSize - m_size.y) / 2.0f });
         Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", m_textSize);
-        if (font)
+        if (font) {
+            Vector2 textSize = MeasureTextEx(*font, m_label.c_str(), m_textSize, 0);
+            Vector2 labelPos = Vector2Subtract(m_position, { textSize.x + 10.0f, (m_textSize - m_size.y) / 2.0f });
             DrawTextEx(*font, m_label.c_str(), labelPos, m_textSize, 0.0f, GetColor(GlobalOutputs::white));
+        }
     }
 }
