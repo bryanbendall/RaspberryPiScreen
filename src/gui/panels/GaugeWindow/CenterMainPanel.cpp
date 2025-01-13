@@ -20,7 +20,7 @@ CenterMainPanel::~CenterMainPanel()
 {
 }
 
-void CenterMainPanel::draw()
+void CenterMainPanel::draw(int width, int height)
 {
     updateValues();
 

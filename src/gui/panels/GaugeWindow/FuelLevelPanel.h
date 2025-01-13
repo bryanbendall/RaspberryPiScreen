@@ -9,7 +9,7 @@ public:
     FuelLevelPanel();
     virtual ~FuelLevelPanel();
 
-    void draw() override;
+    void draw(int width, int height) override;
 
 private:
     void updateValues();

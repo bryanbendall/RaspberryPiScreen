@@ -61,10 +61,10 @@ void GaugeWindow::draw()
 
     ClearBackground(GetColor(GlobalOutputs::black));
 
-    m_leftMainPanel.draw();
-    m_indicatorsPanel.draw();
-    m_centerMainPanel.draw();
-    m_fuelLevelPanel.draw();
+    m_leftMainPanel.draw(1280, 480);
+    m_indicatorsPanel.draw(1280, 480);
+    m_centerMainPanel.draw(1280, 480);
+    m_fuelLevelPanel.draw(1280, 480);
 
     drawRightPanel();
 
@@ -86,7 +86,7 @@ void GaugeWindow::drawRightPanel()
     // Wrap around if more then max panels
     rightPanelIndex = rightPanelIndex % m_rightPanels.size();
     if (rightPanelIndex < m_rightPanels.size())
-        m_rightPanels[rightPanelIndex]->draw();
+        m_rightPanels[rightPanelIndex]->draw(1280 - 950, 430);
 
     rlPopMatrix();
     EndScissorMode();

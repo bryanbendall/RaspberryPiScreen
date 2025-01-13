@@ -18,7 +18,7 @@ IndicatorsPanel::~IndicatorsPanel()
 {
 }
 
-void IndicatorsPanel::draw()
+void IndicatorsPanel::draw(int width, int height)
 {
     updateValues();
 

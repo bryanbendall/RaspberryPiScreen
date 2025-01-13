@@ -15,7 +15,7 @@ LeftMainPanel::~LeftMainPanel()
 {
 }
 
-void LeftMainPanel::draw()
+void LeftMainPanel::draw(int width, int height)
 {
     updateValues();
 

@@ -15,7 +15,7 @@ FuelLevelPanel::~FuelLevelPanel()
 {
 }
 
-void FuelLevelPanel::draw()
+void FuelLevelPanel::draw(int width, int height)
 {
     updateValues();
 

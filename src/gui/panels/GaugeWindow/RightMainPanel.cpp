@@ -21,7 +21,7 @@ RightMainPanel::~RightMainPanel()
 {
 }
 
-void RightMainPanel::draw()
+void RightMainPanel::draw(int width, int height)
 {
     updateValues();
 

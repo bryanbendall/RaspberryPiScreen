@@ -31,7 +31,7 @@ EgtPanel::~EgtPanel()
 {
 }
 
-void EgtPanel::draw()
+void EgtPanel::draw(int width, int height)
 {
     updateValues();
 

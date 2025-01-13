@@ -9,7 +9,7 @@ public:
     RightMainPanel();
     virtual ~RightMainPanel();
 
-    void draw() override;
+    void draw(int width, int height) override;
 
 private:
     void updateValues();

@@ -4,5 +4,5 @@ class Panel {
 
 public:
     virtual ~Panel() { }
-    virtual void draw() = 0;
+    virtual void draw(int width, int height) = 0;
 };
