@@ -32,41 +32,15 @@ add_executable(${PROJECT_NAME}
                 src/gui/Assets/AssetManager.cpp
                 src/gui/Assets/AssetManager.h
                 src/gui/Assets/Asset.h
-                src/gui/components/AfrGauge.cpp
-                src/gui/components/AfrGauge.h
-                src/gui/components/BarGauge.cpp
-                src/gui/components/BarGauge.h
-                src/gui/components/BoostGauge.cpp
-                src/gui/components/BoostGauge.h
-                src/gui/components/ClosedLoopGauge.cpp
-                src/gui/components/ClosedLoopGauge.h
-                src/gui/components/GearIndicator.cpp
-                src/gui/components/GearIndicator.h
-                src/gui/components/Indicator.cpp
-                src/gui/components/Indicator.h
-                src/gui/components/LabelButton.cpp
-                src/gui/components/LabelButton.h
                 src/gui/components/RemoteCamera.cpp
                 src/gui/components/RemoteCamera.h
-                src/gui/components/SmallGauge.cpp
-                src/gui/components/SmallGauge.h
-                src/gui/components/Speedometer.cpp
-                src/gui/components/Speedometer.h
-                src/gui/components/TachGauge.cpp
-                src/gui/components/TachGauge.h
+                src/gui/components/UiComponents.cpp
+                src/gui/components/UiComponents.h
                 src/gui/input/TouchInput.cpp
                 src/gui/input/TouchInput.h
                 src/gui/panels/Panel.h
-                src/gui/panels/GaugeWindow/CenterMainPanel.cpp
-                src/gui/panels/GaugeWindow/CenterMainPanel.h
                 src/gui/panels/GaugeWindow/EgtPanel.cpp
                 src/gui/panels/GaugeWindow/EgtPanel.h
-                src/gui/panels/GaugeWindow/FuelLevelPanel.cpp
-                src/gui/panels/GaugeWindow/FuelLevelPanel.h
-                src/gui/panels/GaugeWindow/IndicatorsPanel.cpp
-                src/gui/panels/GaugeWindow/IndicatorsPanel.h
-                src/gui/panels/GaugeWindow/LeftMainPanel.cpp
-                src/gui/panels/GaugeWindow/LeftMainPanel.h
                 src/gui/panels/GaugeWindow/RightMainPanel.cpp
                 src/gui/panels/GaugeWindow/RightMainPanel.h
                 src/gui/panels/GaugeWindow/RightMapPanel.cpp

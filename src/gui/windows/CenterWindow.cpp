@@ -3,16 +3,10 @@
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
-#include "gui/components/LabelButton.h"
-#include "gui/components/SmallGauge.h"
+#include "gui/components/UiComponents.h"
 #include <fmt/format.h>
 #include <iostream>
 #include <rlgl.h>
-
-SmallGauge testGauge({ 200.0f, 200.0f }, 300.0f, "°F", "water-temp.svg");
-SmallGauge testGauge1({ 200.0f, 525.0f }, 200.0f, "°F", "water-temp.svg");
-SmallGauge testGauge2({ 200.0f, 750.0f }, 100.0f, "°F", "water-temp.svg");
-SmallGauge testGauge3({ 200.0f, 875.0f }, 50.0f, "°F", "water-temp.svg");
 
 CenterWindow::CenterWindow()
     : m_touchInput(m_width, m_height)
@@ -56,30 +50,14 @@ void CenterWindow::draw()
 
     ClearBackground(GetColor(GlobalOutputs::black));
 
-    Rectangle rect;
-    rect.x = 100.0f;
-    rect.y = 100.0f;
-    rect.width = 300.0f;
-    rect.height = 100.0f;
-
-    Color col = BLUE;
-
-    if (m_touchInput.isDown(rect))
-        col = YELLOW;
-
-    if (m_touchInput.isClicked(rect))
-        std::cout << "Clicked the button" << std::endl;
-
-    DrawRectangleRec(rect, col);
-
-    if (LabelButton("Test", { 50, 400, 200, 100 }, true)) {
+    if (Ui::Button("Test", { 50, 400, 200, 100 }, 38, true)) {
         std::cout << "Clicked the button" << std::endl;
     }
 
-    LabelButton("Info", { 0, 1180, 150, 100 }, true);
-    LabelButton("Map", { 150, 1180, 150, 100 }, true);
-    LabelButton("Hvac", { 300, 1180, 150, 100 }, true);
-    LabelButton("Settings", { 450, 1180, 150, 100 }, true);
+    Ui::Button("Info", { 0, 1180, 150, 100 }, 38, true);
+    Ui::Button("Map", { 150, 1180, 150, 100 }, 38, true);
+    Ui::Button("Hvac", { 300, 1180, 150, 100 }, 38, true);
+    Ui::Button("Settings", { 450, 1180, 150, 100 }, 38, true);
 
     rlPopMatrix();
     EndDrawing();

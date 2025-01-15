@@ -2,29 +2,10 @@
 
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
-#include "gui/components/BarGauge.h"
-
-BarGauge b[] = {
-    { { 50.0f, 90.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 130.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 170.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 210.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 250.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 290.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 330.0f }, { 240.0f, 10.0f } },
-    { { 50.0f, 370.0f }, { 240.0f, 10.0f } },
-};
+#include "gui/components/UiComponents.h"
 
 EgtPanel::EgtPanel()
 {
-    b[0].setLabel("#1");
-    b[1].setLabel("#2");
-    b[2].setLabel("#3");
-    b[3].setLabel("#4");
-    b[4].setLabel("#5");
-    b[5].setLabel("#6");
-    b[6].setLabel("#7");
-    b[7].setLabel("#8");
 }
 
 EgtPanel::~EgtPanel()
@@ -33,19 +14,21 @@ EgtPanel::~EgtPanel()
 
 void EgtPanel::draw(int width, int height)
 {
-    updateValues();
+    int titleSize = 40;
 
-    Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", m_titleSize);
+    Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", titleSize);
 
     if (!font)
         return;
 
-    DrawTextEx(*font, "EGT", { 130.0f, 35.0f }, m_titleSize, 0.0f, GetColor(GlobalOutputs::white));
+    DrawTextEx(*font, "EGT", { 130.0f, 35.0f }, titleSize, 0.0f, GetColor(GlobalOutputs::white));
 
-    for (auto& bar : b)
-        bar.draw();
-}
-
-void EgtPanel::updateValues()
-{
+    Ui::BarGauge({ 50.0f, 90.0f }, { 240.0f, 10.0f }, 0.0f, "", "#1", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 130.0f }, { 240.0f, 10.0f }, 0.0f, "", "#2", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 170.0f }, { 240.0f, 10.0f }, 0.0f, "", "#3", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 210.0f }, { 240.0f, 10.0f }, 0.0f, "", "#4", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 250.0f }, { 240.0f, 10.0f }, 0.0f, "", "#5", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 290.0f }, { 240.0f, 10.0f }, 0.0f, "", "#6", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 330.0f }, { 240.0f, 10.0f }, 0.0f, "", "#7", 0.0f, 2000.0f);
+    Ui::BarGauge({ 50.0f, 370.0f }, { 240.0f, 10.0f }, 0.0f, "", "#8", 0.0f, 2000.0f);
 }

@@ -3,6 +3,7 @@
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
+#include "gui/components/UiComponents.h"
 #include "gui/panels/GaugeWindow/EgtPanel.h"
 #include "gui/panels/GaugeWindow/RightMainPanel.h"
 #include "gui/panels/GaugeWindow/RightMapPanel.h"
@@ -61,10 +62,44 @@ void GaugeWindow::draw()
 
     ClearBackground(GetColor(GlobalOutputs::black));
 
-    m_leftMainPanel.draw(1280, 480);
-    m_indicatorsPanel.draw(1280, 480);
-    m_centerMainPanel.draw(1280, 480);
-    m_fuelLevelPanel.draw(1280, 480);
+    // Left panel
+    {
+        Ui::SmallGauge({ 200.0f, 125.0f }, 180.0f, "°F", "water-temp.svg", GlobalOutputs::cts, 30.0f, 250.0f);
+        Ui::SmallGauge({ 200.0f, 325.0f }, 180.0f, "Psi", "engine-oil.svg", GlobalOutputs::oilPressure);
+    }
+
+    // Indicators
+    {
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::parkingLights, GetColor(GlobalOutputs::orange));
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::lowBeam, GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "high-beam.svg", GlobalOutputs::highBeam, GetColor(GlobalOutputs::blue));
+        Ui::Indicator({ 32.0f, 90.0f }, 45, "fog-lights.svg", GlobalOutputs::fogLights, GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 30.0f, 150.0f }, 50, "parking-brake.svg", GlobalOutputs::parkingBrake, GetColor(GlobalOutputs::red));
+        Ui::Indicator({ 30.0f, 210.0f }, 50, "fan.svg", GlobalOutputs::fanState, GetColor(GlobalOutputs::blue));
+        Ui::Indicator({ 30.0f, 270.0f }, 50, "engine-light.svg", GlobalOutputs::engineLight, GetColor(GlobalOutputs::orange));
+    }
+
+    // Center panel
+    {
+        Ui::BoostGauge({ 310.0f, 0.0f }, GlobalOutputs::boost);
+        Ui::ClosedLoopGauge({ 820.0f, 0.0f }, GlobalOutputs::closedLoopComp);
+        Ui::Tach({ 640.0f, 240.0f }, 450.0f, GlobalOutputs::rpm, GlobalOutputs::revLimit);
+        Ui::Speedometer({ 640.0f, 240.0f }, GlobalOutputs::speed, GlobalOutputs::useKph > 0.0001f);
+        Ui::AfrGauge({ 640.0f, 120.0f }, GlobalOutputs::afr, GlobalOutputs::afr2, GlobalOutputs::showSecondAfr > 0.0001f);
+        Ui::GearIndicator({ 760.0f, 300.0f }, 120, GlobalOutputs::gear);
+    }
+
+    // Turn signals
+    {
+        Ui::Indicator({ 640.0f - 200.0f, 5.0f }, 50, "left-turn-signal.svg", GlobalOutputs::leftTurn, GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 640.0f + 150.0f, 5.0f }, 50, "right-turn-signal.svg", GlobalOutputs::rightTurn, GetColor(GlobalOutputs::green));
+    }
+
+    // Fuel levels
+    {
+        Ui::BarGauge({ 100.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::gasLevel, "fuel.svg");
+        Ui::BarGauge({ 1000.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::methLevel, "fuel.svg");
+    }
 
     drawRightPanel();
 
