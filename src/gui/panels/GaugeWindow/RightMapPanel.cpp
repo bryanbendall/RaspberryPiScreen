@@ -3,6 +3,7 @@
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
+#include "gui/CameraController.h"
 #include <iostream>
 
 RightMapPanel::RightMapPanel()
@@ -17,22 +18,16 @@ void RightMapPanel::draw(int width, int height)
 {
     updateValues();
 
-    static bool openCamera = false;
-    if (GlobalInputs::openCamera && !openCamera) {
-        std::cout << "trying to connect to: " << GlobalInputs::cameraAddress << std::endl;
-        m_camera.open(GlobalInputs::cameraAddress);
-        openCamera = true;
-    } else if (!GlobalInputs::openCamera && openCamera) {
-        m_camera.close();
-        openCamera = false;
-    }
+    RemoteCamera& screenCaptureCamera = CameraController::get().getCamera("ScreenCapture");
+    if (screenCaptureCamera.isOpen()) {
 
-    m_camera.updateTexture();
-    if (m_camera.isOpen()) {
-        Texture2D& tex = m_camera.getTexture();
+        // update texture and draw it
+        screenCaptureCamera.updateTexture();
+        Texture2D& tex = screenCaptureCamera.getTexture();
         int xOffset = (tex.width - width) / 2;
         int yOffset = (tex.height - height) / 2;
         DrawTexture(tex, -xOffset, -yOffset, WHITE);
+
     } else {
         int fontSize = 24;
         Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", fontSize);

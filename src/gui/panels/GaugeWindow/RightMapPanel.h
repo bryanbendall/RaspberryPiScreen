@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gui/components/RemoteCamera.h"
 #include "gui/panels/Panel.h"
 
 class RightMapPanel : public Panel {
@@ -13,7 +12,4 @@ public:
 
 private:
     void updateValues();
-
-private:
-    RemoteCamera m_camera;
 };

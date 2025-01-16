@@ -49,6 +49,8 @@ add_executable(${PROJECT_NAME}
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp
                 src/gui/windows/GaugeWindow.h
+                src/gui/CameraController.cpp
+                src/gui/CameraController.h
                 src/gui/Utils.cpp
                 src/gui/Utils.h
                 src/main.cpp

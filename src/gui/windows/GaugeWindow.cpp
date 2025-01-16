@@ -3,6 +3,7 @@
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
 #include "gui/Assets/AssetManager.h"
+#include "gui/CameraController.h"
 #include "gui/components/UiComponents.h"
 #include "gui/panels/GaugeWindow/EgtPanel.h"
 #include "gui/panels/GaugeWindow/RightMainPanel.h"
@@ -42,11 +43,6 @@ GaugeWindow::~GaugeWindow()
 
 void GaugeWindow::draw()
 {
-    // if (IsKeyPressed(KEY_C))
-    //     m_camera.open("http://192.168.1.108:8080/stream.mjpeg");
-    // if (IsKeyPressed(KEY_D))
-    //     m_camera.close();
-
     if (IsKeyDown(KEY_L))
         GlobalInputs::button0 = 1.0f;
     else
@@ -102,6 +98,17 @@ void GaugeWindow::draw()
     }
 
     drawRightPanel();
+
+    // Camera
+    {
+        RemoteCamera& backupCamera = CameraController::get().getCamera("Backup");
+        if (backupCamera.isOpen()) {
+            Texture2D& tex = backupCamera.getTexture();
+            float scaling = 0.6f;
+            Vector2 texPos = { 640.0f - (tex.width * scaling / 2.0f), 240.0f - (tex.height * scaling / 2.0f) };
+            DrawTextureEx(tex, texPos, 0.0f, scaling, WHITE);
+        }
+    }
 
     DrawFPS(0, 0);
 

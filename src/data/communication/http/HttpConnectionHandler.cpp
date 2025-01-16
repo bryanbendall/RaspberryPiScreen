@@ -2,6 +2,7 @@
 
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
+#include "gui/CameraController.h"
 #include <fstream>
 #include <iostream>
 #include <streambuf>
@@ -116,10 +117,11 @@ void HttpConnectionHandler::handleAndRespond()
         } else if (m_url == "/right") {
             GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
         } else if (m_url == "/camera") {
-            GlobalInputs::cameraAddress = m_content;
-            GlobalInputs::openCamera = true;
+            RemoteCamera& screenCaptureCamera = CameraController::get().getCamera("ScreenCapture");
+            screenCaptureCamera.open(m_content);
         } else if (m_url == "/stopcamera") {
-            GlobalInputs::openCamera = false;
+            RemoteCamera& screenCaptureCamera = CameraController::get().getCamera("ScreenCapture");
+            screenCaptureCamera.close();
         }
 
         ssOut << "HTTP/1.1 200 OK" << std::endl;

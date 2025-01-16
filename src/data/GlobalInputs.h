@@ -10,8 +10,4 @@ struct GlobalInputs {
     static inline const std::map<std::string, float*> nameToValueMap = {
         { "button0", &button0 }
     };
-
-    // Webpage
-    static inline bool openCamera = false;
-    static inline std::string cameraAddress;
 };
