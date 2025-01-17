@@ -101,12 +101,11 @@ void GaugeWindow::draw()
 
     // Camera
     {
-        RemoteCamera& backupCamera = CameraController::get().getCamera("Backup");
-        if (backupCamera.isOpen()) {
-            Texture2D& tex = backupCamera.getTexture();
+        Texture2D* texture = AssetManager::get().getCameraTexture("Backup");
+        if (texture) {
             float scaling = 0.6f;
-            Vector2 texPos = { 640.0f - (tex.width * scaling / 2.0f), 240.0f - (tex.height * scaling / 2.0f) };
-            DrawTextureEx(tex, texPos, 0.0f, scaling, WHITE);
+            Vector2 texPos = { 640.0f - (texture->width * scaling / 2.0f), 240.0f - (texture->height * scaling / 2.0f) };
+            DrawTextureEx(*texture, texPos, 0.0f, scaling, WHITE);
         }
     }
 

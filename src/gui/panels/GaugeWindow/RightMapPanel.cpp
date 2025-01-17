@@ -18,15 +18,12 @@ void RightMapPanel::draw(int width, int height)
 {
     updateValues();
 
-    RemoteCamera& screenCaptureCamera = CameraController::get().getCamera("ScreenCapture");
-    if (screenCaptureCamera.isOpen()) {
+    Texture2D* texture = AssetManager::get().getCameraTexture("ScreenCapture");
+    if (texture) {
 
-        // update texture and draw it
-        screenCaptureCamera.updateTexture();
-        Texture2D& tex = screenCaptureCamera.getTexture();
-        int xOffset = (tex.width - width) / 2;
-        int yOffset = (tex.height - height) / 2;
-        DrawTexture(tex, -xOffset, -yOffset, WHITE);
+        int xOffset = (texture->width - width) / 2;
+        int yOffset = (texture->height - height) / 2;
+        DrawTexture(*texture, -xOffset, -yOffset, WHITE);
 
     } else {
         int fontSize = 24;

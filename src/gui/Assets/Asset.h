@@ -23,3 +23,8 @@ struct ImageAsset {
     std::filesystem::path filepath;
     bool loaded = false;
 };
+
+struct CameraAsset {
+    Texture2D texture = {};
+    std::string name;
+};

@@ -19,6 +19,7 @@ public:
     Font* getFont(std::filesystem::path filename, int size);
     Texture2D* getSvg(std::filesystem::path filename, int width, int height);
     Texture2D* getImage(std::filesystem::path filename);
+    Texture2D* getCameraTexture(const std::string& name);
 
 private:
     void addWindowContainers();
@@ -29,5 +30,6 @@ private:
     std::map<int, std::vector<FontAsset>> m_fontMap;
     std::map<int, std::vector<SvgAsset>> m_svgMap;
     std::map<int, std::vector<ImageAsset>> m_imageMap;
+    std::map<int, std::vector<CameraAsset>> m_cameraMap;
     std::filesystem::path m_assetPath;
 };

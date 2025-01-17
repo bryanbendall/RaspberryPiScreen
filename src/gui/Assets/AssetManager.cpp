@@ -1,5 +1,8 @@
 #include "AssetManager.h"
 
+#include "gui/CameraController.h"
+#include <raymath.h>
+
 AssetManager::AssetManager(std::filesystem::path assetPath)
     : m_assetPath(assetPath)
 {
@@ -117,6 +120,51 @@ Texture2D* AssetManager::getImage(std::filesystem::path filename)
     return nullptr;
 }
 
+Texture2D* AssetManager::getCameraTexture(const std::string& name)
+{
+    RemoteCamera& camera = CameraController::get().getCamera(name);
+    if (!camera.isOpen())
+        return nullptr;
+
+    Vector2 cameraSize = camera.getSize();
+    if (Vector2Equals(cameraSize, Vector2Zero()))
+        return nullptr;
+
+    for (auto& cameraAsset : m_cameraMap[m_currentWindowId]) {
+        if (cameraAsset.name == name) {
+            // Update texture and return it
+            Texture2D& texture = cameraAsset.texture;
+            if (texture.width == cameraSize.x && texture.height == cameraSize.y) {
+                // Our size matches so just update texture
+                UpdateTexture(texture, camera.getData());
+                return &texture;
+            } else {
+                // Size has changes so unload old and create new
+                if (IsTextureReady(texture))
+                    UnloadTexture(texture);
+
+                Image img = GenImageColor(cameraSize.x, cameraSize.y, WHITE);
+                ImageFormat(&img, PIXELFORMAT_UNCOMPRESSED_R8G8B8);
+                texture = LoadTextureFromImage(img);
+                UpdateTexture(texture, camera.getData());
+                UnloadImage(img);
+                return &texture;
+            }
+        }
+    }
+
+    // Create texture
+    CameraAsset newCameraAsset;
+    newCameraAsset.name = name;
+    Image img = GenImageColor(cameraSize.x, cameraSize.y, WHITE);
+    ImageFormat(&img, PIXELFORMAT_UNCOMPRESSED_R8G8B8);
+    newCameraAsset.texture = LoadTextureFromImage(img);
+    UpdateTexture(newCameraAsset.texture, camera.getData());
+    UnloadImage(img);
+    m_cameraMap[m_currentWindowId].push_back(newCameraAsset);
+    return &m_cameraMap[m_currentWindowId].back().texture;
+}
+
 void AssetManager::addWindowContainers()
 {
     if (m_fontMap.find(m_currentWindowId) == m_fontMap.end())
@@ -127,4 +175,7 @@ void AssetManager::addWindowContainers()
 
     if (m_imageMap.find(m_currentWindowId) == m_imageMap.end())
         m_imageMap[m_currentWindowId];
+
+    if (m_cameraMap.find(m_currentWindowId) == m_cameraMap.end())
+        m_cameraMap[m_currentWindowId];
 }

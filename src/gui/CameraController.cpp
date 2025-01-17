@@ -9,7 +9,7 @@ CameraController::~CameraController()
 {
 }
 
-RemoteCamera& CameraController::getCamera(std::string address)
+RemoteCamera& CameraController::getCamera(const std::string& address)
 {
     for (auto& cameraHandle : m_cameras) {
         if (cameraHandle.first == address)

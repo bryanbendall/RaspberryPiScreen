@@ -11,7 +11,7 @@ public:
     ~CameraController();
     static CameraController& get() { return *m_instance; }
 
-    RemoteCamera& getCamera(std::string name);
+    RemoteCamera& getCamera(const std::string& name);
 
 private:
     static inline CameraController* m_instance = nullptr;
