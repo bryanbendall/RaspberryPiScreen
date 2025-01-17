@@ -38,13 +38,6 @@ add_executable(${PROJECT_NAME}
                 src/gui/components/UiComponents.h
                 src/gui/input/TouchInput.cpp
                 src/gui/input/TouchInput.h
-                src/gui/panels/Panel.h
-                src/gui/panels/GaugeWindow/EgtPanel.cpp
-                src/gui/panels/GaugeWindow/EgtPanel.h
-                src/gui/panels/GaugeWindow/RightMainPanel.cpp
-                src/gui/panels/GaugeWindow/RightMainPanel.h
-                src/gui/panels/GaugeWindow/RightMapPanel.cpp
-                src/gui/panels/GaugeWindow/RightMapPanel.h
                 src/gui/windows/CenterWindow.cpp
                 src/gui/windows/CenterWindow.h
                 src/gui/windows/GaugeWindow.cpp

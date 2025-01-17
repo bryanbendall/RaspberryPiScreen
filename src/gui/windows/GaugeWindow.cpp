@@ -5,9 +5,6 @@
 #include "gui/Assets/AssetManager.h"
 #include "gui/CameraController.h"
 #include "gui/components/UiComponents.h"
-#include "gui/panels/GaugeWindow/EgtPanel.h"
-#include "gui/panels/GaugeWindow/RightMainPanel.h"
-#include "gui/panels/GaugeWindow/RightMapPanel.h"
 #include <raylib.h>
 #include <rlgl.h>
 
@@ -15,10 +12,6 @@ int rightPanelIndex = 1;
 
 GaugeWindow::GaugeWindow()
 {
-    m_rightPanels.emplace_back(std::make_unique<RightMainPanel>());
-    m_rightPanels.emplace_back(std::make_unique<EgtPanel>());
-    m_rightPanels.emplace_back(std::make_unique<RightMapPanel>());
-
     unsigned int flags = 0;
     // flags |= FLAG_MSAA_4X_HINT;
 #ifndef PC_BUILD
@@ -125,9 +118,59 @@ void GaugeWindow::drawRightPanel()
     rlTranslatef(950.0f, 0.0f, 0.0f);
 
     // Wrap around if more then max panels
-    rightPanelIndex = rightPanelIndex % m_rightPanels.size();
-    if (rightPanelIndex < m_rightPanels.size())
-        m_rightPanels[rightPanelIndex]->draw(1280 - 950, 430);
+    constexpr int numberOfPanels = 3;
+    rightPanelIndex = rightPanelIndex % numberOfPanels;
+
+    int panelWidth = 1280 - 950;
+    int panelHeight = 430;
+
+    switch (rightPanelIndex) {
+    case 0: // Standard gauges
+    {
+        Ui::SmallGauge({ 80.0f, 140.0f }, 140.0f, "V", "battery.svg", GlobalOutputs::battery, 6.0f, 18.0f, 1);
+        Ui::SmallGauge({ 240.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg", GlobalOutputs::lineTemp, 50.0f, 280.0f);
+        Ui::SmallGauge({ 80.0f, 320.0f }, 140.0f, "Gas", "fuel.svg", GlobalOutputs::fuelPressure);
+        Ui::SmallGauge({ 240.0f, 320.0f }, 140.0f, "Meth", "fuel.svg", GlobalOutputs::methPressure);
+    } break;
+
+    case 1: // Egt
+    {
+        int titleSize = 40;
+        Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", titleSize);
+        if (font)
+            DrawTextEx(*font, "EGT", { 130.0f, 35.0f }, titleSize, 0.0f, GetColor(GlobalOutputs::white));
+
+        Ui::BarGauge({ 50.0f, 90.0f }, { 240.0f, 10.0f }, 0.0f, "", "#1", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 130.0f }, { 240.0f, 10.0f }, 0.0f, "", "#2", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 170.0f }, { 240.0f, 10.0f }, 0.0f, "", "#3", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 210.0f }, { 240.0f, 10.0f }, 0.0f, "", "#4", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 250.0f }, { 240.0f, 10.0f }, 0.0f, "", "#5", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 290.0f }, { 240.0f, 10.0f }, 0.0f, "", "#6", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 330.0f }, { 240.0f, 10.0f }, 0.0f, "", "#7", 0.0f, 2000.0f);
+        Ui::BarGauge({ 50.0f, 370.0f }, { 240.0f, 10.0f }, 0.0f, "", "#8", 0.0f, 2000.0f);
+    } break;
+
+    case 2: // Screen capture (map)
+    {
+        Texture2D* texture = AssetManager::get().getCameraTexture("ScreenCapture");
+        if (texture) {
+
+            int xOffset = (texture->width - panelWidth) / 2;
+            int yOffset = (texture->height - panelHeight) / 2;
+            DrawTexture(*texture, -xOffset, -yOffset, WHITE);
+
+        } else {
+            int fontSize = 24;
+            Font* font = AssetManager::get().getFont("RussoOne-Regular.ttf", fontSize);
+            if (font) {
+                std::string text = "Waiting for connection.";
+                Vector2 textSize = MeasureTextEx(*font, text.c_str(), fontSize, 0);
+                Vector2 textPosition = { (panelWidth / 2.0f) - (textSize.x / 2.0f), (panelHeight / 2.0f) - (textSize.y / 2.0f) };
+                DrawTextEx(*font, text.c_str(), textPosition, fontSize, 0.0f, GetColor(GlobalOutputs::white));
+            }
+        }
+    } break;
+    }
 
     rlPopMatrix();
     EndScissorMode();
