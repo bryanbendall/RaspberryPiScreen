@@ -39,6 +39,10 @@ struct GlobalOutputs {
     static inline float revLimit;
     static inline float engineLight;
 
+    static inline float acPress;
+    static inline float ventTemp;
+    static inline float acClutchStatus;
+
     // Variable colors
     static inline float guageColor;
 
@@ -80,6 +84,10 @@ struct GlobalOutputs {
         { "revLimit", &revLimit },
         { "engineLight", &engineLight },
 
+        { "acPress", &acPress },
+        { "ventTemp", &ventTemp },
+        { "acClutchStatus", &acClutchStatus },
+
         { "guageColor", &guageColor },
 
     };
@@ -113,6 +121,10 @@ struct GlobalOutputs {
         parkingBrake = 0.0f;
         revLimit = 8000.0f;
         engineLight = 0.0f;
+
+        acPress = 0.0f;
+        ventTemp = 0.0f;
+        acClutchStatus = 0.0f;
 
         guageColor = 1216765.0f; // orange
     }

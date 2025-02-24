@@ -374,8 +374,11 @@ bool ButtonClick(Rectangle rect)
     return false;
 }
 
-bool Button(std::string label, Rectangle rect, int labelSize, bool showOutline)
+bool Button(std::string label, Rectangle rect, int labelSize, bool showOutline, bool highlightBackground)
 {
+    if (highlightBackground)
+        DrawRectangleRec(rect, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+
     TouchInput* touch = TouchInput::get();
     if (touch) {
         if (touch->isDown(rect))
@@ -393,5 +396,16 @@ bool Button(std::string label, Rectangle rect, int labelSize, bool showOutline)
         DrawRectangleLinesEx(rect, 1.0f, GetColor(GlobalOutputs::gray));
 
     return ButtonClick(rect);
+}
+
+void Text(Vector2 center, std::string label, int labelSize)
+{
+    Font* largeFont = AssetManager::get().getFont("RussoOne-Regular.ttf", labelSize);
+
+    if (!largeFont)
+        return;
+
+    Vector2 textSize = MeasureTextEx(*largeFont, label.c_str(), labelSize, 0);
+    DrawTextEx(*largeFont, label.c_str(), { center.x - (textSize.x / 2.0f), center.y - (labelSize / 2.0f) }, labelSize, 0, GetColor(GlobalOutputs::white));
 }
 }
