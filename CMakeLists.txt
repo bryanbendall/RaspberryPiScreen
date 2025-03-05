@@ -85,6 +85,11 @@ if (UNIX)
                             opencv_imgproc
                             gpiod
                             )
+
+    add_custom_command(TARGET ${PROJECT_NAME}
+                        POST_BUILD
+                        COMMAND /bin/sh ../resources/scripts/networkPortFix.sh
+    )
 endif (UNIX)
 
 if (WIN32)
