@@ -1,6 +1,9 @@
 #include "Gpio.h"
 
+#ifndef PC_BUILD
 #include <gpiod.h>
+#endif
+
 #include <stdio.h>
 
 struct gpiod_chip* gpiochip;
@@ -8,6 +11,7 @@ struct gpiod_line* gpioline[28];
 
 void Gpio::writePin(int pin, PinState state)
 {
+#ifndef PC_BUILD
     if (pin >= 28)
         return;
 
@@ -26,9 +30,11 @@ void Gpio::writePin(int pin, PinState state)
     }
 
     gpiod_line_set_value(gpioline[pin], (int)state);
+#endif
 }
 
 void Gpio::shutdown(){
+#ifndef PC_BUILD
     if (gpiochip != nullptr) {
         for (int loop = 0; loop < 28; loop++)
             if (gpioline[loop] != nullptr) {
@@ -38,10 +44,12 @@ void Gpio::shutdown(){
         gpiod_chip_close(gpiochip);
         gpiochip = nullptr;
     }
+#endif
 }
 
 void Gpio::init()
 {
+#ifndef PC_BUILD
     gpiochip = gpiod_chip_open_by_name("gpiochip4");
 
     if (gpiochip == nullptr)
@@ -53,5 +61,5 @@ void Gpio::init()
     }
     for (int loop; loop < 28; loop++)
         gpioline[loop] = nullptr;
-    return;
+#endif
 }
