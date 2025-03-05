@@ -1,5 +1,6 @@
 
 #include "data/DataThread.h"
+#include "data/Gpio.h"
 #include "gui/Assets/AssetManager.h"
 #include "gui/CameraController.h"
 #include "gui/windows/CenterWindow.h"
@@ -28,6 +29,8 @@ int main(void)
         centerWindow.draw();
         gaugeWindow.draw();
     }
+
+    Gpio::shutdown();
 
     return 0;
 }

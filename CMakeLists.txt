@@ -27,6 +27,8 @@ add_executable(${PROJECT_NAME}
                 src/data/DataThread.h
                 src/data/GlobalInputs.h
                 src/data/GlobalOutputs.h
+                src/data/Gpio.cpp
+                src/data/Gpio.h
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/screenboardrev2defs.h
                 src/gui/Assets/AssetManager.cpp
@@ -81,6 +83,7 @@ if (UNIX)
                             opencv_core
                             opencv_videoio
                             opencv_imgproc
+                            gpiod
                             )
 endif (UNIX)
 

@@ -5,6 +5,7 @@
 #include "Deserializer/BinaryPathDeserializer.h"
 #include "data/GlobalInputs.h"
 #include "data/GlobalOutputs.h"
+#include "data/Gpio.h"
 #include "data/communication/can/CanManager.h"
 #include "data/communication/wifi/Server.h"
 #include "data/screenboardrev2defs.h"
