@@ -31,6 +31,8 @@ add_executable(${PROJECT_NAME}
                 src/data/Gpio.h
                 src/data/RaspberryPiScreenBoard.cpp
                 src/data/screenboardrev2defs.h
+                src/data/ScreenControl.cpp
+                src/data/ScreenControl.h
                 src/gui/Assets/AssetManager.cpp
                 src/gui/Assets/AssetManager.h
                 src/gui/Assets/Asset.h

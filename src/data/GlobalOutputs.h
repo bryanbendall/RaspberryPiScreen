@@ -43,6 +43,9 @@ struct GlobalOutputs {
     static inline float ventTemp;
     static inline float acClutchStatus;
 
+    static inline float screen1;
+    static inline float screen2;
+
     // Variable colors
     static inline float guageColor;
 
@@ -88,6 +91,9 @@ struct GlobalOutputs {
         { "ventTemp", &ventTemp },
         { "acClutchStatus", &acClutchStatus },
 
+        { "screen1", &screen1 },
+        { "screen2", &screen2 },
+
         { "guageColor", &guageColor },
 
     };
@@ -125,6 +131,9 @@ struct GlobalOutputs {
         acPress = 0.0f;
         ventTemp = 0.0f;
         acClutchStatus = 0.0f;
+
+        screen1 = 1.0f;
+        screen2 = 1.0f;
 
         guageColor = 1216765.0f; // orange
     }
