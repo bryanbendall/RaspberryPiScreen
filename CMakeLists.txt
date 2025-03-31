@@ -5,6 +5,8 @@ project(RaspberryPiScreen)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_compile_definitions(USE_STRINGS=1)
+
 if (UNIX)
     set(PLATFORM SDL)
     set(OPENGL_VERSION "ES 2.0")
