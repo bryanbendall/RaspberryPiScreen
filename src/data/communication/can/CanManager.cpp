@@ -43,8 +43,10 @@ void CanManager::setup(uint8_t index, Brytec::CanSpeed::Types speed)
     }
 
     std::string socketName = getSocketName(index);
-    std::string systemCommand = fmt::format("sudo ip link set {:s} up type can bitrate {:d}", socketName, bitrate);
+    std::string systemCommand = fmt::format("sudo ifconfig {:s} txqueuelen 1000", socketName);
     system(systemCommand.c_str());
+    std::string systemCommand2 = fmt::format("sudo ip link set {:s} up type can bitrate {:d}", socketName, bitrate);
+    system(systemCommand2.c_str());
 
     ifreq ifr;
     int natsock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
