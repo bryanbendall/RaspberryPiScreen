@@ -61,7 +61,7 @@ void CanConnectionHandler::handle_read(const asio::error_code& err)
         startRead();
 
     } else {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - CanConnectionHandler::handle_read: " << err.message() << std::endl;
         m_stream.close();
     }
 #endif
@@ -80,7 +80,7 @@ void CanConnectionHandler::handle_write(const asio::error_code& err)
         m_txMutex.unlock();
 
     } else {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - CanConnectionHandler::handle_write: " << err.message() << std::endl;
         m_stream.close();
     }
 #endif

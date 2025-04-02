@@ -78,7 +78,7 @@ void ConnectionHandler::handle_read(const asio::error_code& err, size_t bytes_tr
         startRead();
 
     } else {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - ConnectionHandler::handle_read: " << err.message() << std::endl;
         m_socket.close();
     }
 }
@@ -95,7 +95,7 @@ void ConnectionHandler::handle_write(const asio::error_code& err, size_t bytes_t
         m_txMutex.unlock();
 
     } else {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - ConnectionHandler::handle_write: " << err.message() << std::endl;
         m_socket.close();
     }
 }

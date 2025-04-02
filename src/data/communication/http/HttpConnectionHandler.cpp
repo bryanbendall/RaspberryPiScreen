@@ -26,7 +26,7 @@ void HttpConnectionHandler::start()
 void HttpConnectionHandler::readFirstLine(const asio::error_code& err, size_t bytes_transferred)
 {
     if (err) {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - HttpConnectionHandler::readFirstLine: " << err.message() << std::endl;
         m_socket.close();
         return;
     }
@@ -54,7 +54,7 @@ void HttpConnectionHandler::readFirstLine(const asio::error_code& err, size_t by
 void HttpConnectionHandler::readNextLine(const asio::error_code& err, size_t bytes_transferred)
 {
     if (err) {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - HttpConnectionHandler::readNextLine: " << err.message() << std::endl;
         m_socket.close();
         return;
     }
@@ -165,7 +165,7 @@ void HttpConnectionHandler::handleAndRespond()
 void HttpConnectionHandler::handleWrite(const asio::error_code& err, size_t bytes_transferred)
 {
     if (err) {
-        std::cerr << "error: " << err.message() << std::endl;
+        std::cerr << "Error - HttpConnectionHandler::handleWrite : " << err.message() << std::endl;
         m_socket.close();
         return;
     }
