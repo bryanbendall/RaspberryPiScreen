@@ -36,11 +36,6 @@ GaugeWindow::~GaugeWindow()
 
 void GaugeWindow::draw()
 {
-    if (IsKeyDown(KEY_L))
-        GlobalInputs::button0 = 1.0f;
-    else
-        GlobalInputs::button0 = 0.0f;
-
     if (IsKeyPressed(KEY_P))
         rightPanelIndex++;
 

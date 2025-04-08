@@ -55,11 +55,11 @@ void CenterWindow::draw()
     switch (m_currentScreen) {
 
     case Screens::Info:
-        Ui::Text({ 400, 50 }, "Info", 100);
+        Ui::Text({ 400.0f, 100.0f }, "Info", 100);
         break;
 
     case Screens::Map:
-        Ui::Text({ 400, 50 }, "Map", 100);
+        Ui::Text({ 400.0f, 100.0f }, "Map", 100);
         break;
 
     case Screens::Hvac: {
@@ -131,7 +131,44 @@ void CenterWindow::draw()
     }
 
     case Screens::Settings:
-        Ui::Text({ 400, 50 }, "Settings", 100);
+        Ui::Text({ 400.0f, 100.0f }, "Settings", 100);
+
+        if (Ui::Button("Meth Enable", { 280.0f, 200.0f, 240.0f, 80.0f }, 40, false, GlobalInputs::methEnable > 0.0f))
+            GlobalInputs::methEnable > 0.0f ? GlobalInputs::methEnable = 0.0f : GlobalInputs::methEnable = 1.0f;
+
+        {
+            Ui::Text({ 400.0f, 350.0f }, "Max Boost", 40);
+
+            if (Ui::Button("-", { 300.0f, 400.0f, 50.0f, 50.0f }, 30, true))
+                GlobalInputs::maxBoost -= 1.0f;
+
+            // Clamp bottom to 0
+            if (GlobalInputs::maxBoost < 0.0f)
+                GlobalInputs::maxBoost = 0.0f;
+
+            std::string lable = fmt::format("{:.0f}", GlobalInputs::maxBoost);
+            Ui::Text({ 400.0f, 425.0f }, lable.c_str(), 40);
+
+            if (Ui::Button("+", { 500.0f - 50.0f, 400.0f, 50.0f, 50.0f }, 30, true))
+                GlobalInputs::maxBoost += 1.0f;
+
+            // Clamp top to 20
+            if (GlobalInputs::maxBoost > 20.0f)
+                GlobalInputs::maxBoost = 20.0f;
+        }
+
+        {
+            if (Ui::Button("Prime Gas", { 175.0f, 500.0f, 200.0f, 80.0f }, 40))
+                GlobalInputs::primeGas = 1.0f;
+            else
+                GlobalInputs::primeGas = 0.0f;
+
+            if (Ui::Button("Prime Meth", { 425.0f, 500.0f, 200.0f, 80.0f }, 40))
+                GlobalInputs::primeMeth = 1.0f;
+            else
+                GlobalInputs::primeMeth = 0.0f;
+        }
+
         break;
     }
 
