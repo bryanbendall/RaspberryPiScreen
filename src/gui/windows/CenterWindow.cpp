@@ -158,15 +158,26 @@ void CenterWindow::draw()
         }
 
         {
-            if (Ui::Button("Prime Gas", { 175.0f, 500.0f, 200.0f, 80.0f }, 40))
-                GlobalInputs::primeGas = 1.0f;
-            else
-                GlobalInputs::primeGas = 0.0f;
+            Rectangle gasRect = { 175.0f, 500.0f, 200.0f, 80.0f };
+            Ui::Button("Prime Gas", gasRect, 40);
 
-            if (Ui::Button("Prime Meth", { 425.0f, 500.0f, 200.0f, 80.0f }, 40))
-                GlobalInputs::primeMeth = 1.0f;
-            else
-                GlobalInputs::primeMeth = 0.0f;
+            TouchInput* touch = TouchInput::get();
+            if (touch) {
+                if (touch->isDown(gasRect))
+                    GlobalInputs::primeGas = 1.0f;
+                else
+                    GlobalInputs::primeGas = 0.0f;
+            }
+
+            Rectangle methRect = { 425.0f, 500.0f, 200.0f, 80.0f };
+            Ui::Button("Prime Meth", methRect, 40);
+
+            if (touch) {
+                if (touch->isDown(methRect))
+                    GlobalInputs::primeMeth = 1.0f;
+                else
+                    GlobalInputs::primeMeth = 0.0f;
+            }
         }
 
         break;
