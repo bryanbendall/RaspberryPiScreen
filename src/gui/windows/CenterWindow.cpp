@@ -66,8 +66,8 @@ void CenterWindow::draw()
 
         Ui::Text({ 400.0f, 100.0f }, "Hvac", 100);
 
-        Ui::SmallGauge({ 220.0f, 330.0f }, 250.0f, "Press", "battery.svg", GlobalOutputs::acPress, 0.0f, 500.0f);
-        Ui::SmallGauge({ 580.0f, 330.0f }, 250.0f, "Vent", "battery.svg", GlobalOutputs::ventTemp, 0.0f, 100.0f);
+        Ui::SmallGauge({ 220.0f, 330.0f }, 250.0f, "Press", "", GlobalOutputs::acPress, 0.0f, 500.0f);
+        Ui::SmallGauge({ 580.0f, 330.0f }, 250.0f, "Vent", "water-temp.svg", GlobalOutputs::ventTemp, 0.0f, 100.0f);
 
         {
             Ui::Text({ 220.0f, 550.0f }, "Clutch On", 50);
@@ -137,9 +137,30 @@ void CenterWindow::draw()
             GlobalInputs::methEnable > 0.0f ? GlobalInputs::methEnable = 0.0f : GlobalInputs::methEnable = 1.0f;
 
         {
-            Ui::Text({ 400.0f, 350.0f }, "Max Boost", 40);
+            Ui::Text({ 400.0f, 350.0f }, "Base Boost", 40);
 
             if (Ui::Button("-", { 300.0f, 400.0f, 50.0f, 50.0f }, 30, true))
+                GlobalInputs::baseBoost -= 1.0f;
+
+            // Clamp bottom to 0
+            if (GlobalInputs::baseBoost < 0.0f)
+                GlobalInputs::baseBoost = 0.0f;
+
+            std::string lable = fmt::format("{:.0f}", GlobalInputs::baseBoost);
+            Ui::Text({ 400.0f, 425.0f }, lable.c_str(), 40);
+
+            if (Ui::Button("+", { 500.0f - 50.0f, 400.0f, 50.0f, 50.0f }, 30, true))
+                GlobalInputs::baseBoost += 1.0f;
+
+            // Clamp top to 15
+            if (GlobalInputs::baseBoost > 15.0f)
+                GlobalInputs::baseBoost = 15.0f;
+        }
+
+        {
+            Ui::Text({ 400.0f, 500.0f }, "Max Boost", 40);
+
+            if (Ui::Button("-", { 300.0f, 550.0f, 50.0f, 50.0f }, 30, true))
                 GlobalInputs::maxBoost -= 1.0f;
 
             // Clamp bottom to 0
@@ -147,9 +168,9 @@ void CenterWindow::draw()
                 GlobalInputs::maxBoost = 0.0f;
 
             std::string lable = fmt::format("{:.0f}", GlobalInputs::maxBoost);
-            Ui::Text({ 400.0f, 425.0f }, lable.c_str(), 40);
+            Ui::Text({ 400.0f, 575.0f }, lable.c_str(), 40);
 
-            if (Ui::Button("+", { 500.0f - 50.0f, 400.0f, 50.0f, 50.0f }, 30, true))
+            if (Ui::Button("+", { 500.0f - 50.0f, 550.0f, 50.0f, 50.0f }, 30, true))
                 GlobalInputs::maxBoost += 1.0f;
 
             // Clamp top to 20
@@ -158,7 +179,7 @@ void CenterWindow::draw()
         }
 
         {
-            Rectangle gasRect = { 175.0f, 500.0f, 200.0f, 80.0f };
+            Rectangle gasRect = { 175.0f, 650.0f, 200.0f, 80.0f };
             Ui::Button("Prime Gas", gasRect, 40);
 
             TouchInput* touch = TouchInput::get();
@@ -169,7 +190,7 @@ void CenterWindow::draw()
                     GlobalInputs::primeGas = 0.0f;
             }
 
-            Rectangle methRect = { 425.0f, 500.0f, 200.0f, 80.0f };
+            Rectangle methRect = { 425.0f, 650.0f, 200.0f, 80.0f };
             Ui::Button("Prime Meth", methRect, 40);
 
             if (touch) {

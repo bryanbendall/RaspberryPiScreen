@@ -8,7 +8,7 @@
 #include <raylib.h>
 #include <rlgl.h>
 
-int rightPanelIndex = 1;
+int rightPanelIndex = 0;
 
 GaugeWindow::GaugeWindow()
 {
@@ -97,11 +97,7 @@ void GaugeWindow::draw()
         }
     }
 
-    DrawFPS(0, 0);
-
-#ifndef PC_BUILD
-    DrawRectangleLines(0, 0, 1280, 480, WHITE);
-#endif
+    // DrawFPS(0, 0);
 
     EndDrawing();
 }

@@ -27,9 +27,11 @@ void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::
 
     Texture2D* outerCircleTexture = AssetManager::get().getSvg("outerCircle.svg", size, size);
     Texture2D* innerCircleTexture = AssetManager::get().getSvg("circle.svg", innerCircleSize, innerCircleSize);
-    Texture2D* iconTexture = AssetManager::get().getSvg(iconFilename, iconSize, iconSize);
+    Texture2D* iconTexture = nullptr;
+    if (!iconFilename.string().empty())
+        iconTexture = AssetManager::get().getSvg(iconFilename, iconSize, iconSize);
 
-    if (!outerCircleTexture || !innerCircleTexture || !iconTexture)
+    if (!outerCircleTexture || !innerCircleTexture)
         return;
 
     // Ring
@@ -67,7 +69,8 @@ void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::
 
     // Icon
     {
-        DrawTexture(*iconTexture, center.x - (iconSize / 2.0f), center.y + (size * 0.14f), GetColor(GlobalOutputs::gray));
+        if (iconTexture)
+            DrawTexture(*iconTexture, center.x - (iconSize / 2.0f), center.y + (size * 0.14f), GetColor(GlobalOutputs::gray));
     }
 }
 

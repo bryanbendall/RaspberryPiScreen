@@ -13,6 +13,7 @@ struct GlobalInputs {
 
     static inline float maxBoost = 0.0f;
     static inline float methEnable = 0.0f;
+    static inline float baseBoost = 0.0f;
 
     static inline float primeGas = 0.0f;
     static inline float primeMeth = 0.0f;
@@ -26,6 +27,7 @@ struct GlobalInputs {
 
         { "maxBoost", &maxBoost },
         { "methEnable", &methEnable },
+        { "baseBoost", &baseBoost },
 
         { "primeGas", &primeGas },
         { "primeMeth", &primeMeth },
