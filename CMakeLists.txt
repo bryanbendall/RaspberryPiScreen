@@ -27,6 +27,7 @@ add_executable(${PROJECT_NAME}
                 src/data/communication/wifi/Server.h
                 src/data/DataThread.cpp
                 src/data/DataThread.h
+                src/data/GlobalInputs.cpp
                 src/data/GlobalInputs.h
                 src/data/GlobalOutputs.h
                 src/data/Gpio.cpp
@@ -61,6 +62,7 @@ add_subdirectory(src/BrytecConfigEmbedded)
 add_subdirectory(vendor/raylib_multi_window_experimental)
 add_subdirectory(vendor/fmt)
 add_subdirectory(vendor/asio)
+add_subdirectory(vendor/yaml-cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "src")
 
@@ -69,6 +71,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                         raylib
                         fmt::fmt
                         asio
+                        yaml-cpp
                         BrytecConfigEmbedded
                         )
 

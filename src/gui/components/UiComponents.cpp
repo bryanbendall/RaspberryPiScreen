@@ -276,6 +276,8 @@ void Speedometer(Vector2 center, float value, bool kph)
         return;
 
     // Value
+    if (kph)
+        value = value * 1.609344f;
     std::string lable = fmt::format("{:.0f}", value);
     Vector2 valueMeasure = MeasureTextEx(*largeFont, lable.c_str(), largeFontSize, 0);
     DrawTextEx(*largeFont, lable.c_str(), { center.x - (valueMeasure.x / 2.0f), center.y - (valueMeasure.y / 2.0f) }, largeFontSize, 0, GetColor(GlobalOutputs::white));
@@ -401,7 +403,7 @@ bool Button(std::string label, Rectangle rect, int labelSize, bool showOutline, 
     return ButtonClick(rect);
 }
 
-void Text(Vector2 center, std::string label, int labelSize)
+void Text(Vector2 center, std::string label, int labelSize, Color tint)
 {
     Font* largeFont = AssetManager::get().getFont("RussoOne-Regular.ttf", labelSize);
 
@@ -409,6 +411,6 @@ void Text(Vector2 center, std::string label, int labelSize)
         return;
 
     Vector2 textSize = MeasureTextEx(*largeFont, label.c_str(), labelSize, 0);
-    DrawTextEx(*largeFont, label.c_str(), { center.x - (textSize.x / 2.0f), center.y - (labelSize / 2.0f) }, labelSize, 0, GetColor(GlobalOutputs::white));
+    DrawTextEx(*largeFont, label.c_str(), { center.x - (textSize.x / 2.0f), center.y - (labelSize / 2.0f) }, labelSize, 0, tint);
 }
 }

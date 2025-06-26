@@ -5,6 +5,7 @@
 #include "gui/Assets/AssetManager.h"
 #include "gui/CameraController.h"
 #include "gui/components/UiComponents.h"
+#include <fmt/format.h>
 #include <raylib.h>
 #include <rlgl.h>
 
@@ -95,6 +96,24 @@ void GaugeWindow::draw()
             Vector2 texPos = { 640.0f - (texture->width * scaling / 2.0f), 240.0f - (texture->height * scaling / 2.0f) };
             DrawTextureEx(*texture, texPos, 0.0f, scaling, WHITE);
         }
+    }
+
+    // Odometer
+    {
+        double trip = GlobalInputs::trip;
+        double odometer = GlobalInputs::odometer;
+        if (GlobalOutputs::useKph > 0.0001f) {
+            trip = trip * 1.609344;
+            odometer = odometer * 1.609344;
+        }
+
+        Ui::Text({ 640.0f, 380.0f }, "Trip", 20.0f, GetColor(GlobalOutputs::gray));
+        std::string tripLable = fmt::format("{:.{}f}", trip, 1);
+        Ui::Text({ 640.0f, 400.0f }, tripLable, 30.0f);
+
+        Ui::Text({ 640.0f, 430.0f }, "Odometer", 20.0f, GetColor(GlobalOutputs::gray));
+        std::string odoLable = fmt::format("{:.{}f}", odometer, 1);
+        Ui::Text({ 640.0f, 450.0f }, odoLable, 30.0f);
     }
 
     // DrawFPS(0, 0);

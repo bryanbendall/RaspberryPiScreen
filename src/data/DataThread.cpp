@@ -1,11 +1,14 @@
 #include "DataThread.h"
 
 #include "BrytecConfigEmbedded/EBrytecApp.h"
+#include "data/GlobalInputs.h"
 #include "data/ScreenControl.h"
 #include "data/communication/can/CanManager.h"
 #include "data/communication/http/HttpServer.h"
 #include "data/communication/wifi/Server.h"
 #include <chrono>
+
+extern bool s_programming;
 
 using namespace std::chrono_literals;
 
@@ -24,12 +27,14 @@ DataThread::~DataThread()
 
 void DataThread::run()
 {
+    GlobalInputs::loadDefaultValuesFromFile();
+    GlobalInputs::loadOdometerFromFile();
     Brytec::EBrytecApp::initalize();
     Server server(m_io_context);
     HttpServer httpServer(m_io_context);
     ScreenControl screenControl;
 
-    std::chrono::steady_clock::time_point lastUpdate;
+    std::chrono::steady_clock::time_point lastUpdate = std::chrono::steady_clock::now();
 
     while (m_run) {
         m_io_context.poll();
@@ -48,8 +53,11 @@ void DataThread::run()
             Brytec::EBrytecApp::processCanCommands();
         }
 
-        std::this_thread::sleep_for(1ms);
+        if (!s_programming)
+            std::this_thread::sleep_for(1ms);
     }
+
+    GlobalInputs::saveOdometerToFile();
 }
 
 void DataThread::stop()

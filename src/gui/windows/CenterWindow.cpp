@@ -201,6 +201,14 @@ void CenterWindow::draw()
             }
         }
 
+        if (Ui::Button("Mph", { 200.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalInputs::inputKph < 0.5f))
+            GlobalInputs::inputKph = 0.0f;
+        if (Ui::Button("Kph", { 400.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalInputs::inputKph > 0.5f))
+            GlobalInputs::inputKph = 1.0f;
+
+        if (Ui::Button("Save", { 300.0f, 1000.0f, 200.0f, 80.0f }, 40, true))
+            GlobalInputs::saveToFile();
+
         break;
     }
 

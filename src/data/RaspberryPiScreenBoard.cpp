@@ -15,12 +15,14 @@
 #include <map>
 #include <vector>
 
+bool s_programming = false;
+
 namespace Brytec {
 
 uint32_t configRequestedSize = 0;
 std::vector<uint8_t> tempConfig;
 
-std::filesystem::path configPath("BrytecConfig.btcfg");
+std::filesystem::path configPath("../resources/generated/BrytecConfig.btcfg");
 BinaryPathDeserializer pathDeserializer(configPath);
 
 static std::map<uint16_t, float*> outputIndexToValueMap;
@@ -41,9 +43,12 @@ BinaryDeserializer* BrytecBoard::getDeserializer()
     return nullptr;
 }
 
-void BrytecBoard::preUpdate() { }
+void BrytecBoard::preUpdate(uint32_t timestepMs) { }
 
-void BrytecBoard::postUpdate() { }
+void BrytecBoard::postUpdate(uint32_t timestepMs)
+{
+    GlobalInputs::calculateOdometer(timestepMs);
+}
 
 void BrytecBoard::error(EBrytecErrors error)
 {
@@ -141,6 +146,8 @@ void BrytecBoard::sendBrytecCanUsb(const CanFrame& frame)
 
 void BrytecBoard::ReserveConfigSize(uint16_t size)
 {
+    s_programming = true;
+
     configRequestedSize = size;
     tempConfig.reserve(size);
 }
@@ -150,11 +157,17 @@ void BrytecBoard::updateConfig(uint8_t* data, uint32_t size, uint32_t offset)
     tempConfig.insert(tempConfig.begin() + offset, data, data + size);
 
     if (size + offset >= configRequestedSize) {
+        // Create directory if it doesnt exist
+        if (!std::filesystem::exists(configPath.parent_path()))
+            std::filesystem::create_directories(configPath.parent_path());
+
         // Write to file
         std::cout << "Writing brytec config to file" << std::endl;
         std::ofstream fout(configPath, std::ofstream::binary);
         fout.write((char*)tempConfig.data(), tempConfig.size());
         tempConfig.clear();
+
+        s_programming = false;
     }
 }
 

@@ -10,3 +10,6 @@
 [submodule "src/BrytecConfigEmbedded"]
 	path = src/BrytecConfigEmbedded
 	url = https://github.com/bryanbendall/BrytecConfigEmbedded.git
+[submodule "vendor/yaml-cpp"]
+	path = vendor/yaml-cpp
+	url = https://github.com/bryanbendall/yaml-cpp.git
