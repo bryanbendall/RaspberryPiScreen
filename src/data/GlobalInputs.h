@@ -6,6 +6,9 @@
 
 struct GlobalInputs {
 
+    static inline float guageRightPanel = 0.0f;
+    static inline float centerScreenPanel = 0.0f;
+
     static inline float acOnTemp = 45.0f;
     static inline float acOffTemp = 40.0f;
     static inline float hvacFan = 0.0f;
@@ -19,13 +22,15 @@ struct GlobalInputs {
     static inline float primeGas = 0.0f;
     static inline float primeMeth = 0.0f;
 
-    static inline float inputKph = 0.0f;
+    static inline float useKph = 0.0f;
 
     // Distance variables
     static inline double odometer = 0.0f;
     static inline double trip = 0.0f;
 
     static inline const std::map<std::string, float*> nameToValueMap = {
+        { "guageRightPanel", &guageRightPanel },
+
         { "acOnTemp", &acOnTemp },
         { "acOffTemp", &acOffTemp },
         { "hvacFan", &hvacFan },
@@ -39,7 +44,7 @@ struct GlobalInputs {
         { "primeGas", &primeGas },
         { "primeMeth", &primeMeth },
 
-        { "inputKph", &inputKph },
+        { "useKph", &useKph },
     };
 
     static void loadDefaultValuesFromFile();

@@ -9,8 +9,6 @@
 #include <raylib.h>
 #include <rlgl.h>
 
-int rightPanelIndex = 0;
-
 GaugeWindow::GaugeWindow()
 {
     unsigned int flags = 0;
@@ -37,8 +35,11 @@ GaugeWindow::~GaugeWindow()
 
 void GaugeWindow::draw()
 {
-    if (IsKeyPressed(KEY_P))
-        rightPanelIndex++;
+    if (IsKeyPressed(KEY_P)) {
+        GlobalInputs::guageRightPanel += 1.0f;
+        if (GlobalInputs::guageRightPanel > 2.1f)
+            GlobalInputs::guageRightPanel = 0.0f;
+    }
 
     if (!AssetManager::get().setActiveWindow(m_windowID))
         return;
@@ -129,6 +130,7 @@ void GaugeWindow::drawRightPanel()
 
     // Wrap around if more then max panels
     constexpr int numberOfPanels = 3;
+    int rightPanelIndex = GlobalOutputs::guageRightPanel + 0.5f;
     rightPanelIndex = rightPanelIndex % numberOfPanels;
 
     int panelWidth = 1280 - 950;

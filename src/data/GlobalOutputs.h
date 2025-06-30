@@ -38,6 +38,7 @@ struct GlobalOutputs {
     static inline float parkingBrake;
     static inline float revLimit;
     static inline float engineLight;
+    static inline float methAfr;
 
     static inline float acPress;
     static inline float ventTemp;
@@ -45,6 +46,9 @@ struct GlobalOutputs {
 
     static inline float screen1;
     static inline float screen2;
+
+    static inline float guageRightPanel;
+    static inline float centerScreenPanel;
 
     // Variable colors
     static inline float guageColor;
@@ -86,6 +90,7 @@ struct GlobalOutputs {
         { "parkingBrake", &parkingBrake },
         { "revLimit", &revLimit },
         { "engineLight", &engineLight },
+        { "methAfr", &methAfr },
 
         { "acPress", &acPress },
         { "ventTemp", &ventTemp },
@@ -93,6 +98,9 @@ struct GlobalOutputs {
 
         { "screen1", &screen1 },
         { "screen2", &screen2 },
+
+        { "guageRightPanel", &guageRightPanel },
+        { "centerScreenPanel", &centerScreenPanel },
 
         { "guageColor", &guageColor },
 
@@ -127,6 +135,7 @@ struct GlobalOutputs {
         parkingBrake = 0.0f;
         revLimit = 8000.0f;
         engineLight = 0.0f;
+        methAfr = 0.0f;
 
         acPress = 0.0f;
         ventTemp = 0.0f;
@@ -134,6 +143,8 @@ struct GlobalOutputs {
 
         screen1 = 1.0f;
         screen2 = 1.0f;
+
+        guageRightPanel = 0.0f;
 
         guageColor = 1216765.0f; // orange
     }

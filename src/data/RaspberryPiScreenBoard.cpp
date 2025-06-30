@@ -43,7 +43,11 @@ BinaryDeserializer* BrytecBoard::getDeserializer()
     return nullptr;
 }
 
-void BrytecBoard::preUpdate(uint32_t timestepMs) { }
+void BrytecBoard::preUpdate(uint32_t timestepMs)
+{
+    GlobalOutputs::guageRightPanel = GlobalInputs::guageRightPanel;
+    GlobalOutputs::useKph = GlobalInputs::useKph;
+}
 
 void BrytecBoard::postUpdate(uint32_t timestepMs)
 {
