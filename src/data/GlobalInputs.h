@@ -7,7 +7,6 @@
 struct GlobalInputs {
 
     static inline float guageRightPanel = 0.0f;
-    static inline float centerScreenPanel = 0.0f;
 
     static inline float acOnTemp = 45.0f;
     static inline float acOffTemp = 40.0f;

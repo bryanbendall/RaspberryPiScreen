@@ -54,9 +54,15 @@ void CenterWindow::draw()
     // Selected Screen
     switch (m_currentScreen) {
 
-    case Screens::Info:
+    case Screens::Info: {
         Ui::Text({ 400.0f, 100.0f }, "Info", 100);
+
+        Ui::Text({ 400.0f, 300.0f }, "Meth Afr", 60, GetColor(GlobalOutputs::gray));
+        std::string lable = fmt::format("{:.1f}", GlobalOutputs::methAfr);
+        Ui::Text({ 400.0f, 360.0f }, lable, 60);
+
         break;
+    }
 
     case Screens::Map:
         Ui::Text({ 400.0f, 100.0f }, "Map", 100);

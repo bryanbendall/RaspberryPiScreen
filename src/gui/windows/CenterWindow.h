@@ -24,5 +24,5 @@ private:
     int m_width = 800;
     int m_height = 1280;
     TouchInput m_touchInput;
-    Screens m_currentScreen = Screens::Hvac;
+    Screens m_currentScreen = Screens::Info;
 };
