@@ -17,10 +17,8 @@ void GlobalInputs::loadDefaultValuesFromFile()
         return;
     }
 
-    for (auto v : nameToValueMap) {
-        if (node[v.first])
-            *v.second = node[v.first].as<float>();
-    }
+    for (auto n : node)
+        values[n.first.as<std::string>()] = n.second.as<float>();
 }
 
 void GlobalInputs::loadOdometerFromFile()
@@ -42,8 +40,8 @@ void GlobalInputs::saveToFile()
     YAML::Emitter out;
     out << YAML::BeginMap;
 
-    for (auto v : nameToValueMap)
-        writeVariable(out, v.first, *v.second);
+    for (auto v : values)
+        writeVariable(out, v.first, v.second);
 
     out << YAML::EndMap;
 
@@ -83,7 +81,7 @@ void GlobalInputs::calculateOdometer(uint32_t timestepMs)
     static double distanceTravelled = 0.0;
     static uint32_t timeSinceLastSave = 0;
 
-    speed1 = GlobalOutputs::speed;
+    speed1 = GlobalOutputs::values["speed"];
     timeSinceLastSave += timestepMs;
 
     // Skip if speed is too low so we don't get rounding errors

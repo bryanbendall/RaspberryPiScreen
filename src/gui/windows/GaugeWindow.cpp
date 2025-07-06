@@ -50,41 +50,41 @@ void GaugeWindow::draw()
 
     // Left panel
     {
-        Ui::SmallGauge({ 200.0f, 125.0f }, 180.0f, "°F", "water-temp.svg", GlobalOutputs::cts, 30.0f, 250.0f);
-        Ui::SmallGauge({ 200.0f, 325.0f }, 180.0f, "Psi", "engine-oil.svg", GlobalOutputs::oilPressure);
+        Ui::SmallGauge({ 200.0f, 125.0f }, 180.0f, "°F", "water-temp.svg", GlobalOutputs::values["cts"], 30.0f, 250.0f);
+        Ui::SmallGauge({ 200.0f, 325.0f }, 180.0f, "Psi", "engine-oil.svg", GlobalOutputs::values["oilPressure"]);
     }
 
     // Indicators
     {
-        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::parkingLights, GetColor(GlobalOutputs::orange));
-        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::lowBeam, GetColor(GlobalOutputs::green));
-        Ui::Indicator({ 30.0f, 30.0f }, 50, "high-beam.svg", GlobalOutputs::highBeam, GetColor(GlobalOutputs::blue));
-        Ui::Indicator({ 32.0f, 90.0f }, 45, "fog-lights.svg", GlobalOutputs::fogLights, GetColor(GlobalOutputs::green));
-        Ui::Indicator({ 30.0f, 150.0f }, 50, "parking-brake.svg", GlobalOutputs::parkingBrake, GetColor(GlobalOutputs::red));
-        Ui::Indicator({ 30.0f, 210.0f }, 50, "fan.svg", GlobalOutputs::fanState, GetColor(GlobalOutputs::blue));
-        Ui::Indicator({ 30.0f, 270.0f }, 50, "engine-light.svg", GlobalOutputs::engineLight, GetColor(GlobalOutputs::orange));
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::values["parkingLights"], GetColor(GlobalOutputs::orange));
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "low-beam.svg", GlobalOutputs::values["lowBeam"], GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 30.0f, 30.0f }, 50, "high-beam.svg", GlobalOutputs::values["highBeam"], GetColor(GlobalOutputs::blue));
+        Ui::Indicator({ 32.0f, 90.0f }, 45, "fog-lights.svg", GlobalOutputs::values["fogLights"], GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 30.0f, 150.0f }, 50, "parking-brake.svg", GlobalOutputs::values["parkingBrake"], GetColor(GlobalOutputs::red));
+        Ui::Indicator({ 30.0f, 210.0f }, 50, "fan.svg", GlobalOutputs::values["fanState"], GetColor(GlobalOutputs::blue));
+        Ui::Indicator({ 30.0f, 270.0f }, 50, "engine-light.svg", GlobalOutputs::values["engineLight"], GetColor(GlobalOutputs::orange));
     }
 
     // Center panel
     {
-        Ui::BoostGauge({ 310.0f, 0.0f }, GlobalOutputs::boost);
-        Ui::ClosedLoopGauge({ 820.0f, 0.0f }, GlobalOutputs::closedLoopComp);
-        Ui::Tach({ 640.0f, 240.0f }, 450.0f, GlobalOutputs::rpm, GlobalOutputs::revLimit);
-        Ui::Speedometer({ 640.0f, 240.0f }, GlobalOutputs::speed, GlobalOutputs::useKph > 0.0001f);
-        Ui::AfrGauge({ 640.0f, 120.0f }, GlobalOutputs::afr, GlobalOutputs::afr2, GlobalOutputs::showSecondAfr > 0.0001f);
-        Ui::GearIndicator({ 760.0f, 300.0f }, 120, GlobalOutputs::gear);
+        Ui::BoostGauge({ 310.0f, 0.0f }, GlobalOutputs::values["boost"]);
+        Ui::ClosedLoopGauge({ 820.0f, 0.0f }, GlobalOutputs::values["closedLoopComp"]);
+        Ui::Tach({ 640.0f, 240.0f }, 450.0f, GlobalOutputs::values["rpm"], GlobalOutputs::values["revLimit"]);
+        Ui::Speedometer({ 640.0f, 240.0f }, GlobalOutputs::values["speed"], GlobalOutputs::values["useKph"] > 0.0001f);
+        Ui::AfrGauge({ 640.0f, 120.0f }, GlobalOutputs::values["afr"], GlobalOutputs::values["afr2"], GlobalOutputs::values["showSecondAfr"] > 0.0001f);
+        Ui::GearIndicator({ 760.0f, 300.0f }, 120, GlobalOutputs::values["gear"]);
     }
 
     // Turn signals
     {
-        Ui::Indicator({ 640.0f - 200.0f, 5.0f }, 50, "left-turn-signal.svg", GlobalOutputs::leftTurn, GetColor(GlobalOutputs::green));
-        Ui::Indicator({ 640.0f + 150.0f, 5.0f }, 50, "right-turn-signal.svg", GlobalOutputs::rightTurn, GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 640.0f - 200.0f, 5.0f }, 50, "left-turn-signal.svg", GlobalOutputs::values["leftTurn"], GetColor(GlobalOutputs::green));
+        Ui::Indicator({ 640.0f + 150.0f, 5.0f }, 50, "right-turn-signal.svg", GlobalOutputs::values["rightTurn"], GetColor(GlobalOutputs::green));
     }
 
     // Fuel levels
     {
-        Ui::BarGauge({ 100.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::gasLevel, "fuel.svg");
-        Ui::BarGauge({ 1000.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::methLevel, "fuel.svg");
+        Ui::BarGauge({ 100.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::values["gasLevel"], "fuel.svg");
+        Ui::BarGauge({ 1000.0f, 450.0f }, { 240.0f, 10.0f }, GlobalOutputs::values["methLevel"], "fuel.svg");
     }
 
     drawRightPanel();
@@ -103,7 +103,7 @@ void GaugeWindow::draw()
     {
         double trip = GlobalInputs::trip;
         double odometer = GlobalInputs::odometer;
-        if (GlobalOutputs::useKph > 0.0001f) {
+        if (GlobalOutputs::values["useKph"] > 0.0001f) {
             trip = trip * 1.609344;
             odometer = odometer * 1.609344;
         }
@@ -130,7 +130,7 @@ void GaugeWindow::drawRightPanel()
 
     // Wrap around if more then max panels
     constexpr int numberOfPanels = 3;
-    int rightPanelIndex = GlobalOutputs::guageRightPanel + 0.5f;
+    int rightPanelIndex = GlobalOutputs::values["guageRightPanel"] + 0.5f;
     rightPanelIndex = rightPanelIndex % numberOfPanels;
 
     int panelWidth = 1280 - 950;
@@ -139,10 +139,10 @@ void GaugeWindow::drawRightPanel()
     switch (rightPanelIndex) {
     case 0: // Standard gauges
     {
-        Ui::SmallGauge({ 80.0f, 140.0f }, 140.0f, "V", "battery.svg", GlobalOutputs::battery, 6.0f, 18.0f, 1);
-        Ui::SmallGauge({ 240.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg", GlobalOutputs::lineTemp, 50.0f, 280.0f);
-        Ui::SmallGauge({ 80.0f, 320.0f }, 140.0f, "Gas", "fuel.svg", GlobalOutputs::fuelPressure);
-        Ui::SmallGauge({ 240.0f, 320.0f }, 140.0f, "Meth", "fuel.svg", GlobalOutputs::methPressure);
+        Ui::SmallGauge({ 80.0f, 140.0f }, 140.0f, "V", "battery.svg", GlobalOutputs::values["battery"], 6.0f, 18.0f, 1);
+        Ui::SmallGauge({ 240.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg", GlobalOutputs::values["lineTemp"], 50.0f, 280.0f);
+        Ui::SmallGauge({ 80.0f, 320.0f }, 140.0f, "Gas", "fuel.svg", GlobalOutputs::values["fuelPressure"]);
+        Ui::SmallGauge({ 240.0f, 320.0f }, 140.0f, "Meth", "fuel.svg", GlobalOutputs::values["methPressure"]);
     } break;
 
     case 1: // Egt

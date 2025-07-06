@@ -58,7 +58,7 @@ void CenterWindow::draw()
         Ui::Text({ 400.0f, 100.0f }, "Info", 100);
 
         Ui::Text({ 400.0f, 300.0f }, "Meth Afr", 60, GetColor(GlobalOutputs::gray));
-        std::string lable = fmt::format("{:.1f}", GlobalOutputs::methAfr);
+        std::string lable = fmt::format("{:.1f}", GlobalOutputs::values["methAfr"]);
         Ui::Text({ 400.0f, 360.0f }, lable, 60);
 
         break;
@@ -72,65 +72,77 @@ void CenterWindow::draw()
 
         Ui::Text({ 400.0f, 100.0f }, "Hvac", 100);
 
-        Ui::SmallGauge({ 220.0f, 330.0f }, 250.0f, "Press", "", GlobalOutputs::acPress, 0.0f, 500.0f);
-        Ui::SmallGauge({ 580.0f, 330.0f }, 250.0f, "Vent", "water-temp.svg", GlobalOutputs::ventTemp, 0.0f, 100.0f);
+        Ui::SmallGauge({ 220.0f, 330.0f }, 250.0f, "Press", "", GlobalOutputs::values["acPress"], 0.0f, 500.0f);
+        Ui::SmallGauge({ 580.0f, 330.0f }, 250.0f, "Vent", "water-temp.svg", GlobalOutputs::values["ventTemp"], 0.0f, 100.0f);
 
         {
+            float& acOnTemp = GlobalInputs::values["acOnTemp"];
+
             Ui::Text({ 220.0f, 550.0f }, "Clutch On", 50);
 
             if (Ui::Button("-", { 120.0f, 600.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::acOnTemp -= 1.0f;
+                acOnTemp -= 1.0f;
 
-            std::string lable = fmt::format("{:.0f}", GlobalInputs::acOnTemp);
+            std::string lable = fmt::format("{:.0f}", acOnTemp);
             Ui::Text({ 220.0f, 625.0f }, lable.c_str(), 40);
 
             if (Ui::Button("+", { 320.0f - 50.0f, 600.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::acOnTemp += 1.0f;
+                acOnTemp += 1.0f;
         }
 
         {
-            Color c = GlobalOutputs::acClutchStatus ? GetColor(GlobalOutputs::green) : GetColor(GlobalOutputs::gray);
+            Color c = GlobalOutputs::values["acClutchStatus"] ? GetColor(GlobalOutputs::green) : GetColor(GlobalOutputs::gray);
             Ui::Indicator({ 360.0f, 560.0f }, 80, "circle.svg", 1.0f, c);
         }
 
         {
+            float& acOffTemp = GlobalInputs::values["acOffTemp"];
+
             Ui::Text({ 580.0f, 550.0f }, "Clutch Off", 50);
 
             if (Ui::Button("-", { 480.0f, 600.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::acOffTemp -= 1.0f;
+                acOffTemp -= 1.0f;
 
-            std::string lable = fmt::format("{:.0f}", GlobalInputs::acOffTemp);
+            std::string lable = fmt::format("{:.0f}", acOffTemp);
             Ui::Text({ 580.0f, 625.0f }, lable.c_str(), 40);
 
             if (Ui::Button("+", { 680.0f - 50.0f, 600.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::acOffTemp += 1.0f;
+                acOffTemp += 1.0f;
         }
 
         {
+            float& hvacFan = GlobalInputs::values["hvacFan"];
+
             Ui::Text({ 400.0f, 760.0f }, "Fan", 50);
 
-            if (Ui::Button("Off", { 200.0f - 30.0f, 800.0f, 100.0f, 80.0f }, 40, false, GlobalInputs::hvacFan == 0.0f))
-                GlobalInputs::hvacFan = 0.0f;
-            if (Ui::Button("Lo", { 300.0f - 10.0f, 800.0f, 100.0f, 80.0f }, 40, false, GlobalInputs::hvacFan == 1.0f))
-                GlobalInputs::hvacFan = 1.0f;
-            if (Ui::Button("Med", { 400.0f + 10.0f, 800.0f, 100.0f, 80.0f }, 40, false, GlobalInputs::hvacFan == 2.0f))
-                GlobalInputs::hvacFan = 2.0f;
-            if (Ui::Button("Hi", { 500.0f + 30.0f, 800.0f, 100.0f, 80.0f }, 40, false, GlobalInputs::hvacFan == 3.0f))
-                GlobalInputs::hvacFan = 3.0f;
+            if (Ui::Button("Off", { 200.0f - 30.0f, 800.0f, 100.0f, 80.0f }, 40, false, hvacFan == 0.0f))
+                hvacFan = 0.0f;
+            if (Ui::Button("Lo", { 300.0f - 10.0f, 800.0f, 100.0f, 80.0f }, 40, false, hvacFan == 1.0f))
+                hvacFan = 1.0f;
+            if (Ui::Button("Med", { 400.0f + 10.0f, 800.0f, 100.0f, 80.0f }, 40, false, hvacFan == 2.0f))
+                hvacFan = 2.0f;
+            if (Ui::Button("Hi", { 500.0f + 30.0f, 800.0f, 100.0f, 80.0f }, 40, false, hvacFan == 3.0f))
+                hvacFan = 3.0f;
         }
 
-        if (Ui::Button("A/C Enable", { 300.0f, 930.0f, 200.0f, 80.0f }, 40, false, GlobalInputs::acEnable > 0.0f))
-            GlobalInputs::acEnable > 0.0f ? GlobalInputs::acEnable = 0.0f : GlobalInputs::acEnable = 1.0f;
+        {
+            float& acEnable = GlobalInputs::values["acEnable"];
+
+            if (Ui::Button("A/C Enable", { 300.0f, 930.0f, 200.0f, 80.0f }, 40, false, acEnable > 0.0f))
+                acEnable > 0.0f ? acEnable = 0.0f : acEnable = 1.0f;
+        }
 
         {
-            if (Ui::Button("Defrost", { 100.0f - 30.0f, 1060.0f, 150.0f, 80.0f }, 40, false, GlobalInputs::hvacLevel == 0.0f))
-                GlobalInputs::hvacLevel = 0.0f;
-            if (Ui::Button("Dash", { 250.0f - 10.0f, 1060.0f, 150.0f, 80.0f }, 40, false, GlobalInputs::hvacLevel == 1.0f))
-                GlobalInputs::hvacLevel = 1.0f;
-            if (Ui::Button("Bi Level", { 400.0f + 10.0f, 1060.0f, 150.0f, 80.0f }, 40, false, GlobalInputs::hvacLevel == 2.0f))
-                GlobalInputs::hvacLevel = 2.0f;
-            if (Ui::Button("Floor", { 550.0f + 30.0f, 1060.0f, 150.0f, 80.0f }, 40, false, GlobalInputs::hvacLevel == 3.0f))
-                GlobalInputs::hvacLevel = 3.0f;
+            float& hvacLevel = GlobalInputs::values["hvacLevel"];
+
+            if (Ui::Button("Defrost", { 100.0f - 30.0f, 1060.0f, 150.0f, 80.0f }, 40, false, hvacLevel == 0.0f))
+                hvacLevel = 0.0f;
+            if (Ui::Button("Dash", { 250.0f - 10.0f, 1060.0f, 150.0f, 80.0f }, 40, false, hvacLevel == 1.0f))
+                hvacLevel = 1.0f;
+            if (Ui::Button("Bi Level", { 400.0f + 10.0f, 1060.0f, 150.0f, 80.0f }, 40, false, hvacLevel == 2.0f))
+                hvacLevel = 2.0f;
+            if (Ui::Button("Floor", { 550.0f + 30.0f, 1060.0f, 150.0f, 80.0f }, 40, false, hvacLevel == 3.0f))
+                hvacLevel = 3.0f;
         }
 
         break;
@@ -139,78 +151,89 @@ void CenterWindow::draw()
     case Screens::Settings:
         Ui::Text({ 400.0f, 100.0f }, "Settings", 100);
 
-        if (Ui::Button("Meth Enable", { 280.0f, 200.0f, 240.0f, 80.0f }, 40, false, GlobalInputs::methEnable > 0.0f))
-            GlobalInputs::methEnable > 0.0f ? GlobalInputs::methEnable = 0.0f : GlobalInputs::methEnable = 1.0f;
+        float& methEnable = GlobalInputs::values["methEnable"];
+        if (Ui::Button("Meth Enable", { 280.0f, 200.0f, 240.0f, 80.0f }, 40, false, methEnable > 0.0f))
+            methEnable > 0.0f ? methEnable = 0.0f : methEnable = 1.0f;
 
         {
+            float& baseBoost = GlobalInputs::values["baseBoost"];
+
             Ui::Text({ 400.0f, 350.0f }, "Base Boost", 40);
 
             if (Ui::Button("-", { 300.0f, 400.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::baseBoost -= 1.0f;
+                baseBoost -= 1.0f;
 
             // Clamp bottom to 0
-            if (GlobalInputs::baseBoost < 0.0f)
-                GlobalInputs::baseBoost = 0.0f;
+            if (baseBoost < 0.0f)
+                baseBoost = 0.0f;
 
-            std::string lable = fmt::format("{:.0f}", GlobalInputs::baseBoost);
+            std::string lable = fmt::format("{:.0f}", baseBoost);
             Ui::Text({ 400.0f, 425.0f }, lable.c_str(), 40);
 
             if (Ui::Button("+", { 500.0f - 50.0f, 400.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::baseBoost += 1.0f;
+                baseBoost += 1.0f;
 
             // Clamp top to 15
-            if (GlobalInputs::baseBoost > 15.0f)
-                GlobalInputs::baseBoost = 15.0f;
+            if (baseBoost > 15.0f)
+                baseBoost = 15.0f;
         }
 
         {
+            float& maxBoost = GlobalInputs::values["maxBoost"];
+
             Ui::Text({ 400.0f, 500.0f }, "Max Boost", 40);
 
             if (Ui::Button("-", { 300.0f, 550.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::maxBoost -= 1.0f;
+                maxBoost -= 1.0f;
 
             // Clamp bottom to 0
-            if (GlobalInputs::maxBoost < 0.0f)
-                GlobalInputs::maxBoost = 0.0f;
+            if (maxBoost < 0.0f)
+                maxBoost = 0.0f;
 
-            std::string lable = fmt::format("{:.0f}", GlobalInputs::maxBoost);
+            std::string lable = fmt::format("{:.0f}", maxBoost);
             Ui::Text({ 400.0f, 575.0f }, lable.c_str(), 40);
 
             if (Ui::Button("+", { 500.0f - 50.0f, 550.0f, 50.0f, 50.0f }, 30, true))
-                GlobalInputs::maxBoost += 1.0f;
+                maxBoost += 1.0f;
 
             // Clamp top to 20
-            if (GlobalInputs::maxBoost > 20.0f)
-                GlobalInputs::maxBoost = 20.0f;
+            if (maxBoost > 20.0f)
+                maxBoost = 20.0f;
         }
 
         {
+            float& primeGas = GlobalInputs::values["primeGas"];
+
             Rectangle gasRect = { 175.0f, 650.0f, 200.0f, 80.0f };
             Ui::Button("Prime Gas", gasRect, 40);
 
             TouchInput* touch = TouchInput::get();
             if (touch) {
                 if (touch->isDown(gasRect))
-                    GlobalInputs::primeGas = 1.0f;
+                    primeGas = 1.0f;
                 else
-                    GlobalInputs::primeGas = 0.0f;
+                    primeGas = 0.0f;
             }
+
+            float& primeMeth = GlobalInputs::values["primeMeth"];
 
             Rectangle methRect = { 425.0f, 650.0f, 200.0f, 80.0f };
             Ui::Button("Prime Meth", methRect, 40);
 
             if (touch) {
                 if (touch->isDown(methRect))
-                    GlobalInputs::primeMeth = 1.0f;
+                    primeMeth = 1.0f;
                 else
-                    GlobalInputs::primeMeth = 0.0f;
+                    primeMeth = 0.0f;
             }
         }
 
-        if (Ui::Button("Mph", { 200.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalOutputs::useKph < 0.5f))
-            GlobalInputs::useKph = 0.0f;
-        if (Ui::Button("Kph", { 400.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalOutputs::useKph > 0.5f))
-            GlobalInputs::useKph = 1.0f;
+        float& useKph = GlobalInputs::values["useKph"];
+
+        if (Ui::Button("Mph", { 200.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalOutputs::values["useKph"] < 0.5f))
+            useKph = 0.0f;
+        if (Ui::Button("Kph", { 400.0f, 800.0f, 200.0f, 80.0f }, 40, false, GlobalOutputs::values["useKph"] > 0.5f))
+            useKph = 1.0f;
 
         if (Ui::Button("Save", { 300.0f, 1000.0f, 200.0f, 80.0f }, 40, true))
             GlobalInputs::saveToFile();

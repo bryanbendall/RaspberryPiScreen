@@ -45,8 +45,8 @@ BinaryDeserializer* BrytecBoard::getDeserializer()
 
 void BrytecBoard::preUpdate(uint32_t timestepMs)
 {
-    GlobalOutputs::guageRightPanel = GlobalInputs::guageRightPanel;
-    GlobalOutputs::useKph = GlobalInputs::useKph;
+    GlobalOutputs::values["guageRightPanel"] = GlobalInputs::guageRightPanel;
+    GlobalOutputs::values["useKph"] = GlobalInputs::values["useKph"];
 }
 
 void BrytecBoard::postUpdate(uint32_t timestepMs)
@@ -200,16 +200,8 @@ void BrytecBoard::getConfigData(uint8_t* dest, uint32_t offset, uint32_t length)
 
 void BrytecBoard::AddedNamesNodeGroup(uint16_t index, std::string ngName)
 {
-    {
-        auto it = GlobalOutputs::nameToValueMap.find(ngName);
-        if (it != GlobalOutputs::nameToValueMap.end())
-            outputIndexToValueMap[index] = it->second;
-    }
+    outputIndexToValueMap[index] = &GlobalOutputs::values[ngName];
 
-    {
-        auto it = GlobalInputs::nameToValueMap.find(ngName);
-        if (it != GlobalInputs::nameToValueMap.end())
-            inputIndexToValueMap[index] = it->second;
-    }
+    inputIndexToValueMap[index] = &GlobalInputs::values[ngName];
 }
 }

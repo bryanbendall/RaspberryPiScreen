@@ -113,9 +113,9 @@ void HttpConnectionHandler::handleAndRespond()
 
     if (m_method == "POST") {
         if (m_url == "/left") {
-            GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
+            // GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
         } else if (m_url == "/right") {
-            GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
+            // GlobalOutputs::engineLight = GlobalOutputs::engineLight ? 0.0f : 1.0f;
         } else if (m_url == "/camera") {
             RemoteCamera& screenCaptureCamera = CameraController::get().getCamera("ScreenCapture");
             screenCaptureCamera.open(m_content);

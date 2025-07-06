@@ -39,7 +39,7 @@ void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::
         float angle = Utils::mapValue(min, max, 90.0f, 360.0f, value);
 
         DrawCircleSector(center, size / 2.0f, 90.0f, 360.0f, 20, GetColor(GlobalOutputs::gray));
-        DrawCircleSector(center, size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+        DrawCircleSector(center, size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 
         DrawTexture(*outerCircleTexture, center.x - (size / 2.0f), center.y - (size / 2.0f), GetColor(GlobalOutputs::black));
         DrawTexture(*innerCircleTexture, center.x - (innerCircleSize / 2.0f), center.y - (innerCircleSize / 2.0f), GetColor(GlobalOutputs::black));
@@ -108,11 +108,11 @@ void Tach(Vector2 center, float size, float value, float revLimit)
 
     // Colored gauge amount
     float valueAngle = Utils::mapValue(0.0f, 10000.0f, 120.0f, 360.0f, value);
-    Color gaugeColor = value > revLimit ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::guageColor);
+    Color gaugeColor = value > revLimit ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]);
     DrawCircleSector(center, size / 2.0f + 3.0f, 120.0f, valueAngle, 20, gaugeColor);
 
     // Rest of the gauge
-    DrawTexture(*colorTicks, center.x - (458.0f / 2.0f), center.y - (426.0f / 2.0f) - 15.0f, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawTexture(*colorTicks, center.x - (458.0f / 2.0f), center.y - (426.0f / 2.0f) - 15.0f, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
     DrawTextureV(*gaugeTexture, { center.x - (476.0f / 2.0f), 2.964f }, GetColor(GlobalOutputs::white));
 
     // Numbers
@@ -173,7 +173,7 @@ void BoostGauge(Vector2 position, float value)
 
     // Value bar
     float barTopY = Utils::mapValue(0.0f, (float)sectors * 10.0f, 480 - boarders, boarders, value);
-    DrawRectangle(position.x, barTopY, width, 480 - boarders - barTopY, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawRectangle(position.x, barTopY, width, 480 - boarders - barTopY, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 
     // White curved line
     DrawTextureV(*maskTexture, { position.x + 3.0f, position.y }, GetColor(GlobalOutputs::white));
@@ -221,7 +221,7 @@ void ClosedLoopGauge(Vector2 position, float value)
         return;
 
     // Value bar
-    Color gaugeColor = value > 25.0f || value < -25.0f ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::guageColor);
+    Color gaugeColor = value > 25.0f || value < -25.0f ? GetColor(GlobalOutputs::red) : Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]);
     if (value > 0.0f) {
         float barTopY = Utils::mapValue(0.0f, 50.0f, 240, boarders, value);
         DrawRectangle(position.x, barTopY, width, 240 - barTopY, gaugeColor);
@@ -339,7 +339,7 @@ void GearIndicator(Vector2 position, int size, float value)
     if (intVal > 0)
         lable = fmt::format("{:d}", intVal);
 
-    DrawTextEx(*font, lable.c_str(), position, size, 0, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawTextEx(*font, lable.c_str(), position, size, 0, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 }
 
 void BarGauge(Vector2 position, Vector2 size, float value, std::filesystem::path iconFilename, std::string label, float min, float max)
@@ -349,7 +349,7 @@ void BarGauge(Vector2 position, Vector2 size, float value, std::filesystem::path
 
     DrawRectangleV(position, size, GetColor(GlobalOutputs::gray));
     float barX = Utils::mapValue(min, max, 0.0f, size.x, value);
-    DrawRectangleV(position, { barX, size.y }, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+    DrawRectangleV(position, { barX, size.y }, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 
     if (!iconFilename.empty()) {
         Texture2D* fuelIcon = AssetManager::get().getSvg(iconFilename, iconSize, iconSize);
@@ -382,7 +382,7 @@ bool ButtonClick(Rectangle rect)
 bool Button(std::string label, Rectangle rect, int labelSize, bool showOutline, bool highlightBackground)
 {
     if (highlightBackground)
-        DrawRectangleRec(rect, Utils::getColorFromBrytec(GlobalOutputs::guageColor));
+        DrawRectangleRec(rect, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 
     TouchInput* touch = TouchInput::get();
     if (touch) {

@@ -5,8 +5,8 @@
 
 void ScreenControl::update()
 {
-    updateScreen(m_screen1, GlobalOutputs::screen1);
-    updateScreen(m_screen2, GlobalOutputs::screen2);
+    updateScreen(m_screen1, GlobalOutputs::values["screen1"]);
+    updateScreen(m_screen2, GlobalOutputs::values["screen2"]);
 }
 
 void ScreenControl::updateScreen(Screen& screen, float globalVariable)
@@ -21,7 +21,7 @@ void ScreenControl::updateScreen(Screen& screen, float globalVariable)
     }
 
     // Clear pulse on next update
-    if (screen.pinPulse){
+    if (screen.pinPulse) {
         Gpio::writePin(screen.pin, Gpio::PinState::High);
         screen.pinPulse = false;
     }
