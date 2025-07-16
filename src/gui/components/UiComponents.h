@@ -7,7 +7,20 @@
 
 namespace Ui {
 
-void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::path iconFilename, float value, float min = 0.0f, float max = 100.0f, int decimals = 0);
+struct SmallGaugeSpec {
+    Vector2 center = { 0.0f, 0.0f };
+    float size = 100.0f;
+    std::string label = "";
+    std::filesystem::path iconFilename = "";
+    float value = 0.0f;
+    float min = 0.0f;
+    float max = 100.0f;
+    int decimals = 0;
+    float lowWarning = 0.0f;
+    float highWarning = 999.0f;
+};
+
+void SmallGauge(const SmallGaugeSpec& spec);
 void Indicator(Vector2 position, int size, std::filesystem::path iconFilename, float value, Color activeColor);
 void Tach(Vector2 center, float size, float value, float revLimit);
 void BoostGauge(Vector2 position, float value);

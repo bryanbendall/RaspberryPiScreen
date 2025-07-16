@@ -10,13 +10,13 @@
 
 namespace Ui {
 
-void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::path iconFilename, float value, float min, float max, int decimals)
+void SmallGauge(const SmallGaugeSpec& spec)
 {
-    float innerCircleSize = size * 0.8f;
-    float centerLableSize = size * 0.27f;
-    float unitLableSize = size * 0.16f;
-    float minMaxLableSize = size * 0.11f;
-    float iconSize = size * 0.2f;
+    float innerCircleSize = spec.size * 0.8f;
+    float centerLableSize = spec.size * 0.27f;
+    float unitLableSize = spec.size * 0.16f;
+    float minMaxLableSize = spec.size * 0.11f;
+    float iconSize = spec.size * 0.2f;
 
     Font* largeFont = AssetManager::get().getFont("RussoOne-Regular.ttf", centerLableSize);
     Font* smallFont = AssetManager::get().getFont("RussoOne-Regular.ttf", unitLableSize);
@@ -25,52 +25,56 @@ void SmallGauge(Vector2 center, float size, std::string label, std::filesystem::
     if (!largeFont || !smallFont || !minMaxFont)
         return;
 
-    Texture2D* outerCircleTexture = AssetManager::get().getSvg("outerCircle.svg", size, size);
+    Texture2D* outerCircleTexture = AssetManager::get().getSvg("outerCircle.svg", spec.size, spec.size);
     Texture2D* innerCircleTexture = AssetManager::get().getSvg("circle.svg", innerCircleSize, innerCircleSize);
+    Texture2D* warningTexture = AssetManager::get().getSvg("radial gradient.svg", spec.size, spec.size);
     Texture2D* iconTexture = nullptr;
-    if (!iconFilename.string().empty())
-        iconTexture = AssetManager::get().getSvg(iconFilename, iconSize, iconSize);
+    if (!spec.iconFilename.string().empty())
+        iconTexture = AssetManager::get().getSvg(spec.iconFilename, iconSize, iconSize);
 
-    if (!outerCircleTexture || !innerCircleTexture)
+    if (!outerCircleTexture || !innerCircleTexture || !warningTexture)
         return;
 
     // Ring
     {
-        float angle = Utils::mapValue(min, max, 90.0f, 360.0f, value);
+        float angle = Utils::mapValue(spec.min, spec.max, 90.0f, 360.0f, spec.value);
 
-        DrawCircleSector(center, size / 2.0f, 90.0f, 360.0f, 20, GetColor(GlobalOutputs::gray));
-        DrawCircleSector(center, size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
+        DrawCircleSector(spec.center, spec.size / 2.0f, 90.0f, 360.0f, 20, GetColor(GlobalOutputs::gray));
+        DrawCircleSector(spec.center, spec.size / 2.0f, 90.0f, angle, 20, Utils::getColorFromBrytec(GlobalOutputs::values["guageColor"]));
 
-        DrawTexture(*outerCircleTexture, center.x - (size / 2.0f), center.y - (size / 2.0f), GetColor(GlobalOutputs::black));
-        DrawTexture(*innerCircleTexture, center.x - (innerCircleSize / 2.0f), center.y - (innerCircleSize / 2.0f), GetColor(GlobalOutputs::black));
+        DrawTexture(*outerCircleTexture, spec.center.x - (spec.size / 2.0f), spec.center.y - (spec.size / 2.0f), GetColor(GlobalOutputs::black));
+        DrawTexture(*innerCircleTexture, spec.center.x - (innerCircleSize / 2.0f), spec.center.y - (innerCircleSize / 2.0f), GetColor(GlobalOutputs::black));
+
+        if (spec.value < spec.lowWarning || spec.value > spec.highWarning)
+            DrawTexture(*warningTexture, spec.center.x - (spec.size / 2.0f), spec.center.y - (spec.size / 2.0f), GetColor(GlobalOutputs::red));
     }
 
     // Center value text
     {
-        std::string lable = fmt::format("{:.{}f}", value, decimals);
+        std::string lable = fmt::format("{:.{}f}", spec.value, spec.decimals);
         Vector2 textSize = MeasureTextEx(*largeFont, lable.c_str(), centerLableSize, 0);
-        DrawTextEx(*largeFont, lable.c_str(), { center.x - (textSize.x / 2.0f), center.y - (centerLableSize / 2.0f) }, centerLableSize, 0, GetColor(GlobalOutputs::white));
+        DrawTextEx(*largeFont, lable.c_str(), { spec.center.x - (textSize.x / 2.0f), spec.center.y - (centerLableSize / 2.0f) }, centerLableSize, 0, GetColor(GlobalOutputs::white));
     }
 
     // Gauge min and max text
     {
-        std::string lable = fmt::format("{:.0f}", min);
-        DrawTextEx(*minMaxFont, lable.c_str(), { center.x + 8.0f, center.y + (size / 2.0f) - minMaxLableSize }, minMaxLableSize, 0, GetColor(GlobalOutputs::white));
+        std::string lable = fmt::format("{:.0f}", spec.min);
+        DrawTextEx(*minMaxFont, lable.c_str(), { spec.center.x + 8.0f, spec.center.y + (spec.size / 2.0f) - minMaxLableSize }, minMaxLableSize, 0, GetColor(GlobalOutputs::white));
 
-        lable = fmt::format("{:.0f}", max);
-        DrawTextEx(*minMaxFont, lable.c_str(), { center.x + (innerCircleSize / 2.0f), center.y + (minMaxLableSize / 4.0f) }, minMaxLableSize, 0, GetColor(GlobalOutputs::white));
+        lable = fmt::format("{:.0f}", spec.max);
+        DrawTextEx(*minMaxFont, lable.c_str(), { spec.center.x + (innerCircleSize / 2.0f), spec.center.y + (minMaxLableSize / 4.0f) }, minMaxLableSize, 0, GetColor(GlobalOutputs::white));
     }
 
     // Gauge label
     {
-        Vector2 textSize = MeasureTextEx(*smallFont, label.c_str(), unitLableSize, 0);
-        DrawTextEx(*smallFont, label.c_str(), { center.x - (textSize.x / 2.0f), center.y - (size * 0.3f) }, unitLableSize, 0, GetColor(GlobalOutputs::gray));
+        Vector2 textSize = MeasureTextEx(*smallFont, spec.label.c_str(), unitLableSize, 0);
+        DrawTextEx(*smallFont, spec.label.c_str(), { spec.center.x - (textSize.x / 2.0f), spec.center.y - (spec.size * 0.3f) }, unitLableSize, 0, GetColor(GlobalOutputs::gray));
     }
 
     // Icon
     {
         if (iconTexture)
-            DrawTexture(*iconTexture, center.x - (iconSize / 2.0f), center.y + (size * 0.14f), GetColor(GlobalOutputs::gray));
+            DrawTexture(*iconTexture, spec.center.x - (iconSize / 2.0f), spec.center.y + (spec.size * 0.14f), GetColor(GlobalOutputs::gray));
     }
 }
 

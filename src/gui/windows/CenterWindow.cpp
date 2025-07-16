@@ -72,8 +72,21 @@ void CenterWindow::draw()
 
         Ui::Text({ 400.0f, 100.0f }, "Hvac", 100);
 
-        Ui::SmallGauge({ 220.0f, 330.0f }, 250.0f, "Press", "", GlobalOutputs::values["acPress"], 0.0f, 500.0f);
-        Ui::SmallGauge({ 580.0f, 330.0f }, 250.0f, "Vent", "water-temp.svg", GlobalOutputs::values["ventTemp"], 0.0f, 100.0f);
+        Ui::SmallGaugeSpec acPressSpec {};
+        acPressSpec.value = GlobalOutputs::values["acPress"];
+        acPressSpec.center = { 220.0f, 330.0f };
+        acPressSpec.size = 250.0f;
+        acPressSpec.label = "Press";
+        acPressSpec.max = 500.0f;
+        Ui::SmallGauge(acPressSpec);
+
+        Ui::SmallGaugeSpec acTempSpec {};
+        acTempSpec.value = GlobalOutputs::values["acCoreTemp"];
+        acTempSpec.center = { 580.0f, 330.0f };
+        acTempSpec.size = 250.0f;
+        acTempSpec.label = "Temp";
+        acTempSpec.iconFilename = "water-temp.svg";
+        Ui::SmallGauge(acTempSpec);
 
         {
             float& acOnTemp = GlobalInputs::values["acOnTemp"];

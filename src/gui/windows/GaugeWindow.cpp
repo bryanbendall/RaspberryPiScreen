@@ -50,8 +50,25 @@ void GaugeWindow::draw()
 
     // Left panel
     {
-        Ui::SmallGauge({ 200.0f, 125.0f }, 180.0f, "°F", "water-temp.svg", GlobalOutputs::values["cts"], 30.0f, 250.0f);
-        Ui::SmallGauge({ 200.0f, 325.0f }, 180.0f, "Psi", "engine-oil.svg", GlobalOutputs::values["oilPressure"]);
+        Ui::SmallGaugeSpec waterSpec {};
+        waterSpec.value = GlobalOutputs::values["cts"];
+        waterSpec.center = { 200.0f, 125.0f };
+        waterSpec.size = 180.0f;
+        waterSpec.label = "°F";
+        waterSpec.iconFilename = "water-temp.svg";
+        waterSpec.min = 30.0f;
+        waterSpec.max = 250.0f;
+        waterSpec.highWarning = GlobalOutputs::values["ctsHighWarn"];
+        Ui::SmallGauge(waterSpec);
+
+        Ui::SmallGaugeSpec oilSpec {};
+        oilSpec.value = GlobalOutputs::values["oilPressure"];
+        oilSpec.center = { 200.0f, 325.0f };
+        oilSpec.size = 180.0f;
+        oilSpec.label = "Psi";
+        oilSpec.iconFilename = "engine-oil.svg";
+        oilSpec.lowWarning = GlobalOutputs::values["oilPressureLowWarn"];
+        Ui::SmallGauge(oilSpec);
     }
 
     // Indicators
@@ -139,10 +156,48 @@ void GaugeWindow::drawRightPanel()
     switch (rightPanelIndex) {
     case 0: // Standard gauges
     {
-        Ui::SmallGauge({ 80.0f, 140.0f }, 140.0f, "V", "battery.svg", GlobalOutputs::values["battery"], 6.0f, 18.0f, 1);
-        Ui::SmallGauge({ 240.0f, 140.0f }, 140.0f, "°F", "transmission-temp.svg", GlobalOutputs::values["lineTemp"], 50.0f, 280.0f);
-        Ui::SmallGauge({ 80.0f, 320.0f }, 140.0f, "Gas", "fuel.svg", GlobalOutputs::values["fuelPressure"]);
-        Ui::SmallGauge({ 240.0f, 320.0f }, 140.0f, "Meth", "fuel.svg", GlobalOutputs::values["methPressure"]);
+        Ui::SmallGaugeSpec batterySpec {};
+        batterySpec.value = GlobalOutputs::values["battery"];
+        batterySpec.center = { 80.0f, 140.0f };
+        batterySpec.size = 140.0f;
+        batterySpec.label = "V";
+        batterySpec.iconFilename = "battery.svg";
+        batterySpec.min = 6.0f;
+        batterySpec.max = 18.0f;
+        batterySpec.decimals = 1;
+        batterySpec.lowWarning = GlobalOutputs::values["batteryLowWarn"];
+        batterySpec.highWarning = GlobalOutputs::values["batteryHighWarn"];
+        Ui::SmallGauge(batterySpec);
+
+        Ui::SmallGaugeSpec transSpec {};
+        transSpec.value = GlobalOutputs::values["battery"];
+        transSpec.center = { 240.0f, 140.0f };
+        transSpec.size = 140.0f;
+        transSpec.label = "°F";
+        transSpec.iconFilename = "transmission-temp.svg";
+        transSpec.min = 50.0f;
+        transSpec.max = 280.0f;
+        transSpec.highWarning = GlobalOutputs::values["transTempHighWarn"];
+        Ui::SmallGauge(transSpec);
+
+        Ui::SmallGaugeSpec gasSpec {};
+        gasSpec.value = GlobalOutputs::values["fuelPressure"];
+        gasSpec.center = { 80.0f, 320.0f };
+        gasSpec.size = 140.0f;
+        gasSpec.label = "Gas";
+        gasSpec.iconFilename = "fuel.svg";
+        gasSpec.lowWarning = GlobalOutputs::values["fuelPressureLowWarn"];
+        Ui::SmallGauge(gasSpec);
+
+        Ui::SmallGaugeSpec methSpec {};
+        methSpec.value = GlobalOutputs::values["methPressure"];
+        methSpec.center = { 240.0f, 320.0f };
+        methSpec.size = 140.0f;
+        methSpec.label = "Meth";
+        methSpec.iconFilename = "fuel.svg";
+        methSpec.lowWarning = GlobalOutputs::values["methPressureLowWarn"];
+        Ui::SmallGauge(methSpec);
+
     } break;
 
     case 1: // Egt

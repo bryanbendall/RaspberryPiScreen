@@ -27,5 +27,12 @@ struct GlobalOutputs {
         values["screen1"] = 1.0f;
         values["screen2"] = 1.0f;
         values["revLimit"] = 8000.0f;
+        values["ctsHighWarn"] = 200.0f;
+        values["oilPressureLowWarn"] = 10.0f;
+        values["batteryLowWarn"] = 8.0f;
+        values["batteryHighWarn"] = 16.0f;
+        values["transTempHighWarn"] = 200.0f;
+        values["fuelPressureLowWarn"] = 20.0f;
+        values["methPressureLowWarn"] = 20.0f;
     }
 };
