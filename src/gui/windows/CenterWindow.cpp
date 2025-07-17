@@ -58,8 +58,12 @@ void CenterWindow::draw()
         Ui::Text({ 400.0f, 100.0f }, "Info", 100);
 
         Ui::Text({ 400.0f, 300.0f }, "Meth Afr", 60, GetColor(GlobalOutputs::gray));
-        std::string lable = fmt::format("{:.1f}", GlobalOutputs::values["methAfr"]);
-        Ui::Text({ 400.0f, 360.0f }, lable, 60);
+        std::string afrLable = fmt::format("{:.1f}", GlobalOutputs::values["methAfr"]);
+        Ui::Text({ 400.0f, 360.0f }, afrLable, 60);
+
+        Ui::Text({ 400.0f, 440.0f }, "Mpg", 60, GetColor(GlobalOutputs::gray));
+        std::string mpgLable = fmt::format("{:.1f}", GlobalOutputs::values["mpg"]);
+        Ui::Text({ 400.0f, 500.0f }, mpgLable, 60);
 
         break;
     }
